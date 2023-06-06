@@ -1,0 +1,15 @@
+.error {
+  color: red;
+}
+#error {
+  color: red;
+}
+.logout > button {
+  /* position: absolute;
+  right: 50px;
+  top: 30px; */
+  float: right;
+}
+.logout {
+  height: 60px;
+}
