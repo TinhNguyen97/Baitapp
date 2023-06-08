@@ -1,31 +1,74 @@
-var arr = [
-  {
-    stt: 1,
-    name: "Nguyễn Văn A",
-    sex: "Male",
-    age: 18,
-    email: "abc@gmail.com",
-    address: "Hà Nội",
-  },
-  {
-    stt: 2,
-    name: "Nguyễn Văn B",
-    sex: "Male",
-    age: 20,
-    email: "def@gmail.com",
-    address: "Ninh Bình",
-  },
-  {
-    stt: 3,
-    name: "Nguyễn Thị C",
-    sex: "Female",
-    age: 18,
-    email: "ghk@gmail.com",
-    address: "Hồ Chí Minh",
-  },
-];
+$(function () {
+  $.ajax({
+    url: "https://my.api.mockaroo.com/users.json?key=4d9e6770&__method=POST",
+    type: "GET",
+    success: function (response) {
+      arr = response;
+      updateListTable();
+    },
+  });
+
+  $("#listTable").html(content);
+  $("#formRegister").validate({
+    onfocusout: false,
+    onkeyup: false,
+    onclick: false,
+    rules: {
+      name: {
+        required: true,
+      },
+      sex: {
+        required: true,
+      },
+      age: {
+        required: true,
+      },
+    },
+    messages: {
+      name: {
+        required: "Không được để trống tên",
+      },
+      sex: {
+        required: "Không được để trống giới tính",
+      },
+      age: {
+        required: "Không được để trống tuổi",
+      },
+      email: {
+        email: "Email không đúng định dạng",
+      },
+    },
+  });
+
+  $("#formRegister").on("submit", function (e) {
+    e.preventDefault();
+    var name = $("#inputFullname").val();
+    var sex = $("#inputSex option:selected").text();
+    var age = $("#inputAge").val();
+    var email = $("#inputEmail").val();
+    var address = $("#inputAddress").val();
+
+    if ($("#formRegister").valid()) {
+      arr.push({
+        stt: stt++,
+        name: name,
+        sex: sex,
+        age: age,
+        email: email,
+        address: address,
+      });
+      updateListTable();
+      swal({
+        title: "Đăng ký thành công!",
+        icon: "success",
+        button: "OK!",
+      });
+    }
+  });
+});
 var content = "";
 var stt = 1;
+var arr = [];
 updateListTable();
 $(document).ready(() => {
   $("#listTable").html(content);
