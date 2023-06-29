@@ -103,7 +103,7 @@ $i = 1;
                         <th style="text-align: center">Ảnh món ăn</th>
                         <th style="text-align: center">Đơn giá</th>
                         <th style="text-align: center">Mô tả</th>
-                        <th style="text-align: center">Giảm giá</th>
+                        <th style="text-align: center">Giảm giá(%)</th>
                         <th style="text-align: center">Ngày ra mắt</th>
 
                         <th colspan="2" style="text-align: center">

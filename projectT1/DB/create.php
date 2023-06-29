@@ -23,7 +23,7 @@ if (isset($_POST['save'])) { {
     $category_id = $_POST['category'];
     $image = $uploadPath;
     $price = $_POST['price'];
-    $discount = $_POST['discount'] . '%';
+    $discount = $_POST['discount'];
     $descr = $_POST['descr'];
     $currentDate = date('Y-m-d');
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
