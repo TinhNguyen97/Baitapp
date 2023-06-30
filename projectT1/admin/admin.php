@@ -2,7 +2,6 @@
 include '../DB/list.php';
 include '../DB/listCategory.php';
 $i = 1;
-
 ?>
 
 <!DOCTYPE html>
@@ -73,6 +72,10 @@ $i = 1;
                 echo "<h3 style='background-color: aquamarine;color: blue'>$_SESSION[message]</h3>";
               }
               unset($_SESSION['message']);
+              if (isset($_SESSION['name'])) {
+                echo "<h3 style='background-color: aquamarine;color: red'>$_SESSION[name]</h3>";
+              }
+              unset($_SESSION['name']);
               ?>
             </div>
           </div>
@@ -207,7 +210,7 @@ $i = 1;
               </div>
               <div class="form-group">
                 <label>Giá</label>
-                <input id="editPrice" class="form-control" placeholder="Nhập giá" type="number" name="price" />
+                <input id="editPrice" class="form-control" placeholder="Nhập giá" type="number" name="price" min="0" />
               </div>
               <div class="form-group">
                 <label>Mô tả</label>
@@ -215,11 +218,11 @@ $i = 1;
               </div>
               <div class="form-group">
                 <label>Giảm giá(%)</label>
-                <input id="editDiscount" class="form-control" placeholder="Nhập giảm giá" type="number" name="discount" />
+                <input id="editDiscount" class="form-control" placeholder="Nhập giảm giá" type="number" name="discount" min="0" />
               </div>
             </div>
             <div class="modal-footer justify-content-between" id="edit-form">
-              <button class="btn btn-secondary" data-dismiss="modal" type="button">Đóng</button>
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Đóng</button>
               <button class="btn btn-primary" type="button" onclick="$('#form-edit').submit()" class="close" name="update">Chỉnh sửa</button>
             </div>
           </div>
@@ -358,12 +361,12 @@ $i = 1;
       // $('#form-edit').append($(`<input type="hidden" value=${descr} name=descr >`));
       // $('#form-edit').append($(`<input type="hidden" value=${discount} name=discount >`));
 
-      $('#form-edit').attr('action', `../DB/update.php`).modal('show')
+      $('#form-edit').attr('action', `../DB/update.php`)
       // $('#form-edit').submit();
     }
 
     function deleteProduct(id) {
-      $('#delete-category').find('#delete-category-button form').attr('action', `../DB/delete.php?id=${id}`).modal('show')
+      $('#delete-category').find('#delete-category-button form').attr('action', `../DB/delete.php?id=${id}`)
     }
   </script>
 </body>

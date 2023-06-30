@@ -2,7 +2,6 @@
 require_once '../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createMutable(substr(__DIR__, 0, -2));
 $dotenv->load();
-echo $_ENV['DBNAME'];
 $servername = $_ENV['SERVERNAME'];
 $username = $_ENV['USERNAME'];
 $password = $_ENV['PASSWORD'];

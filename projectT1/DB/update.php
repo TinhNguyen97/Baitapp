@@ -20,6 +20,11 @@ if (isset($_POST['id'])) { {
     }
     $id = $_POST['id'];
     $name = $_POST['name'];
+    if (!$name) {
+      $_SESSION['name'] = 'Tên món ăn không được để trống!';
+      header('Location: ../admin/admin.php');
+      die;
+    }
     $category_id = $_POST['category'];
     $image = $uploadPath;
     $price = $_POST['price'];

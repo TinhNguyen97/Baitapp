@@ -3,9 +3,10 @@ session_start();
 include 'connect.php';
 $uploadPath = '';
 if (isset($_FILES["image"])) {
+  $str = rand();
   $tmpFilePath = $_FILES['image']['tmp_name'];
   if ($tmpFilePath) {
-    $uploadPath = '../image/' . $_FILES['image']['name'];
+    $uploadPath = '../image/' . $str . $_FILES['image']['name'];
   };
   move_uploaded_file($tmpFilePath, $uploadPath);
 }
@@ -20,6 +21,11 @@ if (isset($_POST['save'])) { {
       die;
     }
     $name = $_POST['name'];
+    if (!$name) {
+      $_SESSION['name'] = 'Tên món ăn không được để trống!';
+      header('Location: ../admin/admin.php');
+      die;
+    }
     $category_id = $_POST['category'];
     $image = $uploadPath;
     $price = $_POST['price'];
@@ -44,3 +50,17 @@ if (isset($_POST['save'])) { {
 } else {
   echo 'chua submit';
 }
+
+// $errors = [];
+
+// if (true) {
+//   $errors['name'] = 'trường này là bắt buộc';
+// }
+// if (b) {
+//   $errors['im'] = 'trường này là bắt buộc';
+// }
+// if (true) {
+//   $errors['f'] = 'trường này là bắt buộc';
+// }
+
+// $_SESSION['errors'] = $errors;
