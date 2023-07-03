@@ -74,28 +74,6 @@ include '../DB/topsale.php';
                     <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
                 </a>
             </div>
-            <div class="col-lg-6 col-6 text-left">
-                <form action="">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
-                        <div class="input-group-append">
-                            <span class="input-group-text bg-transparent text-primary">
-                                <i class="fa fa-search"></i>
-                            </span>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-lg-3 col-6 text-right">
-                <a href="" class="btn border">
-                    <i class="fas fa-heart text-primary"></i>
-                    <span class="badge">0</span>
-                </a>
-                <a href="" class="btn border">
-                    <i class="fas fa-shopping-cart text-primary"></i>
-                    <span class="badge">0</span>
-                </a>
-            </div>
         </div>
     </div>
     <!-- Topbar End -->
@@ -105,7 +83,7 @@ include '../DB/topsale.php';
     <div class="container-fluid">
         <div class="row border-top px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
-                <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
+                <a class="btn shadow-none d-flex align-items-center justify-content-center bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
                     <h6 class="m-0">Categories</h6>
                     <i class="fa fa-angle-down text-dark"></i>
                 </a>
@@ -125,14 +103,11 @@ include '../DB/topsale.php';
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="#" class="nav-item nav-link">Home</a>
                         </div>
-                        <div class="navbar-nav ml-auto py-0">
-                            <a href="" class="nav-item nav-link">Login</a>
-                            <a href="" class="nav-item nav-link">Register</a>
-                        </div>
+
                     </div>
                 </nav>
             </div>
@@ -181,9 +156,8 @@ include '../DB/topsale.php';
                                         <h6 class="text-muted ml-2"><del><?= '$' . $row['price'] ?></del></h6>
                                     </div>
                                 </div>
-                                <div class="card-footer d-flex justify-content-between bg-light border">
+                                <div class="card-footer d-flex justify-content-center bg-light border">
                                     <a href="detail.php?id=<?= $row['id'] ?>" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                    <a href="#" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
                                 </div>
                             </div>
                         </div>
@@ -214,9 +188,8 @@ include '../DB/topsale.php';
                                     <h6 class="text-muted ml-2"><del><?= '$' . $row['price'] ?></del></h6>
                                 </div>
                             </div>
-                            <div class="card-footer d-flex justify-content-between bg-light border">
+                            <div class="card-footer d-flex justify-content-center bg-light border">
                                 <a href="detail.php?id=<?= $row['id'] ?>" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -245,9 +218,8 @@ include '../DB/topsale.php';
                                     <h6 class="text-muted ml-2"><del><?= '$' . $row['price'] ?></del></h6>
                                 </div>
                             </div>
-                            <div class="card-footer d-flex justify-content-between bg-light border">
+                            <div class="card-footer d-flex justify-content-center bg-light border">
                                 <a href="detail.php?id=<?= $row['id'] ?>" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -276,9 +248,8 @@ include '../DB/topsale.php';
                                     <h6 class="text-muted ml-2"><del><?= '$' . $row['price'] ?></del></h6>
                                 </div>
                             </div>
-                            <div class="card-footer d-flex justify-content-between bg-light border">
+                            <div class="card-footer d-flex justify-content-center bg-light border">
                                 <a href="detail.php?id=<?= $row['id'] ?>" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
                             </div>
                         </div>
                     <?php endforeach; ?>
