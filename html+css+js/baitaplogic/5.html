@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 5. Viết một chương trình JavaScript tìm số lớn nhất trong một mảng các số.
+      let arr = [1, 4, 2, 3];
+      let max = arr[0];
+      for (let index = 0; index < arr.length; index++) {
+        if (max < arr[index + 1]) {
+          max = arr[index + 1];
+        }
+      }
+      document.write("Số lớn nhất là: " + max);
+    </script>
+  </body>
+</html>

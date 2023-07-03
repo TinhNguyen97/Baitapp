@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <div class="menu">
+          <h2>Ưu đãi hôm nay</h2>
+          <div class="show-menu">
+            <div>
+              <img src="cơm-chien-dương-chau-chay-recipe-step-2-photo.jpg" />
+            </div>
+            <div>
+              <p>Cơm chiên dương châu</p>
+              <p class="price">Giá trên đã bao gồm 5000đ tiền hộp</p>
+              <p class="bg-c">Tiết kiệm 7.000đ</p>
+              <span> 40.000</span>
+              <p class="fw-b">33.000</p>
+              <button class="btn" onclick="addMore1()">+</button>
+            </div>
+          </div>
+        </div>
+        <h2>Mừng đại lễ- Ưu đãi sock 50%</h2>
+        <div class="menu">
+          <div class="show-menu2">
+            <p>Cơm thố ốp la</p>
+            <p>30.000</p>
+            <button class="btn" onclick="addMore2()">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="oder">
+        <h2>Hóa đơn</h2>
+        <table>
+          <tr>
+            <th>Món ăn</th>
+            <th>Đơn giá</th>
+            <th>Số lượng</th>
+            <th>Giảm giá</th>
+            <th>Thành tiền</th>
+          </tr>
+          <tr>
+            <td>Cơm chiên dương châu</td>
+            <td id="price1">33,000</td>
+            <td>
+              <input
+                id="amount1"
+                onkeyup="changeAmount1()"
+                onchange="changeAmount1()"
+                type="number"
+                value="0"
+                min="0"
+              />
+            </td>
+            <td>
+              <select id="select" onclick="changeDiscount1()">
+                <option>0%</option>
+                <option>5%</option>
+              </select>
+            </td>
+            <td id="total1">0</td>
+          </tr>
+          <tr>
+            <td>Cơm thố ốp la</td>
+            <td id="price2">30,000</td>
+            <td>
+              <input
+                id="amount2"
+                onkeyup="changeAmount2()"
+                onchange="changeAmount2()"
+                type="number"
+                value="0"
+                min="0"
+              />
+            </td>
+            <td>
+              <select id="select2" onclick="changeDiscount2()">
+                <option>0%</option>
+                <option>5%</option>
+              </select>
+            </td>
+            <td id="total2">0</td>
+          </tr>
+        </table>
+        <h2 id="total">Tổng số tiền: 0</h2>
+      </div>
+    </div>
+    <script>
+      const regex = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
+      const regex2 = /\,/g;
+      function formatNumber(x) {
+        return x.toString().replace(regex, ",");
+      }
+      function formatNumberRemoveComma(x) {
+        var a = x.replace(regex2, "");
+        a = parseInt(a, 10);
+        return a;
+      }
+      function changeAmount1() {
+        var price = event.target.parentElement.previousElementSibling.innerHTML;
+        price = formatNumberRemoveComma(price);
+        console.log(price);
+        var amount = event.target.value;
+        var e = document.getElementById("select");
+        var value = e.value;
+        var discount = e.options[e.selectedIndex].text;
+        discount = discount.replace("%", "");
+        var amount2 = document.getElementById("total2").innerText;
+        amount2 = formatNumberRemoveComma(amount2);
+        var total = price * amount * (1 - discount / 100) + amount2;
+        total = formatNumber(total);
+
+        document.getElementById("total1").innerText = formatNumber(
+          price * amount * (1 - discount / 100)
+        );
+        document.getElementById("total").innerText = "Tổng số tiền: " + total;
+      }
+      function changeAmount2() {
+        var price = event.target.parentElement.previousElementSibling.innerHTML;
+        price = formatNumberRemoveComma(price);
+        var amount = event.target.value;
+        var e = document.getElementById("select2");
+        var value = e.value;
+        var discount = e.options[e.selectedIndex].text;
+        discount = discount.replace("%", "");
+        var amount1 = document.getElementById("total1").innerText;
+        amount1 = formatNumberRemoveComma(amount1);
+        var total = price * amount * (1 - discount / 100) + amount1;
+        total = formatNumber(total);
+        document.getElementById("total2").innerText = formatNumber(
+          price * amount * (1 - discount / 100)
+        );
+        document.getElementById("total").innerText = "Tổng số tiền: " + total;
+      }
+      function changeDiscount1() {
+        var amount1 = document.getElementById("amount1").value;
+        var price1 = document.getElementById("price1").innerText;
+        price1 = formatNumberRemoveComma(price1);
+        // price1 = parseFloat(price1);
+        var e = document.getElementById("select");
+        var value = e.value;
+        var discount = e.options[e.selectedIndex].text;
+        discount = discount.replace("%", "");
+        var amount2 = document.getElementById("total2").innerText;
+        amount2 = formatNumberRemoveComma(amount2);
+        console.log(amount2, "amunt2");
+        var total = price1 * amount1 * (1 - discount / 100) + amount2;
+        total = formatNumber(total);
+        console.log(total, "total");
+        document.getElementById("total1").innerText = formatNumber(
+          price1 * amount1 * (1 - discount / 100)
+        );
+        document.getElementById("total").innerText = "Tổng số tiền: " + total;
+      }
+      function changeDiscount2() {
+        var amount2 = document.getElementById("amount2").value;
+
+        var price2 = document.getElementById("price2").innerText;
+        // price2 = parseFloat(price2);
+        price2 = formatNumberRemoveComma(price2);
+        var e = document.getElementById("select2");
+        var value = e.value;
+        var discount = e.options[e.selectedIndex].text;
+        discount = discount.replace("%", "");
+        console.log("discount", discount);
+        var amount1 = document.getElementById("total1").innerText;
+        amount1 = formatNumberRemoveComma(amount1);
+        var total = price2 * amount2 * (1 - discount / 100) + amount1;
+
+        document.getElementById("total2").innerText = formatNumber(
+          price2 * amount2 * (1 - discount / 100)
+        );
+        document.getElementById("total").innerText =
+          "Tổng số tiền: " + formatNumber(total);
+      }
+      function addMore1() {
+        document.getElementById("amount1").value++;
+        changeDiscount1();
+      }
+      function addMore2() {
+        document.getElementById("amount2").value++;
+        changeDiscount2();
+      }
+    </script>
+  </body>
+</html>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  .btn {
+    color: white;
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
+    background-color: green;
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+  .show-menu {
+    display: inline-flex;
+    gap: 20px;
+    background-color: white;
+    padding: 10px;
+    position: relative;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .container {
+    background-color: rgb(237, 237, 236);
+    height: 90vh;
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    gap: 40px;
+  }
+  .price {
+    color: darkgray;
+  }
+  .bg-c {
+    background-color: burlywood;
+    display: inline-block;
+    color: chocolate;
+  }
+  span {
+    color: darkgray;
+    text-decoration: line-through;
+  }
+  .fw-b {
+    font-weight: bold;
+  }
+  .show-menu2 {
+    border-color: aliceblue;
+    display: inline-block;
+    position: relative;
+    width: 430px;
+    height: 100px;
+    background-color: white;
+    margin-left: 20px;
+  }
+  h2 {
+    margin-left: 20px;
+  }
+  table {
+    width: 50vw;
+    border-collapse: collapse;
+    border: 1px solid;
+    text-align: left;
+    height: 200px;
+  }
+</style>
