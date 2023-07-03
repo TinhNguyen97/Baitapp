@@ -1,0 +1,21 @@
+html {
+  margin-top: 1vw;
+}
+.container-status {
+  display: none;
+}
+.bar {
+  position: absolute;
+  bottom: 8vw;
+  left: 29vw;
+  margin: auto;
+}
+.btn {
+  width: 80px;
+  height: 30px;
+  background-color: rgb(246, 164, 135);
+  cursor: pointer;
+}
+.bg-start {
+  background-color: green;
+}
