@@ -31,7 +31,7 @@
                                     <thead>
                                         <tr>
                                             <th style="text-align: center">#</th>
-                                            <th style="text-align: center">Tên món ăn</th>
+                                            <th style="text-align: center">Tên sản phẩm</th>
                                             <th style="text-align: center">Danh mục</th>
                                             <th style="text-align: center">Ảnh sản phẩm</th>
                                             <th style="text-align: center">Đơn giá</th>
@@ -117,12 +117,12 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="name">Tên sản phẩm</label>
-                            <input class="form-control" id="editName" name="name" placeholder="Nhập tên sản phẩm"
-                                type="text" />
+                            <input class="form-control" id="editName" name="editName" placeholder="Nhập tên sản phẩm"
+                                type="text" required />
                         </div>
                         <div class="form-group">
                             <label for="type">Danh mục</label>
-                            <select id="editType" name="type">
+                            <select id="editType" name="editType">
                                 @if (!empty($allTypes))
                                     @foreach ($allTypes as $item)
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -135,21 +135,22 @@
                             <label for="image">Ảnh sản phẩm</label>
                             <!-- <p id="imageCategory"></p> -->
                             <img src="" id="editImage" width="100px" height="100px" />
-                            <input class="form-control" id="editImage" type="file" name="image" />
+                            <input class="form-control" id="editImage" type="file" name="editImage" />
                         </div>
                         <div class="form-group">
                             <label>Đơn giá</label>
                             <input id="editPrice" class="form-control" placeholder="Nhập giá" type="number"
-                                name="price" min="0" />
+                                name="editPrice" min="0" required />
                         </div>
                         <div class="form-group">
                             <label>Giá khuyến mại</label>
                             <input id="editPromotionPrice" class="form-control" placeholder="Nhập giá" type="number"
-                                name="promotionPrice" min="0" />
+                                name="editPromotionPrice" required min="0" />
                         </div>
                         <div class="form-group">
                             <label>Mô tả</label>
-                            <input id="editDescr" class="form-control" placeholder="Nhập giá" name="description" />
+                            <input id="editDescr" class="form-control" placeholder="Nhập giá" name="editDescr"
+                                required />
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between" id="edit-form">
@@ -213,7 +214,7 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button class="btn btn-secondary" data-dismiss="modal" type="button"
-                            onclick="removeMessageError()">
+                            onclick="removeMessageCreateError()">
                             Đóng
                         </button>
                         <button class="btn btn-primary" type="submit" class="close" name="save">
@@ -289,9 +290,19 @@
             })
         }
 
-        function removeMessageError() {
+        function removeMessageCreateError() {
             document.getElementById("name-error").style.display = 'none';
             document.getElementById("image-error").style.display = 'none';
+            document.getElementById("unit_price-error").style.display = 'none';
+            document.getElementById("promotion_price-error").style.display = 'none';
+            document.getElementById("description-error").style.display = 'none';
+        }
+
+        function removeMessageUpdateError() {
+            document.getElementById("editName-error").style.display = 'none';
+            document.getElementById("editPrice-error").style.display = 'none';
+            document.getElementById("editPromotionPrice-error").style.display = 'none';
+            document.getElementById("editDescr-error").style.display = 'none';
         }
         $(document).ready(function() {
             $('#create-products').parent().validate({
@@ -322,10 +333,27 @@
                     //     required: "Không được để trống ảnh."
                     // }
                 }
+            });
+            $('#form-edit').validate({
+                messages: {
+                    editName: {
+                        required: "Không được để trống tên."
+                        // minlength: "it nhất 2 ký tự"
+                    },
+                    editPrice: {
+                        required: "Không được để trống giá tiền."
+                    },
+                    editPromotionPrice: {
+                        required: "Không được để trống giá khuyến mại."
+                    },
+                    editDescr: {
+                        required: "Không được để trống mô tả sản phẩm."
+                    }
+                    // image: {
+                    //     required: "Không được để trống ảnh."
+                    // }
+                }
             })
-        });
-        $("#create-products").on("hidden.bs.modal", function() {
-            removeMessageError();
         });
 
         function deleteDish(id) {
@@ -334,8 +362,6 @@
         }
 
         function showDetail(name, id, tp_name, image, promotion_price, description, unit_price, id_type) {
-            // console.log(name, id, tp_name, image, promotion_price, description, unit_price);
-            console.log(id_type);
             $('#form-edit').attr('action', routeUpdate(id))
             $('#editName').val(name);
             $('#editType').val(id_type);

@@ -29,10 +29,19 @@ class ProductController extends Controller
         }
         $request->validate(
             [
-                // 'name' => 'required|min:5'
-                'name' => 'required'
+                'name' => 'required',
+                'id_type' => 'required',
+                'description' => 'required',
+                'unit_price' => 'required',
+                'promotion_price' => 'required'
             ],
-            ['name.required' => 'Tên không được để trống.']
+            [
+                'name.required' => 'Tên không được để trống.',
+                'id_type.required' => 'Không được để trống.',
+                'description.required' => 'Không được để trống.',
+                'unit_price.required' => 'Không được để trống.',
+                'promotion_price.required' => 'Không được để trống.'
+            ]
         );
 
 
@@ -57,31 +66,47 @@ class ProductController extends Controller
     }
     public function put(Request $request, $id)
     {
-        // dd($request->all());
         $dish = Products::find($id);
 
         abort_if(!$dish, 404);
+        $request->validate(
+            [
+                'editName' => 'required',
+                'editType' => 'required',
+                'editPrice' => 'required',
+                'editDescr' => 'required',
+                'editPromotionPrice' => 'required'
+            ],
+            [
+                'editName.required' => 'Tên không được để trống.',
+                'editType.required' => 'Không được để trống.',
+                'editPrice.required' => 'Không được để trống.',
+                'editDescr.required' => 'Không được để trống.',
+                'editPromotionPrice.required' => 'Không được để trống.'
+            ]
+        );
         if ($request->has('image')) {
             $file = $request->image;
-            $file_name = rand() . $file->getClientoriginalName();
+            $ext = $request->image->extension();
+            $file_name = time() . '-' . 'product' . '.' . $ext;
             $file->move(public_path('uploads'), $file_name);
             $data = [
-                'name' => $request->name,
-                'id_type' => $request->type,
-                'description' => $request->description,
-                'unit_price' => $request->price,
-                'promotion_price' => $request->promotionPrice,
+                'name' => $request->editName,
+                'id_type' => $request->editType,
+                'description' => $request->editDescr,
+                'unit_price' => $request->editPrice,
+                'promotion_price' => $request->editPromotionPrice,
                 'image' => $file_name
             ];
             Products::where('id', $id)->update($data);
             return back()->with(['isUpdateSuccess' => true]);
         } else {
             Products::where('id', $id)->update([
-                'name' => $request->name,
-                'id_type' => $request->type,
-                'description' => $request->description,
-                'unit_price' => $request->price,
-                'promotion_price' => $request->promotionPrice
+                'name' => $request->editName,
+                'id_type' => $request->editType,
+                'description' => $request->editDescr,
+                'unit_price' => $request->editPrice,
+                'promotion_price' => $request->editPromotionPrice
             ]);
             return back()->with(['isUpdateSuccess' => true]);
         }
