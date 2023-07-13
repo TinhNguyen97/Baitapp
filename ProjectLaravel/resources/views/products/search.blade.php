@@ -111,7 +111,7 @@
             <!-- /.row -->
         </div>
         <div class="pagination">
-            {{ $allProducts->links() }}
+            {{ $allProducts->appends($request->all())->links() }}
         </div>
         <!-- /.container-fluid -->
     </section>

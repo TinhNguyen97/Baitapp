@@ -13,8 +13,13 @@ class ProductController extends Controller
         // echo public_path('uploads' . '\\' . '123');
         // die;
         // dd(Dish::all());
-        $allProducts = DB::table('products')->join('type_products', 'products.id_type', '=', 'type_products.id')->select('products.*', 'type_products.name as tp_name', 'type_products.id as id_type')->get();
+        $allProducts = DB::table('products')
+            ->join('type_products', 'products.id_type', '=', 'type_products.id')
+            ->select('products.*', 'type_products.name as tp_name', 'type_products.id as id_type')
+            ->latest()
+            ->paginate(5);
         $allTypes = DB::table('type_products')->get();
+        // dd($allProducts);
         return view('products.index', ['allProducts' => $allProducts, 'allTypes' => $allTypes]);
     }
     public function add(Request $request)
@@ -112,5 +117,11 @@ class ProductController extends Controller
             ]);
             return back()->with(['isUpdateSuccess' => true]);
         }
+    }
+    public function search(Request $request)
+    {
+        $allProducts = Products::where('name', 'like', '%' . $request->key . '%')->paginate(5);
+
+        return view('products.search', ['allProducts' => $allProducts, 'request' => $request]);
     }
 }
