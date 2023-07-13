@@ -85,9 +85,10 @@ class ProductController extends Controller
                 'editPromotionPrice.required' => 'Không được để trống.'
             ]
         );
-        if ($request->has('image')) {
-            $file = $request->image;
-            $ext = $request->image->extension();
+        if ($request->has('editImage')) {
+
+            $file = $request->editImage;
+            $ext = $request->editImage->extension();
             $file_name = time() . '-' . 'product' . '.' . $ext;
             $file->move(public_path('uploads'), $file_name);
             $data = [
@@ -101,6 +102,7 @@ class ProductController extends Controller
             Products::where('id', $id)->update($data);
             return back()->with(['isUpdateSuccess' => true]);
         } else {
+            // dd($request->all());
             Products::where('id', $id)->update([
                 'name' => $request->editName,
                 'id_type' => $request->editType,
