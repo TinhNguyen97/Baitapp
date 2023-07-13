@@ -19,5 +19,9 @@ Route::prefix('/')->name('products.')->group(function () {
     Route::post('/', [ProductController::class, 'add'])->name('add');
     Route::delete('/{id}', [ProductController::class, 'delete'])->name('delete');
     Route::put('/{id}', [ProductController::class, 'put'])->name('put');
+
     Route::get('search', [ProductController::class, 'search'])->name('search');
+    Route::post('search', [ProductController::class, 'addSearch'])->name('addSearch');
+    Route::delete('search/{id}', [ProductController::class, 'deleteSearch'])->name('deleteSearch');
+    Route::put('search/{id}', [ProductController::class, 'putSearch'])->name('putSearch');
 });

@@ -402,7 +402,7 @@
         }
 
         .search {
-            margin-left: 3px;
+            margin-left: 0.2vw;
         }
     </style>
 @endsection

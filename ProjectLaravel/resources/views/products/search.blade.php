@@ -12,7 +12,8 @@
                 <form action="{{ route('products.search') }}" method="get">
                     <div class="col-4 input-group">
                         <input type="text" class="form-control" placeholder="Nhập tên sản phẩm" name="key"
-                            aria-label="Recipient's username" aria-describedby="button-addon2">
+                            aria-label="Recipient's username" aria-describedby="button-addon2"
+                            value="{{ $request->key ? $request->key : '' }}">
                         <button class="btn btn-primary col-2 search"type="submit">
                             Tìm kiếm
                         </button>
@@ -30,11 +31,11 @@
                     <div class="card">
                         <div class="card-header">
                             <h1 class="card-title col-11 abc">Sản phẩm</h1>
-
                             <button class="btn btn-primary col-1" data-target="#create-products" data-toggle="modal"
                                 type="button">
                                 Tạo mới
                             </button>
+                            <p style="color: blue">Tìm thấy {{ count($allProducts) }} sản phẩm!</p>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body" id="error-404">
@@ -57,11 +58,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (count($allProducts) !== 0)
-                                        @foreach ($allProducts as $key => $item)
+                                    @if (count($allProductSearch) !== 0)
+                                        @foreach ($allProductSearch as $key => $item)
                                             <tr>
                                                 <th scope="row" style="text-align: center">
-                                                    {{ $loop->iteration + ($allProducts->currentPage() - 1) * $allProducts->perPage() }}
+                                                    {{ $loop->iteration + ($allProductSearch->currentPage() - 1) * $allProductSearch->perPage() }}
                                                 </th>
                                                 <td style="text-align: center">{{ $item->name }}</td>
                                                 <td style="text-align: center">{{ $item->tp_name }}</td>
@@ -111,7 +112,7 @@
             <!-- /.row -->
         </div>
         <div class="pagination">
-            {{ $allProducts->appends($request->all())->links() }}
+            {{ $allProductSearch->appends($request->all())->links() }}
         </div>
         <!-- /.container-fluid -->
     </section>
@@ -295,11 +296,11 @@
     @endif
     <script>
         function routeDelete(id) {
-            return "{{ route('products.delete', 0) }}".replace(/\d$/, id);
+            return "{{ route('products.putSearch', 0) }}".replace(/\d$/, id);
         }
 
         function routeUpdate(id) {
-            return "{{ route('products.put', 0) }}".replace(/\d$/, id);
+            return "{{ route('products.deleteSearch', 0) }}".replace(/\d$/, id);
         }
 
         function alertSuccess(message) {
@@ -402,7 +403,7 @@
         }
 
         .search {
-            margin-left: 3px;
+            margin-left: 0.2vw;
         }
     </style>
 @endsection
