@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,4 +25,7 @@ Route::prefix('/')->name('products.')->group(function () {
     Route::post('search', [ProductController::class, 'addSearch'])->name('addSearch');
     Route::delete('search/{id}', [ProductController::class, 'deleteSearch'])->name('deleteSearch');
     Route::put('search/{id}', [ProductController::class, 'putSearch'])->name('putSearch');
+});
+Route::prefix('home')->name('homes.')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('index');
 });
