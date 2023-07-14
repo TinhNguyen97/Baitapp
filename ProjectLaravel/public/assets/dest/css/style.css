@@ -107,10 +107,7 @@ text-decoration:none;
 color:#000
 }
 
-img {
-border:none;
-max-width:100%
-}
+img {border:none;max-width:100%;}
 
 textarea:focus,input:focus,select:focus,a:focus {
 outline:none
@@ -1913,14 +1910,7 @@ color:#f90
     11.2 RIBBON
 ============================================================================= */
 
-.ribbon-wrapper {
-width:60px;
-height:60px;
-overflow:hidden;
-position:absolute;
-top:-3px;
-right:-3px
-}
+.ribbon-wrapper {right: -2px;width:60px;height:60px;overflow:hidden;position:absolute;right: -7px;right:-3px}
 
 .ribbon {
 color:#fff;
@@ -5060,7 +5050,7 @@ position: relative;}
     -webkit-transition: all 0.17s ease-in-out;
     -o-transition: all 0.17s ease-in-out;
 }
-.main-menu li{position: relative;}
+.main-menu li{position: relative;z-index: 9;}
 .main-menu ul.l-inline> li> a:hover{background: #3a5c83;color:white;
 transition: all 0.17s ease-in-out;
     -moz-transition: all 0.17s ease-in-out;

@@ -132,7 +132,7 @@ class ProductController extends Controller
             'allProductSearch' => $allProductSearch,
             'request' => $request,
             'allProducts' => $allProducts,
-            'key' => $request->key,
+            'keySearch' => $request->key,
             'allTypes' => $allTypes
         ]);
     }

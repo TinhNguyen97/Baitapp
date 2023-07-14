@@ -67,7 +67,7 @@
                                                 <td style="text-align: center">{{ $item->name }}</td>
                                                 <td style="text-align: center">{{ $item->tp_name }}</td>
                                                 <td style="text-align: center"><img width="100px" height="100px"
-                                                        src="{{ 'uploads' . '\\' . $item->image }}"></td>
+                                                        src="{{ asset('uploads' . '\\' . $item->image) }}"></td>
                                                 <td style="text-align: center">{{ $item->unit_price }}</td>
                                                 <td style="text-align: center">{{ $item->promotion_price }}</td>
                                                 <td style="text-align: center">{{ $item->description }}</td>

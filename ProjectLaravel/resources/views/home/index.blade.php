@@ -1,7 +1,7 @@
 @extends('home.homelayout')
 @section('content')
     <div class="rev-slider">
-        <div class="fullwidthbanner-container">
+        <div class="fullwidthbanner-container" style="z-index: 0">
             <div class="fullwidthbanner">
                 <div class="bannercontainer">
                     <div class="banner">
@@ -56,8 +56,8 @@
                                             <div class="single-item">
                                                 <div class="ribbon-wrapper">
                                                     <?php
-                                                    $up = $item->unit_price;
-                                                    $pp = $item->promotion_price;
+                                                    $up = number_format($item->unit_price, 0, ',', '.');
+                                                    $pp = number_format($item->promotion_price, 0, ',', '.');
                                                     ?>
                                                     @if ($up > $pp)
                                                         <div class="ribbon sale">Sale</div>
@@ -66,8 +66,9 @@
                                                 </div>
 
                                                 <div class="single-item-header">
-                                                    <a href="product.html"><img width="270" height="320"
-                                                            src="{{ asset('uploads/' . $item->image) }}" alt=""></a>
+                                                    <a href="{{ route('homes.detail', $item->id) }}"><img width="270"
+                                                            height="320" src="{{ asset('uploads/' . $item->image) }}"
+                                                            alt=""></a>
                                                 </div>
                                                 <div class="single-item-body">
                                                     <p class="single-item-title">{{ $item->name }}</p>
@@ -84,7 +85,8 @@
                                                 <div class="single-item-caption">
                                                     <a class="add-to-cart pull-left" href="shopping_cart.html"><i
                                                             class="fa fa-shopping-cart"></i></a>
-                                                    <a class="beta-btn primary" href="product.html">Details <i
+                                                    <a class="beta-btn primary"
+                                                        href="{{ route('homes.detail', $item->id) }}">Details <i
                                                             class="fa fa-chevron-right"></i></a>
                                                     <div class="clearfix"></div>
                                                 </div>
@@ -294,9 +296,4 @@
             </div> <!-- .main-content -->
         </div> <!-- #content -->
     </div> <!-- .container -->
-    <script>
-        function numberWithCommas(money) {
-            return money.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-        }
-    </script>
 @endsection

@@ -66,7 +66,7 @@
                                                 <td style="text-align: center">{{ $item->name }}</td>
                                                 <td style="text-align: center">{{ $item->tp_name }}</td>
                                                 <td style="text-align: center"><img width="100px" height="100px"
-                                                        src="{{ 'uploads' . '\\' . $item->image }}"></td>
+                                                        src="{{ asset('uploads' . '\\' . $item->image) }}"></td>
                                                 <td style="text-align: center">{{ $item->unit_price }}</td>
                                                 <td style="text-align: center">{{ $item->promotion_price }}</td>
                                                 <td style="text-align: center">{{ $item->description }}</td>
@@ -84,7 +84,7 @@
                                                            {{ $item->unit_price }},
                                                            {{ $item->id_type }}
                                                            )">
-                                                        <i class="fa fa-edit"></i></button></td>
+                                                        <i class="fa-solid fa-pen-to-square"></i></button></td>
                                                 <td style="text-align: center"><button class="btn btn-danger"
                                                         data-target="#delete-category" data-toggle="modal" type="button"
                                                         onclick="deleteDish({{ $item->id }})"><i
@@ -182,7 +182,7 @@
             <!-- /.modal-dialog -->
         </div>
     </form>
-    <form action="" method="post" enctype="multipart/form-data">
+    <form action="" method="post" enctype="multipart/form-data" id="create-form">
         <div class="modal fade" id="create-products">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -196,7 +196,7 @@
                         <div class="form-group">
                             <label for="name">Tên sản phẩm</label>
                             <input name="name" class="form-control" id="name" placeholder="Nhập tên sản phẩm"
-                                type="text" required />
+                                type="text" />
                         </div>
                         <div class="form-group">
                             <label for="type">Danh mục sản phẩm</label>
@@ -235,7 +235,8 @@
                             onclick="removeMessageCreateError()">
                             Đóng
                         </button>
-                        <button class="btn btn-primary" type="submit" class="close" name="save">
+                        <button class="btn btn-primary" type="submit" class="close" name="save"
+                            onclick="validForm()">
                             Tạo mới
                         </button>
                     </div>
@@ -308,26 +309,38 @@
             })
         }
 
+        function validForm() {
+
+        }
+
         function removeMessageCreateError() {
             document.getElementById("name-error").style.display = 'none';
             document.getElementById("image-error").style.display = 'none';
             document.getElementById("unit_price-error").style.display = 'none';
             document.getElementById("promotion_price-error").style.display = 'none';
             document.getElementById("description-error").style.display = 'none';
+            document.getElementById("unit_price-error").style.display = 'none'
         }
 
-        function removeMessageUpdateError() {
-            document.getElementById("editName-error").style.display = 'none';
-            document.getElementById("editPrice-error").style.display = 'none';
-            document.getElementById("editPromotionPrice-error").style.display = 'none';
-            document.getElementById("editDescr-error").style.display = 'none';
-        }
         $(document).ready(function() {
+            $.validator.addMethod("greaterThan", function(value, element, param) {
+                var $otherElement = $(param);
+                return parseInt(value, 10) >= parseInt($otherElement.val(), 10);
+            }, "Đơn giá phải lớn hơn giá khuyến mại.");
+            // console.log($('#create-products').parent())
             $('#create-products').parent().validate({
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false,
+
                 rules: {
-                    // name: {
-                    //     minlength: 2
-                    // }
+                    name: {
+                        required: true
+                    },
+                    unit_price: {
+                        greaterThan: "#promotion_price",
+                    }
+
                 },
                 messages: {
                     name: {
@@ -339,7 +352,7 @@
                         // minlength: "it nhất 2 ký tự"
                     },
                     unit_price: {
-                        required: "Không được để trống giá tiền."
+                        required: "Không được để trống giá tiền.",
                     },
                     promotion_price: {
                         required: "Không được để trống giá khuyến mại."
@@ -347,12 +360,22 @@
                     description: {
                         required: "Không được để trống mô tả sản phẩm."
                     }
-                    // image: {
-                    //     required: "Không được để trống ảnh."
-                    // }
                 }
             });
             $('#form-edit').validate({
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false,
+
+                rules: {
+                    name: {
+                        required: true
+                    },
+                    editPrice: {
+                        greaterThan: "#editPromotionPrice",
+                    }
+
+                },
                 messages: {
                     editName: {
                         required: "Không được để trống tên."
@@ -380,7 +403,7 @@
         }
 
         function showDetail(name, id, tp_name, image, promotion_price, description, unit_price, id_type) {
-            $('#form-edit').attr('action', routeUpdate(id))
+            $('#form-edit').attr('action', routeUpdate(id)).valid()
             $('#editName').val(name);
             $('#editType').val(id_type);
             $('#editImage').attr('src', 'uploads\\' + image);
@@ -405,4 +428,12 @@
             margin-left: 0.2vw;
         }
     </style>
+    <script>
+        var router = location.href.split('/');
+        var path = router[router.length - 1];
+        if (path == 'products') {
+            $('#nav-link-products').addClass('active');
+        } else if (path == 'orders')
+            $('#nav-link-order').addClass('active')
+    </script>
 @endsection

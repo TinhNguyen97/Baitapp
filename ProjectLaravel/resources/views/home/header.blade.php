@@ -20,15 +20,15 @@
     <div class="header-body">
         <div class="container beta-relative">
             <div class="pull-left">
-                <a href="index.html" id="logo"><img src="assets/dest/images/logo-cake.png" width="200px"
-                        alt=""></a>
+                <a href="{{ route('homes.index') }}" id="logo"><img
+                        src="{{ asset('assets/dest/images/logo-cake.png') }}" width="200px" alt=""></a>
             </div>
             <div class="pull-right beta-components space-left ov">
                 <div class="space10">&nbsp;</div>
                 <div class="beta-comp">
-                    <form role="search" method="get" id="searchform" action="/">
-                        <input type="text" value="" name="s" id="s"
-                            placeholder="Nhập từ khóa..." />
+                    <form role="search" method="get" id="searchform" action="{{ route('homes.search') }}">
+                        <input type="text" value="" name="key" id="s"
+                            placeholder="Nhập tên sản phẩm / giá tiền" />
                         <button class="fa fa-search" type="submit" id="searchsubmit"></button>
                     </form>
                 </div>
@@ -41,7 +41,8 @@
                             <div class="cart-item">
                                 <div class="media">
                                     <a class="pull-left" href="#"><img
-                                            src="assets/dest/images/products/cart/1.png" alt=""></a>
+                                            src="{{ asset('assets/dest/images/products/cart/1.png') }}"
+                                            alt=""></a>
                                     <div class="media-body">
                                         <span class="cart-item-title">Sample Woman Top</span>
                                         <span class="cart-item-options">Size: XS; Colar: Navy</span>
@@ -53,7 +54,8 @@
                             <div class="cart-item">
                                 <div class="media">
                                     <a class="pull-left" href="#"><img
-                                            src="assets/dest/images/products/cart/2.png" alt=""></a>
+                                            src="{{ asset('assets/dest/images/products/cart/2.png') }}"
+                                            alt=""></a>
                                     <div class="media-body">
                                         <span class="cart-item-title">Sample Woman Top</span>
                                         <span class="cart-item-options">Size: XS; Colar: Navy</span>
@@ -65,7 +67,8 @@
                             <div class="cart-item">
                                 <div class="media">
                                     <a class="pull-left" href="#"><img
-                                            src="assets/dest/images/products/cart/3.png" alt=""></a>
+                                            src="{{ asset('assets/dest/images/products/cart/3.png') }}"
+                                            alt=""></a>
                                     <div class="media-body">
                                         <span class="cart-item-title">Sample Woman Top</span>
                                         <span class="cart-item-options">Size: XS; Colar: Navy</span>
@@ -102,9 +105,13 @@
                     <li><a href="{{ route('homes.index') }}">Trang chủ</a></li>
                     <li><a href="#">Sản phẩm</a>
                         <ul class="sub-menu">
-                            <li><a href="product_type.html">Sản phẩm 1</a></li>
-                            <li><a href="product_type.html">Sản phẩm 2</a></li>
-                            <li><a href="product_type.html">Sản phẩm 4</a></li>
+                            @if (count($allTypes) !== 0)
+                                @foreach ($allTypes as $item)
+                                    <li><a href="{{ route('homes.typesearch', $item->id) }}">{{ $item->name }}</a>
+                                    </li>
+                                @endforeach
+                            @endif
+
                         </ul>
                     </li>
                     <li><a href="about.html">Giới thiệu</a></li>

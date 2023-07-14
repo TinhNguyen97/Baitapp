@@ -1,7 +1,7 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="/products" class="brand-link">
         <img src="{{ asset('assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3') }}" style="opacity: 0.8" />
         <span class="brand-text font-weight-light">AdminLTE 3</span>
@@ -41,15 +41,15 @@
          with font-awesome or any other icon font library -->
 
                 <li class="nav-item">
-                    <a href="/" class="nav-link">
-                        <i class="nav-icon far fa-image"></i>
-                        <p>Gallery</p>
+                    <a href="/products" class="nav-link" id="nav-link-products">
+                        <i class="fa-solid fa-house"></i>
+                        <p>Sản phẩm</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/" class="nav-link">
-                        <i class="nav-icon far fa-image"></i>
-                        <p>Album2</p>
+                    <a href="/orders" class="nav-link" id="nav-link-order">
+                        <i class="fa-brands fa-jedi-order"></i>
+                        <p>Đơn hàng</p>
                     </a>
                 </li>
 
@@ -59,3 +59,11 @@
     </div>
     <!-- /.sidebar -->
 </aside>
+<script>
+    var router = location.href.split('/');
+    var path = router[router.length - 1];
+    if (path == 'products') {
+        $('#nav-link-products').addClass('active');
+    } else if (path == 'orders')
+        $('#nav-link-order').addClass('active')
+</script>
