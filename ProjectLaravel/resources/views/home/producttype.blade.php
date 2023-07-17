@@ -82,5 +82,9 @@
             display: flex;
             justify-content: center;
         }
+
+        .ribbon {
+            z-index: 1;
+        }
     </style>
 @endsection

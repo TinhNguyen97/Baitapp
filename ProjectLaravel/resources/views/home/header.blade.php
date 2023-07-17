@@ -10,8 +10,8 @@
             <div class="pull-right auto-width-right">
                 <ul class="top-details menu-beta l-inline">
                     <li><a href="#"><i class="fa fa-user"></i>Tài khoản</a></li>
-                    <li><a href="#">Đăng kí</a></li>
-                    <li><a href="#">Đăng nhập</a></li>
+                    <li><a href="{{ route('homes.register') }}">Đăng kí</a></li>
+                    <li><a href="{{ route('homes.login') }}">Đăng nhập</a></li>
                 </ul>
             </div>
             <div class="clearfix"></div>
@@ -103,7 +103,7 @@
             <nav class="main-menu">
                 <ul class="l-inline ov">
                     <li><a href="{{ route('homes.index') }}">Trang chủ</a></li>
-                    <li><a href="#">Sản phẩm</a>
+                    <li><a href="#">Loại sản phẩm</a>
                         <ul class="sub-menu">
                             @if (count($allTypes) !== 0)
                                 @foreach ($allTypes as $item)

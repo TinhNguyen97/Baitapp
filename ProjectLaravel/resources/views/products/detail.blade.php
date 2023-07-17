@@ -70,32 +70,42 @@
                     <div class="space50">&nbsp;</div>
                     <div class="beta-products-list">
                         <h4>Sản phẩm liên quan</h4>
-
-
-
+                        <p style="color: blue">Tìm thấy {{ count($allProducts) }} sản phẩm</p>
                         <div class="row">
                             @foreach ($relativeProducts as $item)
                                 <div class="col-sm-4">
                                     <div class="single-item">
                                         <div class="ribbon-wrapper">
-                                            <div class="ribbon sale">Sale</div>
+                                            <?php
+                                            $up = number_format($item->unit_price, 0, ',', '.');
+                                            $pp = number_format($item->promotion_price, 0, ',', '.');
+                                            ?>
+                                            @if ($up > $pp)
+                                                <div class="ribbon sale">Sale</div>
+                                            @endif
                                         </div>
 
                                         <div class="single-item-header">
-                                            <a href="#"><img src="assets/dest/images/products/6.jpg"
-                                                    alt=""></a>
+                                            <a href="#"><img width="270" height="320"
+                                                    src="{{ asset('uploads/' . $item->image) }}" alt=""></a>
                                         </div>
                                         <div class="single-item-body">
                                             <p class="single-item-title">{{ $item->name }}</p>
                                             <p class="single-item-price">
-                                                <span class="flash-del">$34.55</span>
-                                                <span class="flash-sale">$33.55</span>
+                                                @if ($up > $pp)
+                                                    <span class="flash-del">{{ '$' . $up }}</span>
+                                                    <span class="flash-sale">{{ '$' . $pp }}</span>
+                                                @else
+                                                    <span class="flash-sale"
+                                                        style="color: black">{{ '$' . $pp }}</span>
+                                                @endif
                                             </p>
                                         </div>
                                         <div class="single-item-caption">
                                             <a class="add-to-cart pull-left" href="#"><i
                                                     class="fa fa-shopping-cart"></i></a>
-                                            <a class="beta-btn primary" href="#">Details <i
+                                            <a class="beta-btn primary"
+                                                href="{{ route('homes.detail', $item->id) }}">Details <i
                                                     class="fa fa-chevron-right"></i></a>
                                             <div class="clearfix"></div>
                                         </div>
@@ -104,6 +114,9 @@
                             @endforeach
                         </div>
                     </div> <!-- .beta-products-list -->
+                    <div class="pagination">
+                        {{ $relativeProducts->links() }}
+                    </div>
                 </div>
                 <div class="col-sm-3 aside">
                     <div class="widget">
@@ -196,6 +209,11 @@
 
         .zd0 {
             z-index: 0;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
         }
     </style>
 @endsection
