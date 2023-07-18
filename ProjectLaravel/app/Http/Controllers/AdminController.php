@@ -48,7 +48,7 @@ class AdminController extends Controller
 
         abort_if(!$dish, 404);
         $dataInsert = [
-            'name' => $request->name
+            'full_name' => $request->full_name
         ];
         Dish::where('id', $id)->update($dataInsert);
         return back()->with(['isUpdateSuccess' => true]);

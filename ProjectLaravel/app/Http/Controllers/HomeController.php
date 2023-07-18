@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Slides;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use stdClass;
 
 class HomeController extends Controller
 {
@@ -16,7 +18,6 @@ class HomeController extends Controller
     {
         $slides = Slides::all();
         $newProducts = Products::orderByRaw('created_at DESC')->limit(4)->get();
-        // dd($newProducts);
         // dd($newProducts);
         return view('home.index', [
             'slides' => $slides,
@@ -108,9 +109,117 @@ class HomeController extends Controller
         User::create($request->all());
         return back()->with('success', 'Tạo tài khoản thành công!');
     }
-    public function checkLogin()
+    public function checkLogin(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ], [
+            'email.required' => 'Vui lòng nhập email',
+            'email.email' => 'Vui lòng nhập email đúng định dạng.',
+            'password.required' => 'Vui lòng nhập password.',
+        ]);
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
+        if (Auth::attempt($credentials)) {
+            return redirect('home')->with('success', 'Đăng nhập thành công');
+        } else {
+            return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng!');
+        }
+        return view('auth.login');
+    }
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('home');
+    }
+    public function profile()
+    {
+        $user = Auth::user();
+        abort_if(!$user, 404);
+        $user->email = $this->obfuscate_email($user->email);
+        return view('auth.profile', ['user' => $user]);
+    }
 
-        return view('auth.register');
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+        abort_if(!$user, 404);
+        $request->validate([
+            'full_name' => 'required',
+            'phone' => 'required|regex:/^0[0-9]{9,10}$/',
+            'address' => 'required'
+        ], [
+            'full_name.required' => 'Vui lòng nhập tên.',
+            'phone.required' => 'Vui lòng nhập số điện thoại.',
+            'address.required' => 'Vui lòng nhập địa chỉ.',
+            'phone.regex' => 'Số điện thoại không hợp lệ.'
+        ]);
+        $dataInsert = [
+            'full_name' => $request->full_name,
+            'phone' => $request->phone,
+            'address' => $request->address
+
+        ];
+        User::where('id', Auth::id())->update($dataInsert);
+        $user = User::find(Auth::id());
+        return redirect(route('homes.profile', $user->id))->with('success', 'Cập nhật thành công!');
+    }
+    public function obfuscate_email($email)
+    {
+        $em   = explode("@", $email);
+        $name = implode('@', array_slice($em, 0, count($em) - 1));
+        $len  = floor(strlen($name) / 2);
+
+        return substr($name, 0, $len) . str_repeat('*', $len) . "@" . end($em);
+    }
+    public function changePassword()
+    {
+        return view('auth.changepassword');
+    }
+    public function handleChangePass(Request $request)
+    {
+        $id = Auth::id();
+        $user = User::find($id);
+        abort_unless($user, 404);
+        $request->validate(
+            [
+                'current_pass' => 'required',
+                'new_pass' => 'required|min:6|max:20',
+                'renew_pass' => 'same:new_pass',
+            ],
+            [
+                'current_pass.required' => 'Vui lòng nhập mật khẩu hiện tại.',
+                'renew_pass.same' => 'Mật khẩu mới không trùng khớp.',
+                'new_pass.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
+                'new_pass.max' => 'Mật khẩu nhiều nhất là 20 ký tự.',
+                'new_pass.required' => 'Vui lòng nhập mật khẩu mới.',
+            ]
+        );
+        if ($request->current_pass == $request->new_pass) {
+            return back()->with('duplicate', 'Mật khẩu mới không được trùng với mật khẩu hiện tại!');
+        }
+        // dd($request->all());
+        $isMatched = Hash::check($request->current_pass, $user->password);
+
+        if ($isMatched) {
+
+            $data = ['password' => $request->new_pass];
+
+            $user->update($data);
+            return back()->with('success', 'Đổi mật khẩu thành công!');
+        } else {
+            return back()->with('error', 'Mật khẩu hiện tại không đúng!');
+        }
+    }
+    public function about()
+    {
+        return view('home.about');
+    }
+    public function contact()
+    {
+        return view('home.contact');
     }
 }

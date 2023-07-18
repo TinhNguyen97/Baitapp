@@ -3,9 +3,11 @@
     <div class="container">
         <div id="content">
 
-            <form action="#" method="post" class="beta-form-checkout">
+            <form action="{{ route('homes.checklogin') }}" method="post" class="beta-form-checkout">
+                @csrf
                 <div class="row">
                     <div class="col-sm-3"></div>
+
                     <div class="col-sm-6">
                         <h4>Đăng nhập</h4>
                         <div class="space20">&nbsp;</div>
@@ -13,13 +15,23 @@
 
                         <div>
                             <label for="email">Email*</label>
-                            <input type="email" name="email" required>
+                            <input type="email" name="email" value="{{ old('email') }}">
                         </div>
+                        @error('email')
+                            <div style="color: red">{{ $message }}</div>
+                        @enderror
                         <div>
                             <label for="password">Password*</label>
-                            <input type="password" name="password" required>
+                            <input type="password" name="password">
                         </div>
+                        @error('password')
+                            <div style="color: red">{{ $message }}</div>
+                        @enderror
                         <div class="form-block">
+                            @if (Session::has('error'))
+                                <div style="color: red">{{ Session::get('error') }}</div>
+                            @endif
+
                             <button type="submit" class="btn btn-primary">Login</button>
                         </div>
                     </div>

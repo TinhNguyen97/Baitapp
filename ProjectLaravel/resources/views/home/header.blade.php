@@ -3,15 +3,26 @@
         <div class="container">
             <div class="pull-left auto-width-left">
                 <ul class="top-menu menu-beta l-inline">
-                    <li><a href=""><i class="fa fa-home"></i> 90-92 Lê Thị Riêng, Bến Thành, Quận 1</a></li>
-                    <li><a href=""><i class="fa fa-phone"></i> 0163 296 7751</a></li>
+                    <li><a href=""><i class="fa fa-home"></i> 58 Tràng An, thành phố Ninh Bình</a></li>
+                    <li><a href=""><i class="fa fa-phone"></i> 0981 240 297</a></li>
                 </ul>
             </div>
             <div class="pull-right auto-width-right">
                 <ul class="top-details menu-beta l-inline">
-                    <li><a href="#"><i class="fa fa-user"></i>Tài khoản</a></li>
-                    <li><a href="{{ route('homes.register') }}">Đăng kí</a></li>
-                    <li><a href="{{ route('homes.login') }}">Đăng nhập</a></li>
+                    @if (Auth::check())
+                        <li><a class="text-wellcome">
+                                Xin chào {{ Auth::user()->full_name }}!
+                            </a></li>
+                        <li><a href="{{ route('homes.profile') }}"><i class="fa fa-user"></i>Tài
+                                khoản</a></li>
+                        <li><a href="{{ route('homes.changepassword') }}"><i class="fa fa-key"></i>Đổi mật
+                                khẩu</a></li>
+                        <li><a href="{{ route('homes.logout') }}"><i class="fa fa-circle"></i>Đăng
+                                xuất</a></li>
+                    @else
+                        <li><a href="{{ route('homes.register') }}">Đăng kí</a></li>
+                        <li><a href="{{ route('homes.login') }}">Đăng nhập</a></li>
+                    @endif
                 </ul>
             </div>
             <div class="clearfix"></div>
@@ -114,11 +125,19 @@
 
                         </ul>
                     </li>
-                    <li><a href="about.html">Giới thiệu</a></li>
-                    <li><a href="contacts.html">Liên hệ</a></li>
+                    <li><a href="{{ route('homes.about') }}">Giới thiệu</a></li>
+                    <li><a href="{{ route('homes.contact') }}">Liên hệ</a></li>
                 </ul>
                 <div class="clearfix"></div>
             </nav>
         </div> <!-- .container -->
     </div> <!-- .header-bottom -->
-</div> <!-- #header -->
+</div>
+<style>
+    .text-wellcome {
+        width: 14rem !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>

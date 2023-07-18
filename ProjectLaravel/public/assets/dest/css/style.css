@@ -1091,12 +1091,7 @@ border-right:1px solid #d3d3d3
 border-left:1px solid #d3d3d3
 }
 
-.menu-beta li>a {
-padding:0 20px;
-line-height:47px;
-height:47px;
-display:block
-}
+.menu-beta li>a {padding:0 20px;line-height:47px;height:47px;display:block;width: 100%;}
 
 .menu-beta li .beta-select {
 line-height:47px;
