@@ -43,6 +43,8 @@ Route::prefix('home')->name('homes.')->group(function () {
     Route::patch('/changepassword', [HomeController::class, 'handleChangePass'])->name('handleChangePass');
     Route::get('/about', [HomeController::class, 'about'])->name('about');
     Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+    Route::get('/addtocart/{id}', [HomeController::class, 'addToCart'])->name('addtocart');
+    Route::get('/deletefromcart/{id}', [HomeController::class, 'deleteFromCart'])->name('deletefromcart');
 });
 
 Route::prefix('/orders')->name('orders.')->group(function () {

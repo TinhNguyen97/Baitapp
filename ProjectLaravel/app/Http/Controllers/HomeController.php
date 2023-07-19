@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -10,6 +11,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rules\Can;
 use stdClass;
 
 class HomeController extends Controller
@@ -125,10 +128,8 @@ class HomeController extends Controller
         ];
         if (Auth::attempt($credentials)) {
             return redirect('home')->with('success', 'Đăng nhập thành công');
-        } else {
-            return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng!');
         }
-        return view('auth.login');
+        return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng!')->withInput();
     }
     public function logout()
     {
@@ -221,5 +222,29 @@ class HomeController extends Controller
     public function contact()
     {
         return view('home.contact');
+    }
+    public function addToCart(Request $request, $id)
+    {
+        $product = Products::find($id);
+        $oldCart = Session('cart') ? Session::get('cart') : null;
+
+        $cart = new Cart($oldCart);
+        $cart->add($product, $id);
+        $request->session()->put('cart', $cart);
+        // Session::forget('cart');
+        return back();
+    }
+    public function deleteFromCart($id)
+    {
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        // dd($oldCart);
+        $cart = new Cart($oldCart);
+        $cart->removeItem($id);
+        if (count($cart->items) > 0) {
+            Session::put('cart', $cart);
+        } else {
+            Session::forget(('cart'));
+        }
+        return back();
     }
 }

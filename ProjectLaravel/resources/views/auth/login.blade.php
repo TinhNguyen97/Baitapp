@@ -21,7 +21,7 @@
                             <div style="color: red">{{ $message }}</div>
                         @enderror
                         <div>
-                            <label for="password">Password*</label>
+                            <label for="password">Mật khẩu*</label>
                             <input type="password" name="password">
                         </div>
                         @error('password')

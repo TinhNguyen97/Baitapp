@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Bán hàng</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laravel </title>
@@ -53,6 +53,9 @@
                 } else {
                     $(".header-bottom").removeClass('fixNav')
                 }
+            })
+            $('.beta-select').on('click', function() {
+                $(this).parent().children('.beta-dropdown').slideToggle();
             })
         })
     </script>

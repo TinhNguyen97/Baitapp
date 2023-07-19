@@ -8,9 +8,15 @@
                 @method('PUT')
                 <div class="row">
                     <div class="col-sm-3"></div>
-                    @if (Session::has('success'))
-                        <div class="alert alert-success">{{ Session::get('success') }}</div>
-                    @endif
+                    <div class="col-sm-6">
+                        @if (Session::has('success'))
+                            <div class="alert alert-success">{{ Session::get('success') }}</div>
+                        @endif
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3"></div>
+
                     <div class="col-sm-6">
                         <h4>Thông tin tài khoản</h4>
                         <div class="space20">&nbsp;</div>

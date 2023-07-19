@@ -32,7 +32,7 @@
                                         <span class="flash-del">{{ $up }}</span>
                                         <span class="flash-sale">{{ $pp }}</span>
                                     @else
-                                        <span class="flash-sale" style="color: black">{{ $product->unit_price }}</span>
+                                        <span class="flash-sale" style="color: black">{{ $up }}</span>
                                     @endif
                                 </p>
                             </div>
@@ -50,7 +50,8 @@
                                         <option>{{ $i }}</option>
                                     @endfor
                                 </select>
-                                <a class="add-to-cart" href="#"><i class="fa fa-shopping-cart"></i></a>
+                                <a class="add-to-cart" href="{{ route('homes.addtocart', $product->id) }}"><i
+                                        class="fa fa-shopping-cart"></i></a>
                                 <div class="clearfix"></div>
                             </div>
                         </div>
@@ -102,11 +103,11 @@
                                             </p>
                                         </div>
                                         <div class="single-item-caption">
-                                            <a class="add-to-cart pull-left" href="#"><i
+                                            <a class="add-to-cart pull-left"
+                                                href="{{ route('homes.addtocart', $item->id) }}"><i
                                                     class="fa fa-shopping-cart"></i></a>
-                                            <a class="beta-btn primary"
-                                                href="{{ route('homes.detail', $item->id) }}">Details <i
-                                                    class="fa fa-chevron-right"></i></a>
+                                            <a class="beta-btn primary" href="{{ route('homes.detail', $item->id) }}">Chi
+                                                tiết <i class="fa fa-chevron-right"></i></a>
                                             <div class="clearfix"></div>
                                         </div>
                                     </div>
