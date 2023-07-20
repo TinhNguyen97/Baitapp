@@ -45,6 +45,7 @@ Route::prefix('home')->name('homes.')->group(function () {
     Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
     Route::get('/addtocart/{id}', [HomeController::class, 'addToCart'])->name('addtocart');
     Route::get('/deletefromcart/{id}', [HomeController::class, 'deleteFromCart'])->name('deletefromcart');
+    Route::get('/deleteallcart', [HomeController::class, 'deleteAllCart'])->name('deleteallcart');
 });
 
 Route::prefix('/orders')->name('orders.')->group(function () {

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rules\Can;
+use PhpParser\Node\Expr\FuncCall;
 use stdClass;
 
 class HomeController extends Controller
@@ -243,7 +244,14 @@ class HomeController extends Controller
         if (count($cart->items) > 0) {
             Session::put('cart', $cart);
         } else {
-            Session::forget(('cart'));
+            Session::forget('cart');
+        }
+        return back();
+    }
+    public function deleteAllCart()
+    {
+        if (Session::has('cart')) {
+            Session::forget('cart');
         }
         return back();
     }
