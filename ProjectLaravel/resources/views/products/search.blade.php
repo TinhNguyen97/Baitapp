@@ -67,15 +67,18 @@
                                                 <td style="text-align: center">{{ $item->name }}</td>
                                                 <td style="text-align: center">{{ $item->tp_name }}</td>
                                                 <td style="text-align: center"><img width="100px" height="100px"
-                                                        src="{{ asset('uploads' . '\\' . $item->image) }}"></td>
+                                                        class="image" src="{{ asset('uploads' . '\\' . $item->image) }}">
+                                                </td>
                                                 <td style="text-align: center">{{ $item->unit_price }}</td>
-                                                <td style="text-align: center">{{ $item->promotion_price }}</td>
+                                                <td style="text-align: center" class="promotion_price">
+                                                    {{ $item->promotion_price }}
+                                                </td>
                                                 <td style="text-align: center">{{ $item->description }}</td>
                                                 <td style="text-align: center">{{ $item->created_at }}</td>
                                                 <td style="text-align: center">{{ $item->updated_at }}</td>
                                                 <td style="text-align: center"><button class="btn btn-primary"
                                                         data-target="#edit-category" data-toggle="modal" type="button"
-                                                        onclick="showDetail(
+                                                        onclick="showDetail.call(this,
                                                             '{{ $item->name }}',
                                                            {{ $item->id }} ,
                                                            '{{ $item->tp_name }}',
@@ -384,11 +387,10 @@
             $('#form-edit').attr('action', routeUpdate(id))
             $('#editName').val(name);
             $('#editType').val(id_type);
-            $('#editImage').attr('src', 'uploads\\' + image);
             $('#editPrice').val(unit_price);
             $('#editPromotionPrice').val(promotion_price);
             $('#editDescr').val(description);
-
+            $('#editImage').attr('src', $(this).parents('.row').find('.image').attr('src'));
         }
     </script>
     <style>

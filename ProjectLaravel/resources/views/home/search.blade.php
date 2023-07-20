@@ -20,8 +20,8 @@
                                             <div class="single-item">
                                                 <div class="ribbon-wrapper">
                                                     <?php
-                                                    $up = $item->unit_price;
-                                                    $pp = $item->promotion_price;
+                                                    $up = number_format($item->unit_price, 0, ',', '.');
+                                                    $pp = number_format($item->promotion_price, 0, ',', '.');
                                                     ?>
                                                     @if ($up > $pp)
                                                         <div class="ribbon sale">Sale</div>
@@ -46,9 +46,11 @@
                                                     </p>
                                                 </div>
                                                 <div class="single-item-caption">
-                                                    <a class="add-to-cart pull-left" href="shopping_cart.html"><i
+                                                    <a class="add-to-cart pull-left"
+                                                        href="{{ route('homes.addtocart', $item->id) }}"><i
                                                             class="fa fa-shopping-cart"></i></a>
-                                                    <a class="beta-btn primary" href="product.html">Details <i
+                                                    <a class="beta-btn primary"
+                                                        href="{{ route('homes.detail', $item->id) }}">Chi tiết <i
                                                             class="fa fa-chevron-right"></i></a>
                                                     <div class="clearfix"></div>
                                                 </div>

@@ -255,4 +255,21 @@ class HomeController extends Controller
         }
         return back();
     }
+    public function orderSuccess()
+    {
+        if (Session::has('cart')) {
+            $carts = Session::get('cart')->items;
+            $idProducts = array_keys($carts);
+            foreach ($idProducts as $item) {
+                $idProduct = $item;
+                $qty = $carts[$item]['qty'];
+                DB::table('orders')->insert([
+                    'user_id' => Auth::id(),
+                    'product_id' => $idProduct,
+                    'quantity' => $qty,
+                ]);
+            }
+            return view('home.success');
+        }
+    }
 }

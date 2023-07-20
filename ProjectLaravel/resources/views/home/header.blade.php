@@ -101,7 +101,8 @@
                                             style="background-color: rgb(226, 196, 198)"
                                             class="beta-btn primary text-center">Xóa hết<i
                                                 class="fa fa-chevron-right"></i></a>
-                                        <a href="checkout.html" class="beta-btn primary text-center">Đặt hàng <i
+                                        <a href="{{ route('homes.ordersuccess') }}"
+                                            class="beta-btn primary text-center">Đặt hàng <i
                                                 class="fa fa-chevron-right"></i></a>
                                     </div>
                                 </div>
