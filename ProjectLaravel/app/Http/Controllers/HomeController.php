@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +21,7 @@ use stdClass;
 class HomeController extends Controller
 {
     public function index()
+
     {
         $slides = Slides::all();
         $newProducts = Products::orderByRaw('created_at DESC')->limit(4)->get();
@@ -227,7 +230,7 @@ class HomeController extends Controller
     public function addToCart(Request $request, $id)
     {
         $product = Products::find($id);
-        $oldCart = Session('cart') ? Session::get('cart') : null;
+        $oldCart = session('cart') ? Session::get('cart') : null;
 
         $cart = new Cart($oldCart);
         $cart->add($product, $id);
@@ -246,30 +249,56 @@ class HomeController extends Controller
         } else {
             Session::forget('cart');
         }
-        return back();
+
+        // dd(Session::get('cart'));
+        return redirect('home');
     }
     public function deleteAllCart()
     {
         if (Session::has('cart')) {
             Session::forget('cart');
         }
-        return back();
+        return redirect('home');
     }
-    public function orderSuccess()
+    public function orderDetail(Request $request)
     {
         if (Session::has('cart')) {
             $carts = Session::get('cart')->items;
-            $idProducts = array_keys($carts);
-            foreach ($idProducts as $item) {
-                $idProduct = $item;
-                $qty = $carts[$item]['qty'];
-                DB::table('orders')->insert([
-                    'user_id' => Auth::id(),
-                    'product_id' => $idProduct,
-                    'quantity' => $qty,
-                ]);
-            }
-            return view('home.success');
+            // dd($carts);
+            // dd($carts[60]['item']['id']);
+            // dd($carts);
+            //     $idProducts = array_keys($carts);
+            //     foreach ($idProducts as $item) {
+            //         $idProduct = $item;
+            //         $product = OrderDetail::where('product_id', $idProduct)->first();
+            //         $qty = $carts[$item]['qty'];
+            //         if ($product) {
+            //             $qtyDb = $product->quantity;
+
+            //             OrderDetail::where('product_id', $idProduct)->update([
+            //                 'quantity' => $qtyDb + $qty,
+            //             ]);
+            //         } else {
+            //             OrderDetail::create([
+            //                 'user_id' => Auth::id(),
+            //                 'product_id' => $idProduct,
+            //                 'quantity' => $qty,
+            //             ]);
+            //         }
+            //     }
+            // }
+            // $listOrderDetail = DB::table('order_details')
+            //     ->join('products', 'order_details.product_id', '=', 'products.id')
+            //     ->select(
+            //         'order_details.id AS order_detail_id',
+            //         'order_details.user_id',
+            //         'order_details.quantity',
+            //         'products.*'
+            //     )
+            //     ->get();
+            // dd($listOrderDetail);
+            // Session::forget('cart');
+            return view('home.orderdetail', ['carts' => $carts]);
         }
     }
 }

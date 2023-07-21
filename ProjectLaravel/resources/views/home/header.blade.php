@@ -63,9 +63,10 @@
 
                                 @foreach ($product_cart as $product)
                                     <?php
-                                    $up = number_format($product['item']['unit_price'], 0, ',', '.');
-                                    $pm = number_format($product['item']['promotion_price'], 0, ',', '.');
-                                    
+                                    $unitPrice = preg_replace('/[.,]/', '', $product['item']['unit_price']);
+                                    $promotionPrice = preg_replace('/[.,]/', '', $product['item']['promotion_price']);
+                                    $up = remove_special_character($unitPrice);
+                                    $pm = remove_special_character($promotionPrice);
                                     ?>
                                     <div class="cart-item">
                                         <a href="{{ route('homes.deletefromcart', $product['item']['id']) }}"
@@ -77,6 +78,7 @@
                                             <div class="media-body">
                                                 <span class="cart-item-title">{{ $product['item']['name'] }}</span>
                                                 <span class="cart-item-amount">{{ $product['qty'] }}*<span>
+
                                                         @if ($pm < $up)
                                                             {{ $pm }}
                                                         @else
@@ -101,14 +103,13 @@
                                             style="background-color: rgb(226, 196, 198)"
                                             class="beta-btn primary text-center">Xóa hết<i
                                                 class="fa fa-chevron-right"></i></a>
-                                        <a href="{{ route('homes.ordersuccess') }}"
+                                        <a href="{{ route('homes.orderdetail') }}"
                                             class="beta-btn primary text-center">Đặt hàng <i
                                                 class="fa fa-chevron-right"></i></a>
                                     </div>
                                 </div>
                             </div>
                     </div> <!-- .cart -->
-
                     @endif
                 </div>
             </div>

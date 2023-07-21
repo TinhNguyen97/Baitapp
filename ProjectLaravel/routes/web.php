@@ -15,7 +15,8 @@ use App\Http\Controllers\OrderController;
 |
 */
 
-Route::middleware('auth')->prefix('/products')->name('products.')->group(function () {
+
+Route::prefix('/products')->name('products.')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('index');
     Route::post('/', [ProductController::class, 'add'])->name('add');
     Route::delete('/{id}', [ProductController::class, 'delete'])->name('delete');
@@ -43,10 +44,10 @@ Route::prefix('home')->name('homes.')->group(function () {
     Route::patch('/changepassword', [HomeController::class, 'handleChangePass'])->name('handleChangePass');
     Route::get('/about', [HomeController::class, 'about'])->name('about');
     Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
-    Route::get('/addtocart/{id}', [HomeController::class, 'addToCart'])->name('addtocart');
+    Route::get('/addtocart/{id}', [HomeController::class, 'addToCart'])->middleware('auth')->name('addtocart');
     Route::get('/deletefromcart/{id}', [HomeController::class, 'deleteFromCart'])->name('deletefromcart');
     Route::get('/deleteallcart', [HomeController::class, 'deleteAllCart'])->name('deleteallcart');
-    Route::get('/ordersuccess', [HomeController::class, 'orderSuccess'])->name('ordersuccess');
+    Route::get('/orderdetail', [HomeController::class, 'orderDetail'])->name('orderdetail');
 });
 
 Route::prefix('/orders')->name('orders.')->group(function () {

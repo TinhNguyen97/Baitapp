@@ -30,6 +30,7 @@ class Cart extends Model
             }
         }
         $cart['qty']++;
+
         if ($item->promotion_price == 0) {
             $cart['price'] = $item->unit_price * $cart['qty'];
             $this->items[$id] = $cart;
