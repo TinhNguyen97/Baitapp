@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Session;
 use PhpParser\Node\Expr\FuncCall;
 use stdClass;
 
@@ -60,5 +61,23 @@ class Cart extends Model
         $this->totalQty -= $this->items[$id]['qty'];
         $this->totalPrice -= $this->items[$id]['price'];
         unset($this->items[$id]);
+    }
+    public function updateCart($id, $quantity = 1)
+    {
+        if (isset($this->items[$id])) {
+            $qty = 0;
+            $price = 0;
+            $this->items[$id]['qty'] = $quantity;
+            foreach ($this->items as $key => $value) {
+                $qty += $value['qty'];
+                if ($value['item']->promotion_price == 0) {
+                    $price += $value['qty'] * $value['item']->unit_price;
+                } else {
+                    $price += $value['qty'] * $value['item']->promotion_price;
+                };
+                $this->totalQty = $qty;
+                $this->totalPrice = $price;
+            }
+        }
     }
 }

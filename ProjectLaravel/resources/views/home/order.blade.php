@@ -40,43 +40,48 @@
                                 $i = 1;
                                 // dd($carts);
                             @endphp @foreach ($carts as $key => $item)
-                                <tr class="cart_item">
-                                    <td>{{ $i++ }}</td>
-                                    <td class="product-name">
-                                        {{ $item['item']['name'] }}
-                                    </td>
-
-                                    <td class="product-price"><img width="100px" height="100px"
-                                            src="{{ asset('uploads' . '\\' . $item['item']['image']) }}"></td>
-                                    @if ($item['item']['promotion_price'] != 0)
-                                        <td class="product-status" id="price">
-                                            {{ number_format($item['item']['promotion_price'], 0, ',', '.') }}
+                                <form action="{{ route('homes.updatecart', $key) }}" method="post">
+                                    @csrf
+                                    <tr class="cart_item">
+                                        <td>{{ $i++ }}</td>
+                                        <td class="product-name">
+                                            {{ $item['item']['name'] }}
                                         </td>
-                                    @else
-                                        <td class="product-status" id="price">
-                                            {{ $item['item']['unit_price'] }}
+
+                                        <td class="product-price"><img width="100px" height="100px"
+                                                src="{{ asset('uploads' . '\\' . $item['item']['image']) }}"></td>
+                                        @if ($item['item']['promotion_price'] != 0)
+                                            <td class="product-status" id="price">
+                                                {{ number_format($item['item']['promotion_price'], 0, ',', '.') }}
+                                            </td>
+                                        @else
+                                            <td class="product-status" id="price">
+                                                {{ $item['item']['unit_price'] }}
+                                            </td>
+                                        @endif
+
+                                        <td class="product-quantity">
+                                            <input value="{{ $item['qty'] }}" type="number" class="ip-number"
+                                                min="1" name="quantity">
                                         </td>
-                                    @endif
 
-                                    <td class="product-quantity">
-                                        {{-- <select name="product-qty" id="product-qty" onchange="updateTotalPay()"> --}}
-                                        <input value="{{ $item['qty'] }}" type="number" class="ip-number">
 
-                                        {{-- </select> --}}
-                                    </td>
+                                        <td class="product-subtotal" id="totalPrice">
+                                            {{ number_format($item['price'], 0, ',', '.') }}
+                                        </td>
 
-                                    <td class="product-subtotal" id="totalPrice">
-                                        {{ number_format($item['price'], 0, ',', '.') }}
-                                    </td>
-                                    <td class="product-update" id="update">
-                                        <a class="btn btn-primary" href="">Cập nhật</a>
-                                    </td>
-                                    <td class="product-remove">
-                                        <a class="btn btn-danger" href="{{ route('homes.deletefromcart', $key) }}"
-                                            title="Remove this item">Xóa</a>
-                                    </td>
-                                </tr>
+                                        <td class="product-update" id="update">
+                                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                        </td>
+
+                                        <td class="product-remove">
+                                            <a class="btn btn-danger" href="{{ route('homes.deletefromcart', $key) }}"
+                                                title="Remove this item">Xóa</a>
+                                        </td>
+                                    </tr>
+                                </form>
                             @endforeach
+
                             <tr>
                                 <th>Tổng</th>
                                 <th></th>

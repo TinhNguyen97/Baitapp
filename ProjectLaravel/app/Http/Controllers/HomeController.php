@@ -302,4 +302,15 @@ class HomeController extends Controller
         // Session::forget('cart');
         return view('home.order');
     }
+    public function updateCart(Request $request, $id)
+    {
+        $quantity = $request->quantity ? $request->quantity : 1;
+        $oldCart = session('cart') ? Session::get('cart') : null;
+
+        $cart = new Cart($oldCart);
+        $cart->updateCart($id, $quantity);
+        Session::put('cart', $cart);
+        // dd(Session::get('cart'));
+        return back();
+    }
 }

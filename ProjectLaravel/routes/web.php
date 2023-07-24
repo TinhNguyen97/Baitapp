@@ -47,6 +47,7 @@ Route::prefix('home')->name('homes.')->group(function () {
     Route::get('/addtocart/{id}', [HomeController::class, 'addToCart'])->middleware('auth')->name('addtocart');
     Route::get('/deletefromcart/{id}', [HomeController::class, 'deleteFromCart'])->name('deletefromcart');
     Route::get('/deleteallcart', [HomeController::class, 'deleteAllCart'])->name('deleteallcart');
+    Route::post('/updateCart/{id}', [HomeController::class, 'updateCart'])->name('updatecart');
     Route::get('/order', [HomeController::class, 'order'])->name('order');
 });
 
