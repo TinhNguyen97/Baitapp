@@ -36,10 +36,12 @@ class HomeController extends Controller
         $allProductSearch = DB::table('products')
             ->where('products.name', 'like', '%' . $request->key . '%')
             ->orWhere('products.unit_price', $request->key)
+            ->orWhere('products.promotion_price',  $request->key)
             ->latest()
             ->paginate(8);
         $allProducts = Products::where('name', 'like', '%' . $request->key . '%')
             ->orWhere('products.unit_price', $request->key)
+            ->orWhere('products.promotion_price',  $request->key)
             ->latest()->get();
         // dd($allProductSearch);
         // dd($newProducts);
@@ -251,54 +253,53 @@ class HomeController extends Controller
         }
 
         // dd(Session::get('cart'));
-        return redirect('home');
+        return back();
     }
     public function deleteAllCart()
     {
         if (Session::has('cart')) {
             Session::forget('cart');
         }
-        return redirect('home');
+        return back();
     }
     public function orderDetail(Request $request)
     {
-        if (Session::has('cart')) {
-            $carts = Session::get('cart')->items;
-            // dd($carts);
-            // dd($carts[60]['item']['id']);
-            // dd($carts);
-            //     $idProducts = array_keys($carts);
-            //     foreach ($idProducts as $item) {
-            //         $idProduct = $item;
-            //         $product = OrderDetail::where('product_id', $idProduct)->first();
-            //         $qty = $carts[$item]['qty'];
-            //         if ($product) {
-            //             $qtyDb = $product->quantity;
+        // if (Session::has('cart')) {
+        // $carts = Session::get('cart')->items;
+        // dd($carts);
+        // dd($carts[60]['item']['id']);
+        // dd($carts);
+        //     $idProducts = array_keys($carts);
+        //     foreach ($idProducts as $item) {
+        //         $idProduct = $item;
+        //         $product = OrderDetail::where('product_id', $idProduct)->first();
+        //         $qty = $carts[$item]['qty'];
+        //         if ($product) {
+        //             $qtyDb = $product->quantity;
 
-            //             OrderDetail::where('product_id', $idProduct)->update([
-            //                 'quantity' => $qtyDb + $qty,
-            //             ]);
-            //         } else {
-            //             OrderDetail::create([
-            //                 'user_id' => Auth::id(),
-            //                 'product_id' => $idProduct,
-            //                 'quantity' => $qty,
-            //             ]);
-            //         }
-            //     }
-            // }
-            // $listOrderDetail = DB::table('order_details')
-            //     ->join('products', 'order_details.product_id', '=', 'products.id')
-            //     ->select(
-            //         'order_details.id AS order_detail_id',
-            //         'order_details.user_id',
-            //         'order_details.quantity',
-            //         'products.*'
-            //     )
-            //     ->get();
-            // dd($listOrderDetail);
-            // Session::forget('cart');
-            return view('home.orderdetail', ['carts' => $carts]);
-        }
+        //             OrderDetail::where('product_id', $idProduct)->update([
+        //                 'quantity' => $qtyDb + $qty,
+        //             ]);
+        //         } else {
+        //             OrderDetail::create([
+        //                 'user_id' => Auth::id(),
+        //                 'product_id' => $idProduct,
+        //                 'quantity' => $qty,
+        //             ]);
+        //         }
+        //     }
+        // }
+        // $listOrderDetail = DB::table('order_details')
+        //     ->join('products', 'order_details.product_id', '=', 'products.id')
+        //     ->select(
+        //         'order_details.id AS order_detail_id',
+        //         'order_details.user_id',
+        //         'order_details.quantity',
+        //         'products.*'
+        //     )
+        //     ->get();
+        // dd($listOrderDetail);
+        // Session::forget('cart');
+        return view('home.orderdetail');
     }
 }

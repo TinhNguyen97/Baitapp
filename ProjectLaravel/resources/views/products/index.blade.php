@@ -11,7 +11,7 @@
                 </div>
                 <form action="{{ route('products.search') }}" method="get">
                     <div class="col-4 input-group">
-                        <input type="text" class="form-control" placeholder="Nhập tên sản phẩm" name="key"
+                        <input type="text" class="form-control" placeholder="Nhập tên sản phẩm/giá tiền" name="key"
                             aria-label="Recipient's username" aria-describedby="button-addon2">
                         <button class="btn btn-primary col-2 search"type="submit">
                             Tìm kiếm

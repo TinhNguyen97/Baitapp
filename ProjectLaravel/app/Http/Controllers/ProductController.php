@@ -125,6 +125,8 @@ class ProductController extends Controller
             ->join('type_products', 'products.id_type', '=', 'type_products.id')
             ->select('products.*', 'type_products.name as tp_name', 'type_products.id as id_type')
             ->where('products.name', 'like', '%' . $request->key . '%')
+            ->orWhere('products.unit_price',   $request->key)
+            ->orWhere('products.promotion_price',  $request->key)
             ->latest()
             ->paginate(5);
         $allTypes = DB::table('type_products')->get();

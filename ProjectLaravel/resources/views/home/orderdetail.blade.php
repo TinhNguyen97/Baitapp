@@ -32,9 +32,11 @@
                     </thead>
                     <tbody>
 
-                        @if (Session::has('cart') && count($carts) != 0)
-                            {{-- @dd($carts) --}}
-                            @foreach ($carts as $item)
+                        @if (Session::has('cart'))
+                            @php
+                                $carts = Session::get('cart')->items;
+                                // dd($carts);
+                            @endphp @foreach ($carts as $key => $item)
                                 <tr class="cart_item">
                                     <td class="product-name">
                                         {{ $item['item']['name'] }}
@@ -53,50 +55,10 @@
                                     @endif
 
                                     <td class="product-quantity">
-                                        <select name="product-qty" id="product-qty" onchange="updateTotalPay()">
-                                            @switch($item['qty'])
-                                                @case(1)
-                                                    <option value="1" selected>1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
-                                                @break
+                                        {{-- <select name="product-qty" id="product-qty" onchange="updateTotalPay()"> --}}
+                                        <input value="{{ $item['qty'] }}" type="number" class="ip-number">
 
-                                                @case(2)
-                                                    <option value="2" selected>2</option>
-                                                    <option value="1">1</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
-                                                @break
-
-                                                @case(3)
-                                                    <option value="3" selected>3</option>
-                                                    <option value="1">2</option>
-                                                    <option value="2">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
-                                                @break
-
-                                                @case(4)
-                                                    <option value="4" selected>4</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="5">5</option>
-                                                @break
-
-                                                @case(5)
-                                                    <option value="5" selected>5</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                @break
-                                            @endswitch
-
-                                        </select>
+                                        {{-- </select> --}}
                                     </td>
 
                                     <td class="product-subtotal" id="totalPrice">
@@ -104,18 +66,18 @@
                                     </td>
 
                                     <td class="product-remove">
-                                        <a href="#" class="remove" title="Remove this item"><i
-                                                class="fa fa-trash-o"></i></a>
+                                        <a href="{{ route('homes.deletefromcart', $key) }}" class="remove"
+                                            title="Remove this item"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
                             <tr>
                                 <th>Tổng</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td><button class="btn btn-primary">Đặt hàng</button></td>
+                                <th></th>
+                                <th></th>
+                                <th>{{ Session::get('cart')->totalQty }}</th>
+                                <th>{{ number_format(Session::get('cart')->totalPrice, 0, ',', '.') }}</th>
+                                <td><a class="btn btn-danger">Xoá tất cả</a></td>
                             </tr>
                         @else
                             <tr>
@@ -126,6 +88,7 @@
                     </tbody>
 
                 </table>
+                <div style="text-align: center"><a class="btn btn-primary ax">Đặt hàng</a></div>
                 <!-- End of Shop Table Products -->
             </div>
 
@@ -145,5 +108,11 @@
 
         }
     </script>
-
+    <style>
+        .ip-number {
+            text-align: center;
+            width: 100px;
+            height: 21px;
+        }
+    </style>
 @endsection
