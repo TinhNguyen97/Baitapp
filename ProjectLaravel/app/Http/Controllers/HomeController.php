@@ -262,7 +262,7 @@ class HomeController extends Controller
         }
         return back();
     }
-    public function orderDetail(Request $request)
+    public function order(Request $request)
     {
         // if (Session::has('cart')) {
         // $carts = Session::get('cart')->items;
@@ -300,6 +300,6 @@ class HomeController extends Controller
         //     ->get();
         // dd($listOrderDetail);
         // Session::forget('cart');
-        return view('home.orderdetail');
+        return view('home.order');
     }
 }

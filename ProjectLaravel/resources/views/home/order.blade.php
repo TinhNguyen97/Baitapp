@@ -22,12 +22,14 @@
                 <table class="shop_table beta-shopping-cart-table" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>STT</th>
                             <th class="product-name">Sản phẩm</th>
                             <th class="product-price">Ảnh sản phẩm</th>
                             <th class="product-status">Đơn giá($)</th>
                             <th class="product-quantity">Số lượng</th>
                             <th class="product-subtotal">Thành tiền($)</th>
-                            <th class="product-remove">Hành động</th>
+                            <th class="product-remove">Cập nhật</th>
+                            <th class="product-remove">Xóa</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,9 +37,11 @@
                         @if (Session::has('cart'))
                             @php
                                 $carts = Session::get('cart')->items;
+                                $i = 1;
                                 // dd($carts);
                             @endphp @foreach ($carts as $key => $item)
                                 <tr class="cart_item">
+                                    <td>{{ $i++ }}</td>
                                     <td class="product-name">
                                         {{ $item['item']['name'] }}
                                     </td>
@@ -64,10 +68,12 @@
                                     <td class="product-subtotal" id="totalPrice">
                                         {{ number_format($item['price'], 0, ',', '.') }}
                                     </td>
-
+                                    <td class="product-update" id="update">
+                                        <a class="btn btn-primary" href="">Cập nhật</a>
+                                    </td>
                                     <td class="product-remove">
-                                        <a href="{{ route('homes.deletefromcart', $key) }}" class="remove"
-                                            title="Remove this item"><i class="fa fa-trash-o"></i></a>
+                                        <a class="btn btn-danger" href="{{ route('homes.deletefromcart', $key) }}"
+                                            title="Remove this item">Xóa</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -75,9 +81,11 @@
                                 <th>Tổng</th>
                                 <th></th>
                                 <th></th>
+                                <th></th>
                                 <th>{{ Session::get('cart')->totalQty }}</th>
                                 <th>{{ number_format(Session::get('cart')->totalPrice, 0, ',', '.') }}</th>
-                                <td><a class="btn btn-danger">Xoá tất cả</a></td>
+                                <td colspan="2"><a href="{{ route('homes.deleteallcart') }}" class="btn btn-danger">Xoá
+                                        tất cả</a></td>
                             </tr>
                         @else
                             <tr>

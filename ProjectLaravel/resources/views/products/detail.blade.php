@@ -42,14 +42,7 @@
 
                             <div class="space20">&nbsp;</div>
 
-                            <p>Số lượng:</p>
                             <div class="single-item-options">
-                                <select class="wc-select" name="color">
-                                    <option>Số lượng</option>
-                                    @for ($i = 1; $i < 6; $i++)
-                                        <option>{{ $i }}</option>
-                                    @endfor
-                                </select>
                                 <a class="add-to-cart" href="{{ route('homes.addtocart', $product->id) }}"><i
                                         class="fa fa-shopping-cart"></i></a>
                                 <div class="clearfix"></div>
