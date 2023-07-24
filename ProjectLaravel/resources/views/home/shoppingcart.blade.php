@@ -13,7 +13,7 @@
             </div>
             <div class="pull-right">
                 <div class="beta-breadcrumb font-large">
-                    <a href="index.html">Home</a> / <span>Shopping Cart</span>
+                    <a href="{{ route('homes.index') }}">Home</a> / <span>Shopping Cart</span>
                 </div>
             </div>
             <div class="clearfix"></div>

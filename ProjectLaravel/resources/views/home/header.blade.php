@@ -103,7 +103,8 @@
                                             style="background-color: rgb(226, 196, 198)"
                                             class="beta-btn primary text-center">Xóa hết<i
                                                 class="fa fa-chevron-right"></i></a>
-                                        <a href="{{ route('homes.order') }}" class="beta-btn primary text-center">Đặt
+                                        <a href="{{ route('homes.orderdetail') }}"
+                                            class="beta-btn primary text-center">Đặt
                                             hàng <i class="fa fa-chevron-right"></i></a>
                                     </div>
                                 </div>

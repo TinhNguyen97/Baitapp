@@ -313,4 +313,8 @@ class HomeController extends Controller
         // dd(Session::get('cart'));
         return back();
     }
+    public function orderDetail()
+    {
+        return view('home.orderdetail');
+    }
 }

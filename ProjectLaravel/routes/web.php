@@ -49,6 +49,7 @@ Route::prefix('home')->name('homes.')->group(function () {
     Route::get('/deleteallcart', [HomeController::class, 'deleteAllCart'])->name('deleteallcart');
     Route::post('/updateCart/{id}', [HomeController::class, 'updateCart'])->name('updatecart');
     Route::get('/order', [HomeController::class, 'order'])->name('order');
+    Route::get('/orderdetail', [HomeController::class, 'orderDetail'])->name('orderdetail');
 });
 
 Route::prefix('/orders')->name('orders.')->group(function () {

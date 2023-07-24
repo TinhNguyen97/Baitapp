@@ -3,11 +3,11 @@
     <div class="inner-header">
         <div class="container">
             <div class="pull-left">
-                <h6 class="inner-title">Giỏ hàng</h6>
+                <h6 class="inner-title">Checkout</h6>
             </div>
             <div class="pull-right">
-                <div class="beta-breadcrumb font-large">
-                    <a href="{{ route('homes.index') }}">Trang chủ</a> / <span>Giỏ hàng</span>
+                <div class="beta-breadcrumb">
+                    <a href="{{ route('homes.index') }}">Trang chủ</a> / <span>Đặt hàng</span>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -17,115 +17,137 @@
     <div class="container">
         <div id="content">
 
-            <div class="table-responsive">
-                <!-- Shop Products Table -->
-                <table class="shop_table beta-shopping-cart-table" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th class="product-name">Sản phẩm</th>
-                            <th class="product-price">Ảnh sản phẩm</th>
-                            <th class="product-status">Đơn giá($)</th>
-                            <th class="product-quantity">Số lượng</th>
-                            <th class="product-subtotal">Thành tiền($)</th>
-                            <th class="product-remove">Cập nhật</th>
-                            <th class="product-remove">Xóa</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <form action="#" method="post" class="beta-form-checkout">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4>Billing Address</h4>
+                        <div class="space20">&nbsp;</div>
 
-                        @if (Session::has('cart'))
-                            @php
-                                $carts = Session::get('cart')->items;
-                                $i = 1;
-                                // dd($carts);
-                            @endphp @foreach ($carts as $key => $item)
-                                <form action="{{ route('homes.updatecart', $key) }}" method="post">
-                                    @csrf
-                                    <tr class="cart_item">
-                                        <td>{{ $i++ }}</td>
-                                        <td class="product-name">
-                                            {{ $item['item']['name'] }}
-                                        </td>
+                        <div class="form-block">
+                            <label for="your_first_name">First name*</label>
+                            <input type="text" id="your_first_name" required>
+                        </div>
 
-                                        <td class="product-price"><img width="100px" height="100px"
-                                                src="{{ asset('uploads' . '\\' . $item['item']['image']) }}"></td>
-                                        @if ($item['item']['promotion_price'] != 0)
-                                            <td class="product-status" id="price">
-                                                {{ number_format($item['item']['promotion_price'], 0, ',', '.') }}
-                                            </td>
-                                        @else
-                                            <td class="product-status" id="price">
-                                                {{ $item['item']['unit_price'] }}
-                                            </td>
-                                        @endif
+                        <div class="form-block">
+                            <label for="your_last_name">Last name*</label>
+                            <input type="text" id="your_last_name" required>
+                        </div>
 
-                                        <td class="product-quantity">
-                                            <input value="{{ $item['qty'] }}" type="number" class="ip-number"
-                                                min="1" name="quantity">
-                                        </td>
+                        <div class="form-block">
+                            <label for="company">Company name</label>
+                            <input type="text" id="company">
+                        </div>
 
+                        <div class="form-block">
+                            <label for="adress">Address*</label>
+                            <input type="text" id="adress" value="Street Address" required>
+                            <input type="text" id="apartment" value="Apartment, suite, unit etc." required>
+                        </div>
 
-                                        <td class="product-subtotal" id="totalPrice">
-                                            {{ number_format($item['price'], 0, ',', '.') }}
-                                        </td>
+                        <div class="form-block">
+                            <label for="town_city">Town / City*</label>
+                            <input type="text" id="town_city" required value="Town / City*">
+                        </div>
 
-                                        <td class="product-update" id="update">
-                                            <button type="submit" class="btn btn-primary">Cập nhật</button>
-                                        </td>
+                        <div class="form-block">
+                            <label for="country/state">Country</label>
+                            <input type="text" id="country/state" value="State / Country">
+                        </div>
 
-                                        <td class="product-remove">
-                                            <a class="btn btn-danger" href="{{ route('homes.deletefromcart', $key) }}"
-                                                title="Remove this item">Xóa</a>
-                                        </td>
-                                    </tr>
-                                </form>
-                            @endforeach
+                        <div class="form-block">
+                            <label for="email">Email address*</label>
+                            <input type="email" id="email" required>
+                        </div>
 
-                            <tr>
-                                <th>Tổng</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th>{{ Session::get('cart')->totalQty }}</th>
-                                <th>{{ number_format(Session::get('cart')->totalPrice, 0, ',', '.') }}</th>
-                                <td colspan="2"><a href="{{ route('homes.deleteallcart') }}" class="btn btn-danger">Xoá
-                                        tất cả</a></td>
-                            </tr>
-                        @else
-                            <tr>
-                                <td colspan="6" style="color:red">Giỏ hàng trống</td>
-                            </tr>
-                        @endif
+                        <div class="form-block">
+                            <label for="phone">Phone*</label>
+                            <input type="text" id="phone" required>
+                        </div>
 
-                    </tbody>
+                        <div class="form-block">
+                            <label for="notes">Order notes</label>
+                            <textarea id="notes"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="your-order">
+                            <div class="your-order-head">
+                                <h5>Your Order</h5>
+                            </div>
+                            <div class="your-order-body">
+                                <div class="your-order-item">
+                                    <div>
+                                        @if (Session::has('cart'))
+                                            @php
+                                                $carts = Session::get('cart')->items;
+                                                $i = 1;
+                                                
+                                            @endphp
+                                            @foreach ($carts as $key => $item)
+                                                @php
+                                                    $money = 0;
+                                                    if ($item['item']->promotion_price == 0) {
+                                                        $money = $item['item']->unit_price * $item['qty'];
+                                                    } else {
+                                                        $money = $item['item']->promotion_price * $item['qty'];
+                                                    }
+                                                @endphp
+                                                <!--  one item	 -->
+                                                <div class="media">
+                                                    <img width="100px" height="100px"
+                                                        src="{{ asset('uploads' . '\\' . $item['item']['image']) }}"
+                                                        alt="" class="pull-left">
+                                                    <div class="media-body">
+                                                        <p class="font-large">{{ $item['item']->name }}</p>
+                                                        @if ($item['item']->promotion_price == 0)
+                                                            <span class="color-gray your-order-info">Giá:
+                                                                ${{ number_format($item['item']->unit_price, 0, ',', '.') }}</span>
+                                                        @else
+                                                            <span class="color-gray your-order-info">Giá:
+                                                                ${{ number_format($item['item']->promotion_price, 0, ',', '.') }}</span>
+                                                        @endif
+                                                        <span class="color-gray your-order-info">SL:
+                                                            {{ $item['qty'] }}</span>
+                                                        <span class="color-gray your-order-info">Thành
+                                                            tiền: ${{ number_format($money, 0, ',', '.') }}</span>
+                                                    </div>
+                                                </div>
+                                            @endforeach
 
-                </table>
-                <div style="text-align: center"><a class="btn btn-primary ax">Đặt hàng</a></div>
-                <!-- End of Shop Table Products -->
-            </div>
-
-
-
-
+                                            <!-- end one item -->
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="your-order-item">
+                                    <div class="pull-left">
+                                        <p class="your-order-f18">Total:</p>
+                                    </div>
+                                    <div class="pull-right">
+                                        <h5 class="color-black">
+                                            ${{ number_format(Session::get('cart')->totalPrice, 0, ',', '.') }}</h5>
+                                    </div>
+                                    @endif
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div class="btn-action">
+                                <div class="text-center"><a class="btn btn-success"
+                                        href="{{ route('homes.orderdetail') }}">Quay
+                                        lại <i class="fa fa-chevron-left"></i></a></div>
+                                <div class="text-center"><a class="btn btn-primary" href="#">Đặt hàng <i
+                                            class="fa fa-chevron-right"></i></a></div>
+                            </div>
+                        </div> <!-- .your-order -->
+                    </div>
+                </div>
+            </form>
         </div> <!-- #content -->
     </div>
-    <script>
-        function updateTotalPay() {
-
-            var quantity = $("#product-qty").val();
-            console.log(quantity);
-            var price = $('#price').text().replace('.', '').trim();
-            $("#totalPrice").text((quantity * price).toString().replace(/\B(?=(\d{3})+(?!\d))/g,
-                "."));
-
-        }
-    </script>
     <style>
-        .ip-number {
-            text-align: center;
-            width: 100px;
-            height: 21px;
+        .btn-action {
+            display: flex;
+            gap: 10px;
+            justify-content: center
         }
     </style>
 @endsection
