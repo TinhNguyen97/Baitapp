@@ -24,4 +24,28 @@ class OrderController extends Controller
         // dd($details);
         return view('orders.orderdetail', ['details' => $details]);
     }
+    public function search(Request $request)
+    {
+        $allOrders = DB::table('orders')
+            ->where('email', 'like', '%' . $request->key . '%')
+            ->orWhere('phone', 'like', '%' . $request->key . '%')
+            ->latest()
+            ->paginate(5);
+        return view('orders.search', [
+            'allOrders' => $allOrders,
+            'request' => $request,
+        ]);
+    }
+    public function searchDetail(Request $request)
+    {
+        $allOrders = DB::table('orders')
+            ->where('email', 'like', '%' . $request->key . '%')
+            ->orWhere('phone', 'like', '%' . $request->key . '%')
+            ->latest()
+            ->paginate(5);
+        return view('orders.search', [
+            'allOrders' => $allOrders,
+            'request' => $request,
+        ]);
+    }
 }

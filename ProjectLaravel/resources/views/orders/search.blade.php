@@ -12,7 +12,8 @@
                 <form action="{{ route('orders.search') }}" method="get">
                     <div class="col-4 input-group">
                         <input type="text" class="form-control" placeholder="Nhập email hoặc số điện thoại" name="key"
-                            aria-label="Recipient's username" aria-describedby="button-addon2">
+                            aria-label="Recipient's username" aria-describedby="button-addon2"
+                            value="{{ $request->key ? $request->key : '' }}">
                         <button class="btn btn-primary col-2 search"type="submit">
                             Tìm kiếm
                         </button>
@@ -53,11 +54,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (count($orders) !== 0)
-                                        @foreach ($orders as $key => $item)
+                                    @if (count($allOrders) !== 0)
+                                        @foreach ($allOrders as $key => $item)
                                             <tr>
                                                 <th scope="row" style="text-align: center">
-                                                    {{ $loop->iteration + ($orders->currentPage() - 1) * $orders->perPage() }}
+                                                    {{ $loop->iteration + ($allOrders->currentPage() - 1) * $allOrders->perPage() }}
                                                 </th>
                                                 <td style="text-align: center">{{ $item->name }}</td>
                                                 <td style="text-align: center">{{ $item->address }}</td>
@@ -92,18 +93,13 @@
             <!-- /.row -->
         </div>
         <div class="pagination">
-            {{ $orders->links() }}
+            {{ $allOrders->links() }}
         </div>
         <!-- /.container-fluid -->
     </section>
     <style>
         .main-footer {
             margin-left: 0px !important;
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
         }
     </style>
 @endsection

@@ -308,7 +308,7 @@ class HomeController extends Controller
                 $idProduct = $item;
                 $product = OrderDetail::where('product_id', $idProduct)->first();
                 $qty = $carts[$item]['qty'];
-                if ($product) {
+                if ($product && $product->product_id == $idProduct && $product->order_id == $id) {
                     $qtyDb = $product->quantity;
 
                     OrderDetail::where('product_id', $idProduct)->update([

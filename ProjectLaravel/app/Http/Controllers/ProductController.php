@@ -120,7 +120,9 @@ class ProductController extends Controller
     }
     public function search(Request $request)
     {
-        $allProducts = Products::where('name', 'like', '%' . $request->key . '%')->latest()->get();
+        $allProducts = Products::where('name', 'like', '%' . $request->key . '%')
+            ->orWhere('unit_price', $request->key)
+            ->orWhere('promotion_price', $request->key)->latest()->get();
         $allProductSearch = DB::table('products')
             ->join('type_products', 'products.id_type', '=', 'type_products.id')
             ->select('products.*', 'type_products.name as tp_name', 'type_products.id as id_type')

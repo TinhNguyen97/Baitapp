@@ -56,6 +56,6 @@ Route::prefix('home')->name('homes.')->group(function () {
 Route::prefix('/orders')->name('orders.')->group(function () {
     Route::get('/', [OrderController::class, 'index'])->name('index');
     Route::get('/orderdetails/{id}', [OrderController::class, 'orderDetails'])->name('orderdetails');
-    // Route::get('/search', [HomeController::class, 'search'])->name('search');
-    // Route::get('/typesearch/{idType}', [HomeController::class, 'typeSearch'])->name('typesearch');
+    Route::get('/search', [OrderController::class, 'search'])->name('search');
+    Route::get('/searchdetail', [OrderController::class, 'searchDetail'])->name('searchdetail');
 });
