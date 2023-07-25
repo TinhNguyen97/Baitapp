@@ -75,7 +75,7 @@
                                         @endforeach
                                     @else
                                         <tr colspan='4'>
-                                            <td>Không có dữ liệu</td>
+                                            <td style="color: red">Không có dữ liệu</td>
                                         </tr>
                                     @endif
                                 </tbody>
