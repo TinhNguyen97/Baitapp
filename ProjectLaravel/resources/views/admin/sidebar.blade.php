@@ -61,9 +61,8 @@
 </aside>
 <script>
     var router = location.href.split('/');
-    var path = router[router.length - 1];
-    if (path == 'products') {
+    if (router.includes('products')) {
         $('#nav-link-products').addClass('active');
-    } else if (path == 'orders')
+    } else if (router.includes('orders'))
         $('#nav-link-order').addClass('active')
 </script>

@@ -428,12 +428,5 @@
             margin-left: 0.2vw;
         }
     </style>
-    <script>
-        var router = location.href.split('/');
-        var path = router[router.length - 1];
-        if (path == 'products') {
-            $('#nav-link-products').addClass('active');
-        } else if (path == 'orders')
-            $('#nav-link-order').addClass('active')
-    </script>
+
 @endsection

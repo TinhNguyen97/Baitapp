@@ -30,7 +30,9 @@
                     <div class="card">
                         <div class="card-header">
                             <h1 class="card-title col-11 abc">Đơn hàng</h1>
-
+                            <a class="btn btn-primary col-1" href="{{ route('orders.index') }}">
+                                Quay lại
+                            </a>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body" id="error-404">
@@ -38,38 +40,45 @@
                                 <thead>
                                     <tr>
                                         <th style="text-align: center">#</th>
-                                        <th style="text-align: center">Tên</th>
-                                        <th style="text-align: center">Địa chỉ</th>
-                                        <th style="text-align: center">Email</th>
-                                        <th style="text-align: center">Số điện thoại</th>
-                                        <th style="text-align: center">Ghi chú</th>
-                                        <th style="text-align: center">Trạng thái</th>
+                                        <th style="text-align: center">Tên sản phẩm</th>
+                                        <th style="text-align: center">Ảnh sản phẩm</th>
+                                        <th style="text-align: center">Đơn giá</th>
+                                        <th style="text-align: center">Giá khuyến mại</th>
+                                        <th style="text-align: center">Số lượng</th>
+                                        <th style="text-align: center">Thành tiền</th>
                                         <th style="text-align: center">Ngày tạo</th>
-                                        <th style="text-align: center">Ngày cập nhật</th>
 
                                         <th colspan="2" style="text-align: center">
-                                            Xem chi tiết
+                                            Duyệt đơn
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (count($orders) !== 0)
-                                        @foreach ($orders as $key => $item)
+                                    @if (count($details) !== 0)
+                                        @foreach ($details as $key => $item)
                                             <tr>
                                                 <th scope="row" style="text-align: center">
-                                                    {{ $loop->iteration + ($orders->currentPage() - 1) * $orders->perPage() }}
+                                                    {{ $loop->iteration + ($details->currentPage() - 1) * $details->perPage() }}
                                                 </th>
                                                 <td style="text-align: center">{{ $item->name }}</td>
-                                                <td style="text-align: center">{{ $item->address }}</td>
-                                                <td style="text-align: center">{{ $item->email }}</td>
-                                                <td style="text-align: center">{{ $item->phone }}</td>
-                                                <td style="text-align: center">{{ $item->note }}</td>
-                                                <td style="text-align: center"> Đơn hàng mới </td>
+                                                <td style="text-align: center"><img width="100px" height="100px"
+                                                        src="{{ asset('uploads' . '\\' . $item->image) }}"></td>
+                                                <td style="text-align: center">{{ $item->unit_price }}</td>
+                                                <td style="text-align: center">{{ $item->promotion_price }}</td>
+                                                <td style="text-align: center">{{ $item->quantity }}</td>
+                                                @if ($item->promotion_price < $item->unit_price)
+                                                    <td style="text-align: center">
+                                                        {{ $item->promotion_price * $item->quantity }} </td>
+                                                @else
+                                                    <td style="text-align: center">
+                                                        {{ $item->unit_price * $item->quantity }}
+                                                    </td>
+                                                @endif
                                                 <td style="text-align: center">{{ $item->created_at }}</td>
-                                                <td style="text-align: center">{{ $item->updated_at }}</td>
-                                                <td style="text-align: center"><a
-                                                        href="{{ route('orders.orderdetails', $item->id) }}"><i
-                                                            class="fa-solid fa-eye"></i></a></td>
+                                                <td style="text-align: center"><a href=""><i
+                                                            class="fa-sharp fa-solid fa-check"></i></a></td>
+                                                <td style="text-align: center"><a href=""><i
+                                                            class="fa-solid fa-xmark"></i></a></td>
                                             </tr>
                                         @endforeach
                                     @else
@@ -92,7 +101,7 @@
             <!-- /.row -->
         </div>
         <div class="pagination">
-            {{ $orders->links() }}
+            {{ $details->links() }}
         </div>
         <!-- /.container-fluid -->
     </section>
@@ -101,4 +110,5 @@
             margin-left: 0px !important;
         }
     </style>
+
 @endsection

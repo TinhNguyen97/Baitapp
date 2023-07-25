@@ -43,6 +43,7 @@
                             @foreach ($carts as $key => $item)
                                 <form action="{{ route('homes.updatecart', $key) }}" method="post">
                                     @csrf
+                                    {{-- @dd($carts) --}}
                                     <tr class="cart_item">
                                         <td>{{ $i++ }}</td>
                                         <td class="product-name">
@@ -62,13 +63,13 @@
                                         @endif
 
                                         <td class="product-quantity">
-                                            <input value="{{ $item['qty'] }}" type="number" class="ip-number"
-                                                min="1" name="quantity">
+                                            <input value="{{ $item['qty'] }}" type="number" class="product-qty ip-number"
+                                                min="1" name="quantity" data-price="{{ $item['price'] }}">
                                         </td>
 
 
-                                        <td class="product-subtotal" id="totalPrice">
-                                            {{ number_format($item['price'], 0, ',', '.') }}
+                                        <td class="product-subtotal">
+                                            {{ number_format($item['qty'] * $item['price'], 0, ',', '.') }}
                                         </td>
 
                                         <td class="product-update" id="update">
@@ -88,14 +89,15 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th>{{ Session::get('cart')->totalQty }}</th>
-                                <th>{{ number_format(Session::get('cart')->totalPrice, 0, ',', '.') }}</th>
+                                <th id=total-quantity>{{ Session::get('cart')->totalQty }}</th>
+                                <th id="total-price">{{ number_format(Session::get('cart')->totalPrice, 0, ',', '.') }}
+                                </th>
                                 <td colspan="2"><a href="{{ route('homes.deleteallcart') }}" class="btn btn-danger">Xoá
                                         tất cả</a></td>
                             </tr>
                         @else
                             <tr>
-                                <td colspan="6" style="color:red">Giỏ hàng trống</td>
+                                <td colspan="8" style="color:red">Giỏ hàng trống</td>
                             </tr>
                         @endif
 
@@ -108,21 +110,32 @@
                 <div class="text-center"><a class="btn btn-primary" href="{{ route('homes.order') }}">Thông tin đặt
                         hàng <i class="fa fa-chevron-right"></i></a></div>
             </div>
-
-
-
-
-        </div> <!-- #content -->
+        </div>
     </div>
     <script>
+        $('.product-qty').on('change', updateTotalPay)
+
         function updateTotalPay() {
+            var totalPrice = 0;
+            var totalQty = 0;
+            var quantity = $(this).val();
+            var oldPrice = $(this).data('price');
+            $(this).parents('tr').find('.product-subtotal').text(formatNumberWithDot(quantity * oldPrice));
+            $(this).parents('tbody').find('.product-subtotal').each((index, item) => {
+                totalPrice += Number($(item).text().trim().replaceAll('.', ''));
+            });
 
-            var quantity = $("#product-qty").val();
-            console.log(quantity);
-            var price = $('#price').text().replace('.', '').trim();
-            $("#totalPrice").text((quantity * price).toString().replace(/\B(?=(\d{3})+(?!\d))/g,
-                "."));
+            $(this).parents('tbody').find('.product-quantity .product-qty').each((index, item) => {
+                totalQty += Number($(item).val().trim().replaceAll('.', ''));
+            });
 
+            $('#total-quantity').text(totalQty)
+            $('#total-price').text(formatNumberWithDot(totalPrice))
+
+        }
+
+        function formatNumberWithDot(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
         }
     </script>
     <style>

@@ -12,6 +12,7 @@ class OrderDetail extends Model
     [
         'user_id',
         'product_id',
+        'order_id',
         'quantity'
     ];
 }

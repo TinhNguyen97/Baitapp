@@ -264,44 +264,9 @@ class HomeController extends Controller
     }
     public function order(Request $request)
     {
-        // if (Session::has('cart')) {
-        // $carts = Session::get('cart')->items;
-        // dd($carts);
-        // dd($carts[60]['item']['id']);
-        // dd($carts);
-        //     $idProducts = array_keys($carts);
-        //     foreach ($idProducts as $item) {
-        //         $idProduct = $item;
-        //         $product = OrderDetail::where('product_id', $idProduct)->first();
-        //         $qty = $carts[$item]['qty'];
-        //         if ($product) {
-        //             $qtyDb = $product->quantity;
-
-        //             OrderDetail::where('product_id', $idProduct)->update([
-        //                 'quantity' => $qtyDb + $qty,
-        //             ]);
-        //         } else {
-        //             OrderDetail::create([
-        //                 'user_id' => Auth::id(),
-        //                 'product_id' => $idProduct,
-        //                 'quantity' => $qty,
-        //             ]);
-        //         }
-        //     }
-        // }
-        // $listOrderDetail = DB::table('order_details')
-        //     ->join('products', 'order_details.product_id', '=', 'products.id')
-        //     ->select(
-        //         'order_details.id AS order_detail_id',
-        //         'order_details.user_id',
-        //         'order_details.quantity',
-        //         'products.*'
-        //     )
-        //     ->get();
-        // dd($listOrderDetail);
-        // Session::forget('cart');
         return view('home.order');
     }
+
     public function updateCart(Request $request, $id)
     {
         $quantity = $request->quantity ? $request->quantity : 1;
@@ -316,5 +281,51 @@ class HomeController extends Controller
     public function orderDetail()
     {
         return view('home.orderdetail');
+    }
+
+    public function handleOrder(Request $request)
+    {
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'address' => 'required',
+            'phone' => 'required|regex:/^0[0-9]{9,10}$/',
+        ], [
+            'name.required' => 'Vui lòng nhập họ và tên',
+            'email.required' => 'Vui lòng nhập email',
+            'address.required' => 'Vui lòng nhập địa chỉ.',
+            'phone.required' => 'Vui lòng nhập số điện thoại.',
+            'email.email' => 'Vui lòng nhập email đúng định dạng.',
+            'phone.regex' => 'Số điện thoại không hợp lệ.'
+        ]);
+
+        $id = Order::create($request->all())->id;
+        if (Session::has('cart')) {
+            $carts = Session::get('cart')->items;
+            $idProducts = array_keys($carts);
+            foreach ($idProducts as $item) {
+                $idProduct = $item;
+                $product = OrderDetail::where('product_id', $idProduct)->first();
+                $qty = $carts[$item]['qty'];
+                if ($product) {
+                    $qtyDb = $product->quantity;
+
+                    OrderDetail::where('product_id', $idProduct)->update([
+                        'quantity' => $qtyDb + $qty,
+                    ]);
+                } else {
+                    OrderDetail::create([
+                        'user_id' => Auth::id(),
+                        'product_id' => $idProduct,
+                        'order_id' => $id,
+                        'quantity' => $qty,
+                    ]);
+                }
+            }
+            Session::forget('cart');
+        }
+
+        return view('home.success');
     }
 }
