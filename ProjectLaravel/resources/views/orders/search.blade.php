@@ -101,5 +101,10 @@
         .main-footer {
             margin-left: 0px !important;
         }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+        }
     </style>
 @endsection
