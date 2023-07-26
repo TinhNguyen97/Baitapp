@@ -11,7 +11,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h1 class="card-title col-11 abc">Đơn hàng</h1>
-                                <a class="btn btn-primary col-1" href="{{ route('orders.index') }}">
+                                <a class="btn btn-primary col-1" href="{{ route('orders.history') }}">
                                     Quay lại
                                 </a>
                             </div>

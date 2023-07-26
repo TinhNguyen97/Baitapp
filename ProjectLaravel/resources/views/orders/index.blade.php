@@ -47,12 +47,13 @@
                                         <th style="text-align: center">Ngày tạo</th>
                                         <th style="text-align: center">Ngày cập nhật</th>
 
-                                        <th colspan="2" style="text-align: center">
-                                            Xem chi tiết
+                                        <th colspan="3" style="text-align: center">
+                                            Hành động
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     @if (count($orders) !== 0)
                                         @foreach ($orders as $key => $item)
                                             <tr>
@@ -64,16 +65,22 @@
                                                 <td style="text-align: center">{{ $item->email }}</td>
                                                 <td style="text-align: center">{{ $item->phone }}</td>
                                                 <td style="text-align: center">{{ $item->note }}</td>
-                                                <td style="text-align: center"> Đơn hàng mới </td>
+                                                <td style="text-align: center"> {{ $item->status }} </td>
                                                 <td style="text-align: center">{{ $item->created_at }}</td>
                                                 <td style="text-align: center">{{ $item->updated_at }}</td>
                                                 <td style="text-align: center"><a
                                                         href="{{ route('orders.orderdetails', $item->id) }}"><i
                                                             class="fa-solid fa-eye"></i></a></td>
+                                                <td style="text-align: center"><a
+                                                        href="{{ route('orders.handleapprove', $item->id) }}"><i
+                                                            class="fa-sharp fa-solid fa-check"></i></a></td>
+                                                <td style="text-align: center"><a
+                                                        href="{{ route('orders.handlecancel', $item->id) }}"><i
+                                                            class="fa-solid fa-xmark"></i></a></td>
                                             </tr>
                                         @endforeach
                                     @else
-                                        <tr colspan='4'>
+                                        <tr colspan='4' style="color: red">
                                             <td>Không có dữ liệu</td>
                                         </tr>
                                     @endif
@@ -96,6 +103,20 @@
         </div>
         <!-- /.container-fluid -->
     </section>
+    @if (session()->has('successApprove') && session()->get('successApprove'))
+        <script>
+            $(function() {
+                alertSuccess('Đơn hàng đã được gửi đi')
+            })
+        </script>
+    @endif
+    @if (session()->has('successCancel') && session()->get('successCancel'))
+        <script>
+            $(function() {
+                alertSuccess('Đơn hàng đã bị hủy')
+            })
+        </script>
+    @endif
     <style>
         .main-footer {
             margin-left: 0px !important;
@@ -106,4 +127,11 @@
             justify-content: center;
         }
     </style>
+    <script>
+        function alertSuccess(message) {
+            swal(message, "", "success", {
+                button: "OK!",
+            })
+        }
+    </script>
 @endsection

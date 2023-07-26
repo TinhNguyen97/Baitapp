@@ -28,3 +28,7 @@ function remove_special_character($string)
 
   return $t;
 }
+function checkRoute($name = '')
+{
+  return request()->route()->getName() == $name ? 'active menu-is-opening menu-open' : '';
+}

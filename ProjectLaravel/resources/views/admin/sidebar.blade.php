@@ -21,17 +21,7 @@
         </div>
 
         <!-- SidebarSearch Form -->
-        <div class="form-inline">
-            <div class="input-group" data-widget="sidebar-search">
-                <input class="form-control form-control-sidebar" type="search" placeholder="Search"
-                    aria-label="Search" />
-                <div class="input-group-append">
-                    <button class="btn btn-sidebar">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
+
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -46,11 +36,33 @@
                         <p>Sản phẩm</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="/orders" class="nav-link" id="nav-link-order">
+                <li class="nav-item" id="list-link">
+                    <a class="nav-link" id="nav-link-order">
                         <i class="fa-brands fa-jedi-order"></i>
                         <p>Đơn hàng</p>
+                        <i class="fas fa-angle-left right"></i>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/orders" class="nav-link" id="link-order">
+                                <i class="fa-solid fa-list-ul"></i>
+                                <p>Danh sách đơn hàng</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('orders.history') }}" class="nav-link" id="link-history">
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                                <p>Đơn hàng đã gửi</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('orders.ordercancel') }}" class="nav-link" id="link-cancel">
+                                <i class="fa-solid fa-ban"></i>
+                                <p>Đơn hàng đã hủy</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
             </ul>
@@ -59,10 +71,31 @@
     </div>
     <!-- /.sidebar -->
 </aside>
+<style>
+    .css-active {
+        background-color: rgba(255, 255, 255, .9);
+        color: black !important
+    }
+</style>
+
 <script>
     var router = location.href.split('/');
     if (router.includes('products')) {
         $('#nav-link-products').addClass('active');
-    } else if (router.includes('orders'))
-        $('#nav-link-order').addClass('active')
+    }
+    if (router.includes('orders')) {
+        $('#list-link').addClass('active menu-is-opening menu-open')
+        $('#nav-link-order').addClass('active');
+        $('#link-order').addClass('css-active');
+    }
+    if (router.includes('history') || router.includes('historydetail')) {
+        $('#link-history').addClass('css-active');
+        $('#link-order').removeClass('css-active');
+        $('link-cancel').removeClass('css-active')
+    }
+    if (router.includes('ordercancel')) {
+        $('#link-cancel').addClass('css-active');
+        $('#link-order').removeClass('css-active');
+        $('#link-history').remove('css-active');
+    }
 </script>

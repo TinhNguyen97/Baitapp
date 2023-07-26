@@ -16,4 +16,9 @@ class Products extends Model
         'promotion_price',
         'image'
     ];
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class, 'product_id');
+    }
 }

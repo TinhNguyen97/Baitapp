@@ -51,6 +51,7 @@ Route::prefix('home')->name('homes.')->group(function () {
     Route::get('/order', [HomeController::class, 'order'])->name('order');
     Route::get('/orderdetail', [HomeController::class, 'orderDetail'])->middleware('auth')->name('orderdetail');
     Route::post('/handleorder', [HomeController::class, 'handleOrder'])->middleware('auth')->name('handleorder');
+    Route::get('/test-email', [HomeController::class, 'testEmail'])->name('test-email');
 });
 
 Route::prefix('/orders')->name('orders.')->group(function () {
@@ -58,4 +59,9 @@ Route::prefix('/orders')->name('orders.')->group(function () {
     Route::get('/orderdetails/{id}', [OrderController::class, 'orderDetails'])->name('orderdetails');
     Route::get('/search', [OrderController::class, 'search'])->name('search');
     Route::get('/searchdetail', [OrderController::class, 'searchDetail'])->name('searchdetail');
+    Route::get('/handleapprove/{id}', [OrderController::class, 'handleApprove'])->name('handleapprove');
+    Route::get('/history', [OrderController::class, 'history'])->name('history');
+    Route::get('/ordercancel', [OrderController::class, 'orderCancel'])->name('ordercancel');
+    Route::get('/handlecancel{id}', [OrderController::class, 'handleCancel'])->name('handlecancel');
+    Route::get('/historydetail/{id}', [OrderController::class, 'historyDetail'])->name('historydetail');
 });

@@ -12,6 +12,7 @@ use App\Models\Slides;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rules\Can;
@@ -327,5 +328,11 @@ class HomeController extends Controller
         }
 
         return view('home.success');
+    }
+    function testEmail()
+    {
+        Mail::send('emails.test', ['name' => 'nguyen ngoc tinh'], function ($email) {
+            $email->to('tinhnn.jvb@gmail.com', 'Nguyễn Ngọc Tình');
+        });
     }
 }
