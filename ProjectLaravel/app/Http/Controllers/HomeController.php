@@ -26,10 +26,20 @@ class HomeController extends Controller
     {
         $slides = Slides::all();
         $newProducts = Products::orderByRaw('created_at DESC')->limit(4)->get();
-        // dd($newProducts);
+        $topSaleProducts = DB::table('products')
+            ->join('order_details', 'products.id', '=', 'order_details.product_id')
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
+            ->where('orders.order_status_id', 2)
+            ->groupBy('products.name')
+            ->orderByRaw('count(products.name) DESC')
+            ->orderByRaw('products.name')
+            ->limit(8)
+            ->get('products.*');
         return view('home.index', [
             'slides' => $slides,
-            'newProducts' => $newProducts
+            'newProducts' => $newProducts,
+            'topSaleProducts' => $topSaleProducts
         ]);
     }
     public function search(Request $request)

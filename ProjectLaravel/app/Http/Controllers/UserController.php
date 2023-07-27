@@ -17,7 +17,7 @@ class UserController extends Controller
         //     ->paginate(5);
         // dd($orders->total());
         // dd($orders);
-        dd(Auth::user());
+        dd(Auth::user()->email);
         return view('users.index');
     }
 }
