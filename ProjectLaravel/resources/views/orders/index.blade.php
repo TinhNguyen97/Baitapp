@@ -106,14 +106,14 @@
     @if (session()->has('successApprove') && session()->get('successApprove'))
         <script>
             $(function() {
-                alertSuccess('Đơn hàng đã được gửi đi')
+                alertSuccess('Đơn hàng đã được gửi đi, mail đã được gửi tới khách hàng!')
             })
         </script>
     @endif
     @if (session()->has('successCancel') && session()->get('successCancel'))
         <script>
             $(function() {
-                alertSuccess('Đơn hàng đã bị hủy')
+                alertSuccess('Đơn hàng đã bị hủy, mail đã được gửi tới khách hàng!')
             })
         </script>
     @endif

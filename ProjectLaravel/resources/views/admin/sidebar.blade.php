@@ -16,7 +16,7 @@
                     alt="User Image" />
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block">Admin</a>
             </div>
         </div>
 
@@ -64,6 +64,12 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a href="/users" class="nav-link" id="nav-link-users">
+                        <i class="fa-solid fa-user"></i>
+                        <p>Tài khoản người dùng</p>
+                    </a>
+                </li>
 
             </ul>
         </nav>
@@ -80,6 +86,7 @@
 
 <script>
     var router = location.href.split('/');
+    var link = location.href;
     if (router.includes('products')) {
         $('#nav-link-products').addClass('active');
     }
@@ -88,14 +95,17 @@
         $('#nav-link-order').addClass('active');
         $('#link-order').addClass('css-active');
     }
-    if (router.includes('history') || router.includes('historydetail')) {
+    if (router.includes('history') || router.includes('historydetail') || link.includes('searchhistory')) {
         $('#link-history').addClass('css-active');
         $('#link-order').removeClass('css-active');
         $('link-cancel').removeClass('css-active')
     }
-    if (router.includes('ordercancel')) {
+    if (router.includes('ordercancel') || link.includes('searchordercancel')) {
         $('#link-cancel').addClass('css-active');
         $('#link-order').removeClass('css-active');
-        $('#link-history').remove('css-active');
+        $('#link-history').removeClass('css-active');
+    }
+    if (router.includes('users')) {
+        $('#nav-link-users').addClass('active');
     }
 </script>

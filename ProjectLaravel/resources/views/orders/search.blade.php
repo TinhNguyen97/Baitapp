@@ -48,8 +48,8 @@
                                         <th style="text-align: center">Ngày tạo</th>
                                         <th style="text-align: center">Ngày cập nhật</th>
 
-                                        <th colspan="2" style="text-align: center">
-                                            Xem chi tiết
+                                        <th colspan="3" style="text-align: center">
+                                            Hành động
                                         </th>
                                     </tr>
                                 </thead>
@@ -71,6 +71,12 @@
                                                 <td style="text-align: center"><a
                                                         href="{{ route('orders.orderdetails', $item->id) }}"><i
                                                             class="fa-solid fa-eye"></i></a></td>
+                                                <td style="text-align: center"><a
+                                                        href="{{ route('orders.handleapprove', $item->id) }}"><i
+                                                            class="fa-sharp fa-solid fa-check"></i></a></td>
+                                                <td style="text-align: center"><a
+                                                        href="{{ route('orders.handlecancel', $item->id) }}"><i
+                                                            class="fa-solid fa-xmark"></i></a></td>
                                             </tr>
                                         @endforeach
                                     @else
@@ -97,6 +103,20 @@
         </div>
         <!-- /.container-fluid -->
     </section>
+    @if (session()->has('successApprove') && session()->get('successApprove'))
+        <script>
+            $(function() {
+                alertSuccess('Đơn hàng đã được gửi đi,mail đã được gửi tới khách hàng!')
+            })
+        </script>
+    @endif
+    @if (session()->has('successCancel') && session()->get('successCancel'))
+        <script>
+            $(function() {
+                alertSuccess('Đơn hàng đã bị hủy, mail đã được gửi tới khách hàng!')
+            })
+        </script>
+    @endif
     <style>
         .main-footer {
             margin-left: 0px !important;
@@ -107,4 +127,11 @@
             justify-content: center;
         }
     </style>
+    <script>
+        function alertSuccess(message) {
+            swal(message, "", "success", {
+                button: "OK!",
+            })
+        }
+    </script>
 @endsection

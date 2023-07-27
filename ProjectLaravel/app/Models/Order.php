@@ -16,4 +16,8 @@ class Order extends Model
         'phone',
         'note'
     ];
+    public function orderStatuses()
+    {
+        return $this->belongsTo(OrderStatus::class, 'order_status_id');
+    }
 }

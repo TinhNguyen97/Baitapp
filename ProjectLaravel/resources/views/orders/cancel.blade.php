@@ -5,11 +5,11 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-4">
-                        <h1>Quản lý đơn hàng</h1>
+                        <h1>Đơn hàng đã hủy</h1>
                     </div>
 
                 </div>
-                <form action="{{ route('orders.search') }}" method="get">
+                <form action="{{ route('orders.searchordercancel') }}" method="get">
                     <div class="col-4 input-group">
                         <input type="text" class="form-control" placeholder="Nhập email hoặc số điện thoại" name="key"
                             aria-label="Recipient's username" aria-describedby="button-addon2">

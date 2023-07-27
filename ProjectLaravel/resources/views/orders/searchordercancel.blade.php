@@ -5,14 +5,15 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-4">
-                        <h1>Đơn hàng đã gửi</h1>
+                        <h1>Đơn hàng đã hủy</h1>
                     </div>
 
                 </div>
-                <form action="{{ route('orders.searchhistory') }}" method="get">
+                <form action="{{ route('orders.searchordercancel') }}" method="get">
                     <div class="col-4 input-group">
                         <input type="text" class="form-control" placeholder="Nhập email hoặc số điện thoại" name="key"
-                            aria-label="Recipient's username" aria-describedby="button-addon2">
+                            aria-label="Recipient's username" aria-describedby="button-addon2"
+                            value="{{ $request->key ? $request->key : '' }}">
                         <button class="btn btn-primary col-2 search"type="submit">
                             Tìm kiếm
                         </button>
@@ -51,11 +52,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (count($orders) !== 0)
-                                        @foreach ($orders as $key => $item)
+                                    @if (count($allOrders) !== 0)
+                                        @foreach ($allOrders as $key => $item)
                                             <tr>
                                                 <th scope="row" style="text-align: center">
-                                                    {{ $loop->iteration + ($orders->currentPage() - 1) * $orders->perPage() }}
+                                                    {{ $loop->iteration + ($allOrders->currentPage() - 1) * $allOrders->perPage() }}
                                                 </th>
                                                 <td style="text-align: center">{{ $item->name }}</td>
                                                 <td style="text-align: center">{{ $item->address }}</td>
@@ -65,11 +66,12 @@
                                                 <td style="text-align: center"> {{ $item->status }} </td>
                                                 <td style="text-align: center">{{ $item->created_at }}</td>
                                                 <td style="text-align: center">{{ $item->updated_at }}</td>
+
                                             </tr>
                                         @endforeach
                                     @else
-                                        <tr colspan='4' style="color: red">
-                                            <td>Không có dữ liệu</td>
+                                        <tr colspan='4'>
+                                            <td style="color: red">Không có dữ liệu</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -87,11 +89,10 @@
             <!-- /.row -->
         </div>
         <div class="pagination">
-            {{ $orders->links() }}
+            {{ $allOrders->links() }}
         </div>
         <!-- /.container-fluid -->
     </section>
-
     <style>
         .main-footer {
             margin-left: 0px !important;
@@ -102,11 +103,4 @@
             justify-content: center;
         }
     </style>
-    <script>
-        function alertSuccess(message) {
-            swal(message, "", "success", {
-                button: "OK!",
-            })
-        }
-    </script>
 @endsection

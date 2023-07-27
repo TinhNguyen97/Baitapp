@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,7 +53,6 @@ Route::prefix('home')->name('homes.')->group(function () {
     Route::get('/order', [HomeController::class, 'order'])->name('order');
     Route::get('/orderdetail', [HomeController::class, 'orderDetail'])->middleware('auth')->name('orderdetail');
     Route::post('/handleorder', [HomeController::class, 'handleOrder'])->middleware('auth')->name('handleorder');
-    Route::get('/test-email', [HomeController::class, 'testEmail'])->name('test-email');
 });
 
 Route::prefix('/orders')->name('orders.')->group(function () {
@@ -64,4 +65,9 @@ Route::prefix('/orders')->name('orders.')->group(function () {
     Route::get('/ordercancel', [OrderController::class, 'orderCancel'])->name('ordercancel');
     Route::get('/handlecancel{id}', [OrderController::class, 'handleCancel'])->name('handlecancel');
     Route::get('/historydetail/{id}', [OrderController::class, 'historyDetail'])->name('historydetail');
+    Route::get('/searchordercancel', [OrderController::class, 'searchOrderCancel'])->name('searchordercancel');
+    Route::get('/searchhistory', [OrderController::class, 'searchHistory'])->name('searchhistory');
+});
+Route::prefix('/users')->name('users.')->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('index');
 });

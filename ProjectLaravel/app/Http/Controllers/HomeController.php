@@ -300,7 +300,6 @@ class HomeController extends Controller
             'email.email' => 'Vui lòng nhập email đúng định dạng.',
             'phone.regex' => 'Số điện thoại không hợp lệ.'
         ]);
-
         $id = Order::create($request->all())->id;
         if (Session::has('cart')) {
             $carts = Session::get('cart')->items;
@@ -324,15 +323,21 @@ class HomeController extends Controller
                     ]);
                 }
             }
+            //gửi mail xác nhận đơn hàng
+            Mail::send(
+                'emails.confirmorder',
+                [
+                    'request' => $request,
+                    'id' => $id
+                ],
+                function ($email) use ($request) {
+                    $email->subject('Xác nhận đơn hàng');
+                    $email->to($request->email);
+                }
+            );
             Session::forget('cart');
         }
 
         return view('home.success');
-    }
-    function testEmail()
-    {
-        Mail::send('emails.test', ['name' => 'nguyen ngoc tinh'], function ($email) {
-            $email->to('tinhnn.jvb@gmail.com', 'Nguyễn Ngọc Tình');
-        });
     }
 }
