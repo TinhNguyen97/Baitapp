@@ -67,7 +67,13 @@
                 <li class="nav-item">
                     <a href="/users" class="nav-link" id="nav-link-users">
                         <i class="fa-solid fa-user"></i>
-                        <p>Tài khoản người dùng</p>
+                        <p>Tài khoản</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/infors" class="nav-link" id="nav-link-info">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <p>Thông tin</p>
                     </a>
                 </li>
 
@@ -107,5 +113,8 @@
     }
     if (router.includes('users')) {
         $('#nav-link-users').addClass('active');
+    }
+    if (router.includes('infors')) {
+        $('#nav-link-info').addClass('active');
     }
 </script>

@@ -12,7 +12,8 @@
                 <form action="{{ route('users.search') }}" method="get">
                     <div class="col-4 input-group">
                         <input type="text" class="form-control" placeholder="Nhập tên hoặc địa chỉ email" name="key"
-                            aria-label="Recipient's username" aria-describedby="button-addon2">
+                            aria-label="Recipient's username" aria-describedby="button-addon2"
+                            value="{{ $request->key ? $request->key : '' }}">
                         <button class="btn btn-primary col-2 search"type="submit">
                             Tìm kiếm
                         </button>

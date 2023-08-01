@@ -27,11 +27,18 @@
                         @error('password')
                             <div style="color: red">{{ $message }}</div>
                         @enderror
+                        <div class="checkbox">
+                            Nhớ đăng nhập
+                            <input type="checkbox" value="remember">
+
+                        </div>
                         <div class="form-block">
                             @if (Session::has('error'))
                                 <div style="color: red">{{ Session::get('error') }}</div>
                             @endif
-
+                            @if (Session::has('ban'))
+                                <div style="color: red">{{ Session::get('ban') }}</div>
+                            @endif
                             <button type="submit" class="btn btn-primary">Login</button>
                         </div>
                     </div>

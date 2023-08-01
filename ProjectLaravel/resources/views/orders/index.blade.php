@@ -68,13 +68,13 @@
                                                 <td style="text-align: center"> {{ $item->status }} </td>
                                                 <td style="text-align: center">{{ $item->created_at }}</td>
                                                 <td style="text-align: center">{{ $item->updated_at }}</td>
-                                                <td style="text-align: center"><a
+                                                <td style="text-align: center"><a class="btn btn-primary"
                                                         href="{{ route('orders.orderdetails', $item->id) }}"><i
                                                             class="fa-solid fa-eye"></i></a></td>
-                                                <td style="text-align: center"><a
+                                                <td style="text-align: center"><a class="btn btn-primary"
                                                         href="{{ route('orders.handleapprove', $item->id) }}"><i
                                                             class="fa-sharp fa-solid fa-check"></i></a></td>
-                                                <td style="text-align: center"><a
+                                                <td style="text-align: center"><a class="btn btn-danger"
                                                         href="{{ route('orders.handlecancel', $item->id) }}"><i
                                                             class="fa-solid fa-xmark"></i></a></td>
                                             </tr>

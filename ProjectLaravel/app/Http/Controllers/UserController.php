@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,41 @@ class UserController extends Controller
         //     ->paginate(5);
         // dd($orders->total());
         // dd($orders);
-        dd(Auth::user()->email);
-        return view('users.index');
+        // dd(Auth::user()->email);
+        $users = DB::table('users')->paginate(5);
+        // dd($users);
+        return view('users.index', ['users' => $users]);
+    }
+    public function handleActive($id)
+    {
+        $user = User::find($id);
+        $isActive = $user->is_active;
+        $email = $user->email;
+        if ($isActive) {
+            DB::table('users')->where('id', $id)->update(['is_active' => 0]);
+            return back()->with(['locksuccess' => true, 'email' => $email]);
+        } else {
+            DB::table('users')->where('id', $id)->update(['is_active' => 1]);
+        };
+        return back()->with(['unlocksuccess' => true, 'email' => $email]);
+    }
+
+    public function handleDelete($id)
+    {
+
+        $user = User::find($id);
+        abort_if(!$user, 404);
+        User::destroy($id);
+        return back()->with(['isDeleteSuccess' => true]);
+    }
+
+    public function search(Request $request)
+    {
+        $users = DB::table('users')
+            ->where('full_name', 'like', '%' . $request->key . '%')
+            ->orWhere('email', 'like', '%' . $request->key . '%')
+            ->paginate();
+
+        return view('users.search', ['users' => $users, 'request' => $request]);
     }
 }

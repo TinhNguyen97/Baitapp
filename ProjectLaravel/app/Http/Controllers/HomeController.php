@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Infors;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Products;
@@ -36,6 +37,7 @@ class HomeController extends Controller
             ->orderByRaw('products.name')
             ->limit(8)
             ->get('products.*');
+        // dd($topSaleProducts);
         return view('home.index', [
             'slides' => $slides,
             'newProducts' => $newProducts,
@@ -144,7 +146,10 @@ class HomeController extends Controller
             'password' => $request->password
         ];
         if (Auth::attempt($credentials)) {
-            return redirect('home')->with('success', 'Đăng nhập thành công');
+            if (!Auth::user()->is_active) {
+                return back()->with('ban', 'Tài khoản của bạn đã bị khóa!')->withInput();
+            }
+            return redirect('home')->with('success', 'Đăng nhập thành công!');
         }
         return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng!')->withInput();
     }
@@ -238,7 +243,8 @@ class HomeController extends Controller
     }
     public function contact()
     {
-        return view('home.contact');
+        $info = DB::table('infors')->where('id', 3)->get();;
+        return view('home.contact', ['info' => $info]);
     }
     public function addToCart(Request $request, $id)
     {
@@ -349,5 +355,21 @@ class HomeController extends Controller
         }
 
         return view('home.success');
+    }
+    public function history()
+    {
+        DB::enableQueryLog();
+        $id = Auth::id();
+        $list = DB::table('order_details')
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
+            ->join('products', 'order_details.product_id', '=', 'products.id')
+            ->where('order_details.user_id', $id)
+            ->where('order_statuses.id', 2)
+            ->groupBy('products.id')
+            ->selectRaw('*, sum(order_details.quantity) AS sq')
+            ->get();
+        // dd(DB::getQueryLog());
+        return view('home.history', ['list' => $list]);
     }
 }

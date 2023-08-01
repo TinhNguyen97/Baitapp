@@ -31,6 +31,7 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('/assets/plugins/summernote/summernote-bs4.min.css') }}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -41,13 +42,21 @@
         @yield('content')
         @include('admin.footer')
     </div>
+
 </body>
 
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('/assets/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/38.1.1/classic/ckeditor.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
     $.widget.bridge("uibutton", $.ui.button);
+</script>
+<script>
+    var allEditors = document.querySelectorAll('.editor');
+    for (var i = 0; i < allEditors.length; ++i) {
+        ClassicEditor.create(allEditors[i]);
+    }
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

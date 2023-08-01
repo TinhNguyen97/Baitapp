@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InfoController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 
@@ -53,6 +54,7 @@ Route::prefix('home')->name('homes.')->group(function () {
     Route::get('/order', [HomeController::class, 'order'])->name('order');
     Route::get('/orderdetail', [HomeController::class, 'orderDetail'])->middleware('auth')->name('orderdetail');
     Route::post('/handleorder', [HomeController::class, 'handleOrder'])->middleware('auth')->name('handleorder');
+    Route::get('/history', [HomeController::class, 'history'])->middleware('auth')->name('history');
 });
 
 Route::prefix('/orders')->name('orders.')->group(function () {
@@ -70,4 +72,12 @@ Route::prefix('/orders')->name('orders.')->group(function () {
 });
 Route::prefix('/users')->name('users.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('index');
+    Route::get('/handleactive/{id}', [UserController::class, 'handleActive'])->name('handleactive');
+    Route::delete('/handledelete/{id}', [UserController::class, 'handleDelete'])->name('handledelete');
+    Route::get('/search', [UserController::class, 'search'])->name('search');
+});
+Route::prefix('/infors')->name('infors.')->group(function () {
+    Route::get('/', [InfoController::class, 'index'])->name('index');
+    Route::post('/infor', [InfoController::class, 'add'])->name('infor');
+    Route::post('/update/{id}', [InfoController::class, 'update'])->name('update');
 });

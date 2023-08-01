@@ -136,8 +136,9 @@
 
                         </ul>
                     </li>
-                    <li><a href="{{ route('homes.about') }}">Giới thiệu</a></li>
+             
                     <li><a href="{{ route('homes.contact') }}">Liên hệ</a></li>
+                    <li><a href="{{ route('homes.history') }}">Lịch sử mua hàng</a></li>
                 </ul>
                 <div class="clearfix"></div>
             </nav>
