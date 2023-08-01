@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfoController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 
@@ -19,7 +20,7 @@ use App\Http\Controllers\UserController;
 */
 
 
-Route::prefix('/products')->name('products.')->group(function () {
+Route::prefix('/products')->middleware('admin')->name('products.')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('index');
     Route::post('/', [ProductController::class, 'add'])->name('add');
     Route::delete('/{id}', [ProductController::class, 'delete'])->name('delete');
@@ -43,21 +44,25 @@ Route::prefix('home')->name('homes.')->group(function () {
     Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
     Route::get('/profile', [HomeController::class, 'profile'])->middleware('auth')->name('profile');
     Route::put('/profile', [HomeController::class, 'updateProfile'])->middleware('auth')->name('updateprofile');
-    Route::get('/changepassword', [HomeController::class, 'changePassword'])->name('changepassword');
-    Route::patch('/changepassword', [HomeController::class, 'handleChangePass'])->name('handleChangePass');
+    Route::get('/changepassword', [HomeController::class, 'changePassword'])->middleware('auth')->name('changepassword');
+    Route::patch('/changepassword', [HomeController::class, 'handleChangePass'])->middleware('auth')->name('handleChangePass');
     Route::get('/about', [HomeController::class, 'about'])->name('about');
     Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
     Route::get('/addtocart/{id}', [HomeController::class, 'addToCart'])->middleware('auth')->name('addtocart');
     Route::get('/deletefromcart/{id}', [HomeController::class, 'deleteFromCart'])->middleware('auth')->name('deletefromcart');
     Route::get('/deleteallcart', [HomeController::class, 'deleteAllCart'])->middleware('auth')->name('deleteallcart');
     Route::post('/updateCart/{id}', [HomeController::class, 'updateCart'])->middleware('auth')->name('updatecart');
-    Route::get('/order', [HomeController::class, 'order'])->name('order');
+    Route::get('/order', [HomeController::class, 'order'])->middleware('auth')->name('order');
     Route::get('/orderdetail', [HomeController::class, 'orderDetail'])->middleware('auth')->name('orderdetail');
     Route::post('/handleorder', [HomeController::class, 'handleOrder'])->middleware('auth')->name('handleorder');
     Route::get('/history', [HomeController::class, 'history'])->middleware('auth')->name('history');
+    Route::get('/forget-pass', [HomeController::class, 'forgetPass'])->name('forgetpass');
+    Route::post('/forget-pass', [HomeController::class, 'checkForgetPass'])->name('checkforgetpass');
+    Route::get('/get-pass/{user}/{token}', [HomeController::class, 'getPass'])->name('getpass');
+    Route::post('/get-pass/{user}/{token}', [HomeController::class, 'checkPass'])->name('checkpass');
 });
 
-Route::prefix('/orders')->name('orders.')->group(function () {
+Route::prefix('/orders')->middleware('admin')->name('orders.')->group(function () {
     Route::get('/', [OrderController::class, 'index'])->name('index');
     Route::get('/orderdetails/{id}', [OrderController::class, 'orderDetails'])->name('orderdetails');
     Route::get('/search', [OrderController::class, 'search'])->name('search');
@@ -70,14 +75,17 @@ Route::prefix('/orders')->name('orders.')->group(function () {
     Route::get('/searchordercancel', [OrderController::class, 'searchOrderCancel'])->name('searchordercancel');
     Route::get('/searchhistory', [OrderController::class, 'searchHistory'])->name('searchhistory');
 });
-Route::prefix('/users')->name('users.')->group(function () {
+Route::prefix('/users')->middleware('admin')->name('users.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('index');
     Route::get('/handleactive/{id}', [UserController::class, 'handleActive'])->name('handleactive');
     Route::delete('/handledelete/{id}', [UserController::class, 'handleDelete'])->name('handledelete');
     Route::get('/search', [UserController::class, 'search'])->name('search');
+    Route::get('/active-admin/{id}', [UserController::class, 'activeAdmin'])->name('activeadmin');
 });
-Route::prefix('/infors')->name('infors.')->group(function () {
+Route::prefix('/infors')->middleware('admin')->name('infors.')->group(function () {
     Route::get('/', [InfoController::class, 'index'])->name('index');
     Route::post('/infor', [InfoController::class, 'add'])->name('infor');
     Route::post('/update/{id}', [InfoController::class, 'update'])->name('update');
 });
+
+Route::get('/remove-all-notification', [NotificationController::class, 'removeAllnoti'])->middleware('admin')->name('removeallnoti');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Infors;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Products;
@@ -133,6 +134,8 @@ class HomeController extends Controller
     }
     public function checkLogin(Request $request)
     {
+
+        $remember = $request->has('remember');
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -145,7 +148,7 @@ class HomeController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ];
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $remember)) {
             if (!Auth::user()->is_active) {
                 return back()->with('ban', 'Tài khoản của bạn đã bị khóa!')->withInput();
             }
@@ -353,6 +356,7 @@ class HomeController extends Controller
             );
             Session::forget('cart');
         }
+        Notification::create(['user_id' => Auth::id()]);
 
         return view('home.success');
     }
@@ -371,5 +375,55 @@ class HomeController extends Controller
             ->get();
         // dd(DB::getQueryLog());
         return view('home.history', ['list' => $list]);
+    }
+    public function forgetPass()
+    {
+        return view('home.forgetpass');
+    }
+    public function checkForgetPass(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|exists:users'
+        ], [
+            'email.required' => 'Vui lòng nhập email.',
+            'email.exists' => 'Email này không tồn tại trong hệ thống.'
+        ]);
+        $token = rand();
+
+        $user = User::where('email', $request->email)->first();
+
+        $user->update(['token' => $token]);
+        Mail::send(
+            'emails.checkforgetpass',
+            ['user' => $user],
+            function ($email) use ($user) {
+                $email->subject('Lấy lại mật khẩu');
+                $email->to($user->email);
+            }
+        );
+        return back()->with('check', 'Vui lòng check email để lấy lại mật khẩu');
+    }
+    public function getPass(User $user, $token)
+    {
+        if ($user->token === $token) {
+            // dd($user);
+            return view('home.getpass');
+        };
+        abort(404);
+    }
+    public function checkPass(User $user, Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:6|max:20',
+            're-password' => 'required|same:password'
+        ], [
+            'password.required' => 'Vui lòng nhập mật khẩu.',
+            're-password.required' => 'Vui lòng nhập mật khẩu.',
+            're-password.same' => 'Mật khẩu không trùng khớp.',
+            'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
+            'password.max' => 'Mật khẩu nhiều nhất là 20 ký tự.',
+        ]);
+        $user->update(['password' => $request->password, 'token' => null]);
+        return redirect()->route('homes.login')->with('changepasssuccess', 'Đặt lại mật khẩu thành công.');
     }
 }

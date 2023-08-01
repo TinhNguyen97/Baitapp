@@ -26,6 +26,9 @@ class UserController extends Controller
     public function handleActive($id)
     {
         $user = User::find($id);
+        if ($user->is_admin) {
+            return back()->with(['errorlock' => true]);
+        };
         $isActive = $user->is_active;
         $email = $user->email;
         if ($isActive) {
@@ -54,5 +57,17 @@ class UserController extends Controller
             ->paginate();
 
         return view('users.search', ['users' => $users, 'request' => $request]);
+    }
+    public function activeAdmin($id)
+    {
+        $user = User::find($id);
+        if (!$user->is_active) {
+            return back()->with(['neededUnlock' => true]);
+        }
+        if ($user->is_admin) {
+            return back()->with(['admined' => true]);
+        };
+        DB::table('users')->where('id', $id)->update(['is_admin' => 1]);
+        return back()->with(['adminsuccess' => true]);
     }
 }

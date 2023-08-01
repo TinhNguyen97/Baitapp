@@ -20,6 +20,7 @@ class OrderController extends Controller
             ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
             ->where('orders.order_status_id', 1)
             ->select('orders.*', 'order_statuses.id AS osi', 'order_statuses.status AS status')
+            ->latest()
             ->paginate(5);
         // dd($orders->total());
         // dd($orders);

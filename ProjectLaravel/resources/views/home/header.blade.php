@@ -13,8 +13,12 @@
                         <li><a class="text-wellcome">
                                 Xin chào {{ Auth::user()->full_name }}!
                             </a></li>
+
                         <li><a href="{{ route('homes.profile') }}"><i class="fa fa-user"></i>Tài
                                 khoản</a></li>
+                        @if (Auth::user()->is_admin)
+                            <li><a href="{{ route('products.index') }}"><i class="fa fa-user"></i>Admin</a></li>
+                        @endif
                         <li><a href="{{ route('homes.changepassword') }}"><i class="fa fa-key"></i>Đổi mật
                                 khẩu</a></li>
                         <li><a href="{{ route('homes.logout') }}"><i class="fa fa-circle"></i>Đăng
@@ -136,7 +140,7 @@
 
                         </ul>
                     </li>
-             
+
                     <li><a href="{{ route('homes.contact') }}">Liên hệ</a></li>
                     <li><a href="{{ route('homes.history') }}">Lịch sử mua hàng</a></li>
                 </ul>

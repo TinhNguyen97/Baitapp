@@ -16,7 +16,9 @@
                     alt="User Image" />
             </div>
             <div class="info">
-                <a href="#" class="d-block">Admin</a>
+                @if (Auth::check())
+                    <a href="#" class="d-block">{{ $fullName }}</a>
+                @endif
             </div>
         </div>
 
@@ -91,30 +93,29 @@
 </style>
 
 <script>
-    var router = location.href.split('/');
     var link = location.href;
-    if (router.includes('products')) {
+    if (link.includes('products')) {
         $('#nav-link-products').addClass('active');
     }
-    if (router.includes('orders')) {
+    if (link.includes('orders')) {
         $('#list-link').addClass('active menu-is-opening menu-open')
         $('#nav-link-order').addClass('active');
         $('#link-order').addClass('css-active');
     }
-    if (router.includes('history') || router.includes('historydetail') || link.includes('searchhistory')) {
+    if (link.includes('history') || link.includes('historydetail') || link.includes('searchhistory')) {
         $('#link-history').addClass('css-active');
         $('#link-order').removeClass('css-active');
         $('link-cancel').removeClass('css-active')
     }
-    if (router.includes('ordercancel') || link.includes('searchordercancel')) {
+    if (link.includes('ordercancel') || link.includes('searchordercancel')) {
         $('#link-cancel').addClass('css-active');
         $('#link-order').removeClass('css-active');
         $('#link-history').removeClass('css-active');
     }
-    if (router.includes('users')) {
+    if (link.includes('users')) {
         $('#nav-link-users').addClass('active');
     }
-    if (router.includes('infors')) {
+    if (link.includes('infors')) {
         $('#nav-link-info').addClass('active');
     }
 </script>

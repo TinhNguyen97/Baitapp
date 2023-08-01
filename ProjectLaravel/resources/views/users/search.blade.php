@@ -45,6 +45,7 @@
                                         <th style="text-align: center">Số điện thoại</th>
                                         <th style="text-align: center">Ngày tạo</th>
                                         <th style="text-align: center">Trạng thái</th>
+                                        <th style="text-align: center">Cấp quyền admin</th>
                                         <th colspan="2" style="text-align: center">
                                             Hành động
                                         </th>
@@ -67,10 +68,16 @@
                                                 @if ($item->is_active)
                                                     <td style="text-align: center">Đã kích hoạt</td>
                                                     <td style="text-align: center"><a class="btn btn-primary"
+                                                            href="{{ route('users.activeadmin', $item->id) }}">
+                                                            <i class="fa-solid fa-hammer"></i></a></td>
+                                                    <td style="text-align: center"><a class="btn btn-primary"
                                                             href="{{ route('users.handleactive', $item->id) }}"><i
                                                                 class="fa-solid fa-lock-open"></i></a></td>
                                                 @else
                                                     <td style="text-align: center">Đã khóa</td>
+                                                    <td style="text-align: center"><a class="btn btn-primary"
+                                                            href="{{ route('users.activeadmin', $item->id) }}">
+                                                            <i class="fa-solid fa-hammer"></i></a></td>
                                                     <td style="text-align: center"><a class="btn btn-primary"
                                                             href="{{ route('users.handleactive', $item->id) }}"><i
                                                                 class="fa fa-lock"></i></a></td>
@@ -140,11 +147,40 @@
             })
         </script>
     @endif
+    @if (session()->has('neededUnlock') && session()->get('neededUnlock'))
+        <script>
+            $(function() {
+                alertError('Cần mở khóa tài khoản trước khi cấp quyền admin')
+            })
+        </script>
+    @endif
     @if (session()->has('unlocksuccess') && session()->get('unlocksuccess'))
         <script>
             var email = '{{ session()->get('email') }}';
             $(function() {
                 alertSuccess('Đã mở tài khoản ' + email);
+            })
+        </script>
+    @endif
+
+    @if (session()->has('errorlock') && session()->get('errorlock'))
+        <script>
+            $(function() {
+                alertError('Không thể khóa tài khoản ADMIN ');
+            })
+        </script>
+    @endif
+    @if (session()->has('admined') && session()->get('admined'))
+        <script>
+            $(function() {
+                alertSuccess('Tài khoản đã có quyền ADMIN ');
+            })
+        </script>
+    @endif
+    @if (session()->has('adminsuccess') && session()->get('adminsuccess'))
+        <script>
+            $(function() {
+                alertSuccess('Đã cấp quyền ADMIN cho tài khoản ');
             })
         </script>
     @endif
@@ -172,6 +208,12 @@
 
         function alertSuccess(message) {
             swal(message, "", "success", {
+                button: "OK!",
+            })
+        }
+
+        function alertError(message) {
+            swal(message, "", "error", {
                 button: "OK!",
             })
         }

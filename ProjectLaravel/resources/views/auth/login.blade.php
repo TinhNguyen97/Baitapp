@@ -9,6 +9,12 @@
                     <div class="col-sm-3"></div>
 
                     <div class="col-sm-6">
+                        @if (Session::has('changepasssuccess'))
+                            <div class="alert alert-success">{{ Session::get('changepasssuccess') }}</div>
+                        @endif
+                        @if (Session::has('check'))
+                            <div class="alert alert-success">{{ Session::get('check') }}</div>
+                        @endif
                         <h4>Đăng nhập</h4>
                         <div class="space20">&nbsp;</div>
 
@@ -27,10 +33,11 @@
                         @error('password')
                             <div style="color: red">{{ $message }}</div>
                         @enderror
-                        <div class="checkbox">
-                            Nhớ đăng nhập
-                            <input type="checkbox" value="remember">
-
+                        <div class="checkbox d-flex">
+                            <div><input type="checkbox" name="remember"><span>Nhớ đăng nhập</span></div>
+                            <div><span>Bạn quên mật khẩu?</span><a style="color:blue"
+                                    href="{{ route('homes.forgetpass') }}"> click vào đây</a>
+                            </div>
                         </div>
                         <div class="form-block">
                             @if (Session::has('error'))
@@ -53,6 +60,11 @@
             height: 35px;
             border: 1px solid #e1e1e1;
             padding: 0px 12px;
+        }
+
+        .d-flex {
+            display: flex;
+            justify-content: space-between;
         }
     </style>
 @endsection
