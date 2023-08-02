@@ -6,7 +6,7 @@ use App\Models\Cart;
 use App\Models\Notification;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-use App\Models\TypeProducts;
+use App\Models\TypeProduct;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
         view()->composer('home.header', function ($view) {
-            $allTypes = TypeProducts::all();
+            $allTypes = TypeProduct::all();
 
             $view->with(
                 'allTypes',
