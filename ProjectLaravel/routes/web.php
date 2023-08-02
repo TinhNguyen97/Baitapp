@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\TypeProductController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -31,6 +32,18 @@ Route::prefix('/products')->middleware('admin')->name('products.')->group(functi
     Route::post('search', [ProductController::class, 'addSearch'])->name('addSearch');
     Route::delete('search/{id}', [ProductController::class, 'deleteSearch'])->name('deleteSearch');
     Route::put('search/{id}', [ProductController::class, 'putSearch'])->name('putSearch');
+});
+Route::prefix('/types')->middleware('admin')->name('types.')->group(function () {
+    Route::get('/', [TypeProductController::class, 'index'])->name('index');
+    Route::post('/', [TypeProductController::class, 'add'])->name('add');
+    Route::delete('/{id}', [TypeProductController::class, 'delete'])->name('delete');
+    Route::put('/{id}', [TypeProductController::class, 'put'])->name('put');
+
+
+    Route::get('search', [TypeProductController::class, 'search'])->name('search');
+    Route::post('search', [TypeProductController::class, 'addSearch'])->name('addSearch');
+    Route::delete('search/{id}', [TypeProductController::class, 'deleteSearch'])->name('deleteSearch');
+    Route::put('search/{id}', [TypeProductController::class, 'putSearch'])->name('putSearch');
 });
 Route::prefix('home')->name('homes.')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('index');

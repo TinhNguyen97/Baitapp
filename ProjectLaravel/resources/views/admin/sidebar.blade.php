@@ -38,6 +38,12 @@
                         <p>Sản phẩm</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="/types" class="nav-link" id="nav-link-type-products">
+                        <i class="fa-solid fa-list-check"></i>
+                        <p>Danh mục</p>
+                    </a>
+                </li>
                 <li class="nav-item" id="list-link">
                     <a class="nav-link" id="nav-link-order">
                         <i class="fa-brands fa-jedi-order"></i>
@@ -96,6 +102,9 @@
     var link = location.href;
     if (link.includes('products')) {
         $('#nav-link-products').addClass('active');
+    }
+    if (link.includes('types')) {
+        $('#nav-link-type-products').addClass('active');
     }
     if (link.includes('orders')) {
         $('#list-link').addClass('active menu-is-opening menu-open')

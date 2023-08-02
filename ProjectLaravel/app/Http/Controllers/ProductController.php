@@ -12,7 +12,6 @@ class ProductController extends Controller
     {
         // echo public_path('uploads' . '\\' . '123');
         // die;
-        // dd(Dish::all());
         $allProducts = DB::table('products')
             ->join('type_products', 'products.id_type', '=', 'type_products.id')
             ->select('products.*', 'type_products.name as tp_name', 'type_products.id as id_type')
@@ -59,8 +58,8 @@ class ProductController extends Controller
     public function delete($id)
     {
 
-        $dish = Products::find($id);
-        abort_if(!$dish, 404);
+        $product = Products::find($id);
+        abort_if(!$product, 404);
         $image = Products::select('image')->where('id', $id)->get();
         $fileImage = $image[0]['image'];
         if (file_exists('uploads' . '\\' . $fileImage)) {
@@ -71,9 +70,9 @@ class ProductController extends Controller
     }
     public function put(Request $request, $id)
     {
-        $dish = Products::find($id);
+        $product = Products::find($id);
 
-        abort_if(!$dish, 404);
+        abort_if(!$product, 404);
         $request->validate(
             [
                 'editName' => 'required',
@@ -177,8 +176,8 @@ class ProductController extends Controller
     public function deleteSearch($id)
     {
 
-        $dish = Products::find($id);
-        abort_if(!$dish, 404);
+        $product = Products::find($id);
+        abort_if(!$product, 404);
         $image = Products::select('image')->where('id', $id)->get();
         $fileImage = $image[0]['image'];
         if (file_exists('uploads' . '\\' . $fileImage)) {
@@ -190,9 +189,9 @@ class ProductController extends Controller
     public function putSearch(Request $request, $id)
     {
         // dd($request->all());
-        $dish = Products::find($id);
+        $product = Products::find($id);
 
-        abort_if(!$dish, 404);
+        abort_if(!$product, 404);
         if ($request->has('editImage')) {
 
 
