@@ -122,8 +122,8 @@
                                                 </div>
 
                                                 <div class="single-item-header">
-                                                    <a href="product.html"><img width="270" height="320"
-                                                            src="{{ asset('uploads/' . $item->image) }}"
+                                                    <a href="{{ route('homes.detail', $item->id) }}"><img width="270"
+                                                            height="320" src="{{ asset('uploads/' . $item->image) }}"
                                                             alt=""></a>
                                                 </div>
                                                 <div class="single-item-body">

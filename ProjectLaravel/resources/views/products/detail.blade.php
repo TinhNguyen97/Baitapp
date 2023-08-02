@@ -80,8 +80,9 @@
                                         </div>
 
                                         <div class="single-item-header">
-                                            <a href="#"><img width="270" height="320"
-                                                    src="{{ asset('uploads/' . $item->image) }}" alt=""></a>
+                                            <a href="{{ route('homes.detail', $item->id) }}"><img width="270"
+                                                    height="320" src="{{ asset('uploads/' . $item->image) }}"
+                                                    alt=""></a>
                                         </div>
                                         <div class="single-item-body">
                                             <p class="single-item-title">{{ $item->name }}</p>
@@ -113,84 +114,7 @@
                     </div>
                 </div>
                 <div class="col-sm-3 aside">
-                    <div class="widget">
-                        <h3 class="widget-title">Best Sellers</h3>
-                        <div class="widget-body">
-                            <div class="beta-sales beta-lists">
-                                <div class="media beta-sales-item">
-                                    <a class="pull-left" href="product.html"><img
-                                            src="assets/dest/images/products/sales/1.png" alt=""></a>
-                                    <div class="media-body">
-                                        Sample Woman Top
-                                        <span class="beta-sales-price">$34.55</span>
-                                    </div>
-                                </div>
-                                <div class="media beta-sales-item">
-                                    <a class="pull-left" href="product.html"><img
-                                            src="assets/dest/images/products/sales/2.png" alt=""></a>
-                                    <div class="media-body">
-                                        Sample Woman Top
-                                        <span class="beta-sales-price">$34.55</span>
-                                    </div>
-                                </div>
-                                <div class="media beta-sales-item">
-                                    <a class="pull-left" href="product.html"><img
-                                            src="assets/dest/images/products/sales/3.png" alt=""></a>
-                                    <div class="media-body">
-                                        Sample Woman Top
-                                        <span class="beta-sales-price">$34.55</span>
-                                    </div>
-                                </div>
-                                <div class="media beta-sales-item">
-                                    <a class="pull-left" href="product.html"><img
-                                            src="assets/dest/images/products/sales/4.png" alt=""></a>
-                                    <div class="media-body">
-                                        Sample Woman Top
-                                        <span class="beta-sales-price">$34.55</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- best sellers widget -->
-                    <div class="widget">
-                        <h3 class="widget-title">New Products</h3>
-                        <div class="widget-body">
-                            <div class="beta-sales beta-lists">
-                                <div class="media beta-sales-item">
-                                    <a class="pull-left" href="product.html"><img
-                                            src="assets/dest/images/products/sales/1.png" alt=""></a>
-                                    <div class="media-body">
-                                        Sample Woman Top
-                                        <span class="beta-sales-price">$34.55</span>
-                                    </div>
-                                </div>
-                                <div class="media beta-sales-item">
-                                    <a class="pull-left" href="product.html"><img
-                                            src="assets/dest/images/products/sales/2.png" alt=""></a>
-                                    <div class="media-body">
-                                        Sample Woman Top
-                                        <span class="beta-sales-price">$34.55</span>
-                                    </div>
-                                </div>
-                                <div class="media beta-sales-item">
-                                    <a class="pull-left" href="product.html"><img
-                                            src="assets/dest/images/products/sales/3.png" alt=""></a>
-                                    <div class="media-body">
-                                        Sample Woman Top
-                                        <span class="beta-sales-price">$34.55</span>
-                                    </div>
-                                </div>
-                                <div class="media beta-sales-item">
-                                    <a class="pull-left" href="product.html"><img
-                                            src="assets/dest/images/products/sales/4.png" alt=""></a>
-                                    <div class="media-body">
-                                        Sample Woman Top
-                                        <span class="beta-sales-price">$34.55</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- best sellers widget -->
+                    <img height="500px" src="{{ asset('uploads/Banh-Macaron-Phap-1.1.jpg') }}">
                 </div>
             </div>
         </div> <!-- #content -->
