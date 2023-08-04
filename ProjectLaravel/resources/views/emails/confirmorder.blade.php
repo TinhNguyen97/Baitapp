@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <h1>Xin chào {{ $request->name }}!</h1>
+    <h1>Xin chào {{ $request['name'] }}!</h1>
     <p>Chúng tôi xin xác nhận đơn hàng của bạn!</p>
     <table border="1" cellspacing="0" cellpadding="10" style="width:100%">
         <thead>
@@ -24,14 +24,13 @@
         </thead>
         <tbody>
 
-            @if (Session::has('cart'))
+            @if ($carts)
                 @php
-                    $carts = Session::get('cart')->items;
+                    // $carts = $cart->items;
                     $i = 1;
                     // dd($carts);
                 @endphp
                 @foreach ($carts as $key => $item)
-                    {{-- @dd($carts) --}}
                     <tr>
                         <td style="text-align: center">{{ $i++ }}</td>
                         <td style="text-align: center">
@@ -63,8 +62,8 @@
                     <th>Tổng</th>
                     <th></th>
                     <th></th>
-                    <th id=total-quantity>{{ Session::get('cart')->totalQty }}</th>
-                    <th id="total-price">{{ number_format(Session::get('cart')->totalPrice, 0, ',', '.') }}
+                    <th id=total-quantity>{{ $totalQty }}</th>
+                    <th id="total-price">{{ $totalPrice }}
                     </th>
                 </tr>
             @else
@@ -84,17 +83,19 @@
             <th>Số điện thoại</th>
             <th>Ghi chú</th>
         </tr>
-        <td style="text-align: center">{{ $request->name }}</td>
-        <td style="text-align: center">{{ $request->address }}</td>
-        <td style="text-align: center">{{ $request->phone }}</td>
-        <td style="text-align: center">{{ $request->note }}</td>
+        <td style="text-align: center">{{ $request['name'] }}</td>
+        <td style="text-align: center">{{ $request['address'] }}</td>
+        <td style="text-align: center">{{ $request['phone'] }}</td>
+        <td style="text-align: center">{{ $request['note'] }}</td>
         <tr>
 
         </tr>
     </table>
     <p>Cảm ơn bạn đã đặt hàng tại hệ thống, chúng tôi sẽ sớm liên hệ với bạn!</p>
     <p>
-
+        @php
+            
+        @endphp
 </body>
 
 </html>

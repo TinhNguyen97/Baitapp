@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmailConfirm;
 use App\Models\Cart;
 use App\Models\Infors;
 use App\Models\Notification;
@@ -343,17 +344,21 @@ class HomeController extends Controller
                 }
             }
             //gửi mail xác nhận đơn hàng
-            Mail::send(
-                'emails.confirmorder',
-                [
-                    'request' => $request,
-                    'id' => $id
-                ],
-                function ($email) use ($request) {
-                    $email->subject('Xác nhận đơn hàng');
-                    $email->to($request->email);
-                }
-            );
+            // Mail::send(
+            //     'emails.confirmorder',
+            //     [
+            //         'request' => $request,
+            //         'id' => $id
+            //     ],
+            //     function ($email) use ($request) {
+            //         $email->subject('Xác nhận đơn hàng');
+            //         $email->to($request->email);
+            //     }
+            // );
+            $items = Session::get('cart')->items;
+            $totalQty = Session::get('cart')->totalQty;
+            $totalPrice = Session::get('cart')->totalPrice;
+            SendEmailConfirm::dispatch($request->email, $id, $request, $items, $totalQty, $totalPrice);
             Session::forget('cart');
         }
         Notification::create(['user_id' => Auth::id()]);
