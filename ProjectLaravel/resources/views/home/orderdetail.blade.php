@@ -56,20 +56,27 @@
                                             <td class="product-status" id="price">
                                                 {{ number_format($item['item']['promotion_price'], 0, ',', '.') }}
                                             </td>
+                                            <td class="product-quantity">
+                                                <input value="{{ $item['qty'] }}" type="number"
+                                                    class="product-qty ip-number" min="1" name="quantity"
+                                                    data-price="{{ $item['item']['promotion_price'] }}">
+                                            </td>
                                         @else
                                             <td class="product-status" id="price">
                                                 {{ $item['item']['unit_price'] }}
                                             </td>
+                                            <td class="product-quantity">
+                                                <input value="{{ $item['qty'] }}" type="number"
+                                                    class="product-qty ip-number" min="1" name="quantity"
+                                                    data-price="{{ $item['item']['unit_price'] }}">
+                                            </td>
                                         @endif
 
-                                        <td class="product-quantity">
-                                            <input value="{{ $item['qty'] }}" type="number" class="product-qty ip-number"
-                                                min="1" name="quantity" data-price="{{ $item['price'] }}">
-                                        </td>
+
 
 
                                         <td class="product-subtotal">
-                                            {{ number_format($item['qty'] * $item['price'], 0, ',', '.') }}
+                                            {{ number_format(Session::get('cart')->totalPrice, 0, ',', '.') }}
                                         </td>
 
                                         <td class="product-update" id="update">
@@ -120,6 +127,7 @@
             var totalQty = 0;
             var quantity = $(this).val();
             var oldPrice = $(this).data('price');
+            console.log(oldPrice, 'old');
             $(this).parents('tr').find('.product-subtotal').text(formatNumberWithDot(quantity * oldPrice));
             $(this).parents('tbody').find('.product-subtotal').each((index, item) => {
                 totalPrice += Number($(item).text().trim().replaceAll('.', ''));

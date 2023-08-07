@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmailCancel;
+use App\Jobs\SendEmailDelivering;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Products;
@@ -76,14 +78,7 @@ class OrderController extends Controller
     {
         DB::table('orders')->where('id', $id)->update(['order_status_id' => 2]);
         $emailTo = Order::find($id)->email;
-        Mail::send(
-            'emails.ordersuccess',
-            [],
-            function ($email) use ($emailTo) {
-                $email->subject('Đơn hàng đang giao');
-                $email->to($emailTo);
-            }
-        );
+        SendEmailDelivering::dispatch($emailTo);
 
         return back()->with(['successApprove' => true]);
     }
@@ -100,14 +95,7 @@ class OrderController extends Controller
     {
         DB::table('orders')->where('id', $id)->update(['order_status_id' => 3]);
         $emailTo = Order::find($id)->email;
-        Mail::send(
-            'emails.ordercancel',
-            [],
-            function ($email) use ($emailTo) {
-                $email->subject('Đơn hàng bị hủy');
-                $email->to($emailTo);
-            }
-        );
+        SendEmailCancel::dispatch($emailTo);
         return back()->with(['successCancel' => true]);
     }
     public function orderCancel()
@@ -129,7 +117,7 @@ class OrderController extends Controller
     }
     public function searchOrderCancel(Request $request)
     {
-        // dd(1);
+
         $allOrders = DB::table('orders')
             ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
             ->where('orders.order_status_id', '=', 3)

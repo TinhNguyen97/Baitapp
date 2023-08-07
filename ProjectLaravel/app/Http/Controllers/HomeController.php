@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SendEmailConfirm;
+use App\Jobs\SendEmailCoverPass;
 use App\Models\Cart;
 use App\Models\Infors;
 use App\Models\Notification;
@@ -383,6 +384,7 @@ class HomeController extends Controller
     }
     public function forgetPass()
     {
+
         return view('home.forgetpass');
     }
     public function checkForgetPass(Request $request)
@@ -398,14 +400,9 @@ class HomeController extends Controller
         $user = User::where('email', $request->email)->first();
 
         $user->update(['token' => $token]);
-        Mail::send(
-            'emails.checkforgetpass',
-            ['user' => $user],
-            function ($email) use ($user) {
-                $email->subject('Lấy lại mật khẩu');
-                $email->to($user->email);
-            }
-        );
+        $appUrl = $_SERVER['APP_URL'];
+        $httpHost = $_SERVER['HTTP_HOST'];
+        SendEmailCoverPass::dispatch($user->email, $user->id, $user->full_name, $user->token, $appUrl, $httpHost);
         return back()->with('check', 'Vui lòng check email để lấy lại mật khẩu');
     }
     public function getPass(User $user, $token)

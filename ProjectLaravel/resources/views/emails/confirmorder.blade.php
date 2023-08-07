@@ -50,10 +50,15 @@
                             {{ $item['qty'] }}
                         </td>
 
-
-                        <td style="text-align: center">
-                            {{ number_format($item['qty'] * $item['price'], 0, ',', '.') }}
-                        </td>
+                        @if ($item['item']['promotion_price'] != 0)
+                            <td style="text-align: center">
+                                {{ number_format($item['qty'] * $item['item']['promotion_price'], 0, ',', '.') }}
+                            </td>
+                        @else
+                            <td style="text-align: center">
+                                {{ number_format($item['qty'] * $item['item']['unit_price'], 0, ',', '.') }}
+                            </td>
+                        @endif
 
                     </tr>
                 @endforeach
@@ -63,7 +68,7 @@
                     <th></th>
                     <th></th>
                     <th id=total-quantity>{{ $totalQty }}</th>
-                    <th id="total-price">{{ $totalPrice }}
+                    <th id="total-price">{{ number_format($totalPrice, 0, ',', '.') }}
                     </th>
                 </tr>
             @else
