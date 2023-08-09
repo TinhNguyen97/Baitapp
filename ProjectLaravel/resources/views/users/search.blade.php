@@ -177,6 +177,13 @@
             })
         </script>
     @endif
+    @if (session()->has('preventDelete') && session()->get('preventDelete'))
+        <script>
+            $(function() {
+                alertSuccess('Không thể xóa tài khoản ADMIN ');
+            })
+        </script>
+    @endif
     @if (session()->has('adminsuccess') && session()->get('adminsuccess'))
         <script>
             $(function() {

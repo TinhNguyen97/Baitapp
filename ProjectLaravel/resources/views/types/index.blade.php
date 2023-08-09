@@ -205,7 +205,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Xóa sản phẩm</h4>
+                        <h4 class="modal-title">Xóa danh mục</h4>
                         <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                             <span aria-hidden="true">&times;</span>
                         </button>

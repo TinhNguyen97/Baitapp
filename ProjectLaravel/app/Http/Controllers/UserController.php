@@ -45,6 +45,9 @@ class UserController extends Controller
 
         $user = User::find($id);
         abort_if(!$user, 404);
+        if ($user->is_admin) {
+            return back()->with(['preventDelete' => true]);
+        };
         User::destroy($id);
         return back()->with(['isDeleteSuccess' => true]);
     }
