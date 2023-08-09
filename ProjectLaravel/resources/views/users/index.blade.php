@@ -170,7 +170,7 @@
     @if (session()->has('admined') && session()->get('admined'))
         <script>
             $(function() {
-                alertSuccess('Tài khoản đã có quyền ADMIN ');
+                alertError('Tài khoản đã có quyền ADMIN ');
             })
         </script>
     @endif
