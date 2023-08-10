@@ -8,8 +8,8 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <?php
-                            $up = '$' . number_format($product->unit_price, 0, ',', '.');
-                            $pp = '$' . number_format($product->promotion_price, 0, ',', '.');
+                            $up = number_format($product->unit_price, 0, ',', '.') . ' VNĐ';
+                            $pp = number_format($product->promotion_price, 0, ',', '.') . ' VNĐ';
                             ?>
 
                             <img width="270" height="320" src="{{ asset('uploads' . '\\' . $product->image) }}"
@@ -52,9 +52,7 @@
 
                     <div class="space40">&nbsp;</div>
                     <div class="woocommerce-tabs">
-                        <ul class="tabs">
-                            <li><a href="#tab-description">Mô tả</a></li>
-                        </ul>
+                        <p>Mô tả</p>
 
                         <div class="panel" id="tab-description">
                             <p>{{ $product->description }}</p>
@@ -88,11 +86,11 @@
                                             <p class="single-item-title">{{ $item->name }}</p>
                                             <p class="single-item-price">
                                                 @if ($up > $pp)
-                                                    <span class="flash-del">{{ '$' . $up }}</span>
-                                                    <span class="flash-sale">{{ '$' . $pp }}</span>
+                                                    <span class="flash-del">{{ $up . ' VNĐ' }}</span>
+                                                    <span class="flash-sale">{{ $pp . ' VNĐ' }}</span>
                                                 @else
                                                     <span class="flash-sale"
-                                                        style="color: black">{{ '$' . $pp }}</span>
+                                                        style="color: black">{{ $pp . ' VNĐ' }}</span>
                                                 @endif
                                             </p>
                                         </div>

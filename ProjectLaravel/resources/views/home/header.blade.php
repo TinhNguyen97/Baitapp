@@ -1,11 +1,10 @@
 <div id="header">
     <div class="header-top">
         <div class="container">
-            <div class="pull-left auto-width-left">
-                <ul class="top-menu menu-beta l-inline">
-                    <li><a href=""><i class="fa fa-home"></i> 58 Tràng An, thành phố Ninh Bình</a></li>
-                    <li><a href=""><i class="fa fa-phone"></i> 0981 240 297</a></li>
-                </ul>
+            <div class="pull-left auto-width-left" style="margin-top:5px">
+                <p><i class="fa fa-home"></i> 58 Tràng An, thành phố Ninh Bình</p>
+                <p><i class="fa fa-phone"></i> 0981 240 297</p>
+
             </div>
             <div class="pull-right auto-width-right">
                 <ul class="top-details menu-beta l-inline">
@@ -97,7 +96,7 @@
 
                                 <div class="cart-caption">
                                     <div class="cart-total text-right">Tổng tiền: <span
-                                            class="cart-total-value">${{ $total_price }}</span>
+                                            class="cart-total-value">{{ $total_price }} VNĐ</span>
                                     </div>
                                     <div class="clearfix"></div>
 

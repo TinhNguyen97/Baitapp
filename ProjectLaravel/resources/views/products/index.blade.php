@@ -112,6 +112,7 @@
         </div>
         <div class="pagination">
             {{ $allProducts->links() }}
+
         </div>
         <!-- /.container-fluid -->
     </section>

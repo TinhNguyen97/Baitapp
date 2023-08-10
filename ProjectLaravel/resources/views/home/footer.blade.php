@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-3">
                 <div class="widget">
-                    <h4 class="widget-title">Instagram Feed</h4>
+                    <h4 class="widget-title">Bảng tin Instagram</h4>
                     <div id="beta-instagram-feed">
                         <div></div>
                     </div>
@@ -11,19 +11,19 @@
             </div>
             <div class="col-sm-2">
                 <div class="widget">
-                    <h4 class="widget-title">Information</h4>
+                    <h4 class="widget-title">Thông tin</h4>
                     <div>
                         <ul>
-                            <li><a href="#"><i class="fa fa-chevron-right"></i> Web Design</a>
+                            <li><a href="#"><i class="fa fa-chevron-right"></i> Thiết kế web</a>
                             </li>
-                            <li><a href="#"><i class="fa fa-chevron-right"></i> Web
-                                    development</a></li>
+                            <li><a href="#"><i class="fa fa-chevron-right"></i>Phát triển Web
+                                </a></li>
                             <li><a href="#"><i class="fa fa-chevron-right"></i> Marketing</a>
                             </li>
                             <li><a href="#"><i class="fa fa-chevron-right"></i> Tips</a></li>
-                            <li><a href="#"><i class="fa fa-chevron-right"></i> Resources</a>
+                            <li><a href="#"><i class="fa fa-chevron-right"></i> Tài nguyên</a>
                             </li>
-                            <li><a href="#"><i class="fa fa-chevron-right"></i> Illustrations</a>
+                            <li><a href="#"><i class="fa fa-chevron-right"></i> Minh họa</a>
                             </li>
                         </ul>
                     </div>
@@ -32,13 +32,12 @@
             <div class="col-sm-4">
                 <div class="col-sm-10">
                     <div class="widget">
-                        <h4 class="widget-title">Contact Us</h4>
+                        <h4 class="widget-title">Liên lạc</h4>
                         <div>
                             <div class="contact-info">
                                 <i class="fa fa-map-marker"></i>
-                                <p>30 South Park Avenue San Francisco, CA 94108 Phone: +78 123 456 78</p>
-                                <p>Nemo enim ipsam voluptatem quia voluptas sit asnatur aut odit aut fugit, sed quia
-                                    consequuntur magni dolores eos qui ratione.</p>
+                                <p>58 Tràng An, Thành phố Ninh Bình</p>
+
                             </div>
                         </div>
                     </div>
@@ -46,9 +45,9 @@
             </div>
             <div class="col-sm-3">
                 <div class="widget">
-                    <h4 class="widget-title">Newsletter Subscribe</h4>
+                    <h4 class="widget-title">Bản tin đăng ký</h4>
                     <input type="email" name="your_email">
-                    <button class="pull-right">Subscribe <i class="fa fa-chevron-right"></i></button>
+                    <button class="pull-right">Đăng ký <i class="fa fa-chevron-right"></i></button>
                 </div>
             </div>
         </div> <!-- .row -->
