@@ -11,7 +11,7 @@
             </div>
             <div class="col-sm-2">
                 <div class="widget">
-                    <h4 class="widget-title">Thông tin</h4>
+                    <h4 class="widget-title">Công việc</h4>
                     <div>
                         <ul>
                             <li><a href="#"><i class="fa fa-chevron-right"></i> Thiết kế web</a>
@@ -46,8 +46,6 @@
             <div class="col-sm-3">
                 <div class="widget">
                     <h4 class="widget-title">Bản tin đăng ký</h4>
-                    <input type="email" name="your_email">
-                    <button class="pull-right">Đăng ký <i class="fa fa-chevron-right"></i></button>
                 </div>
             </div>
         </div> <!-- .row -->

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckAdminMiddleware
+class CommentMiddleware
 {
     /**
      * Handle an incoming request.
@@ -18,9 +18,7 @@ class CheckAdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            if (Auth::user()->is_admin) {
-                return $next($request);
-            }
+            return $next($request);
         }
         return redirect()->route('homes.login');
     }

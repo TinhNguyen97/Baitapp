@@ -73,7 +73,7 @@ Route::prefix('home')->name('homes.')->group(function () {
     Route::post('/forget-pass', [HomeController::class, 'checkForgetPass'])->name('checkforgetpass');
     Route::get('/get-pass/{user}/{token}', [HomeController::class, 'getPass'])->name('getpass');
     Route::post('/get-pass/{user}/{token}', [HomeController::class, 'checkPass'])->name('checkpass');
-    Route::post('/comment/{id}', [HomeController::class, 'comment'])->middleware('auth')->name('comment');
+    Route::post('/comment/{id}', [HomeController::class, 'comment'])->middleware('comment')->name('comment');
 });
 
 Route::prefix('/orders')->middleware('admin')->name('orders.')->group(function () {

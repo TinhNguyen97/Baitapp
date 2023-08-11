@@ -60,6 +60,10 @@
             $('.beta-select').on('click', function() {
                 $(this).parent().children('.beta-dropdown').slideToggle();
             })
+            // $('.beta-select').on('click', function() {
+            //     $(this).parent().children('.beta-dropdown').slideToggle();
+            // })
+            // beta-menu-toggle
         })
     </script>
 </body>

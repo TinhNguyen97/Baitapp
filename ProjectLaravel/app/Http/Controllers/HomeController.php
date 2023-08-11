@@ -103,6 +103,7 @@ class HomeController extends Controller
     }
     public function login()
     {
+        Session::put('url', url()->previous());
         return view('auth.login');
     }
     public function register()
@@ -156,16 +157,18 @@ class HomeController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ];
+
         if (Auth::attempt($credentials, $remember)) {
+
             if (!Auth::user()->is_active) {
                 return back()->with('ban', 'Tài khoản của bạn đã bị khóa!')->withInput();
             }
-            if (Session::has('admin')) {
-                Session::forget('admin');
-                return redirect('products')->with('success', 'Đăng nhập thành công!');
-            }
+            // if (Auth::user()->is_admin) {
+            //     return redirect('products');
+            // }
 
-            return redirect('home')->with('success', 'Đăng nhập thành công!');
+            // keyword intended
+            return redirect(Session::get('url'));;
         }
         return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng!')->withInput();
     }
