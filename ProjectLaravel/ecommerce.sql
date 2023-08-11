@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3307
--- Thời gian đã tạo: Th8 07, 2023 lúc 08:33 AM
+-- Thời gian đã tạo: Th8 11, 2023 lúc 09:45 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.1.17
 
@@ -20,6 +20,34 @@ SET time_zone = "+00:00";
 --
 -- Cơ sở dữ liệu: `ecommerce`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `comments`
+--
+
+CREATE TABLE `comments` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `product_id` int(10) UNSIGNED NOT NULL,
+  `content` text DEFAULT NULL,
+  `user_id` bigint(10) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `comments`
+--
+
+INSERT INTO `comments` (`id`, `product_id`, `content`, `user_id`, `created_at`, `updated_at`) VALUES
+(2, 1, 'dfdf', 2, '2023-08-11 06:50:06', '2023-08-11 06:50:06'),
+(3, 1, 'ngon ls,', 2, '2023-08-11 06:56:12', '2023-08-11 06:56:12'),
+(4, 1, 'dc', 2, '2023-08-11 07:02:54', '2023-08-11 07:02:54'),
+(5, 1, 'không ra gi', 4, '2023-08-11 07:05:30', '2023-08-11 07:05:30'),
+(6, 60, 'ngon', 4, '2023-08-11 07:08:29', '2023-08-11 07:08:29'),
+(7, 1, 'ff', 4, '2023-08-11 07:13:28', '2023-08-11 07:13:28'),
+(8, 1, NULL, 4, '2023-08-11 07:31:47', '2023-08-11 07:31:47');
 
 -- --------------------------------------------------------
 
@@ -93,7 +121,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
 (4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(5, '2023_08_04_154924_create_jobs_table', 2);
+(25, '2023_08_04_154924_create_jobs_table', 2);
 
 -- --------------------------------------------------------
 
@@ -113,10 +141,9 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 2, '2023-08-02 08:31:43', '2023-08-02 01:31:43'),
-(2, 5, '2023-08-02 08:33:47', '2023-08-02 01:33:47'),
-(3, 5, '2023-08-02 08:35:20', '2023-08-02 01:35:20'),
-(4, 5, '2023-08-02 08:36:25', '2023-08-02 01:36:25');
+(1, 2, '2023-08-10 13:05:45', '2023-08-10 06:05:45'),
+(2, 2, '2023-08-10 13:07:10', '2023-08-10 06:07:10'),
+(3, 2, '2023-08-10 13:08:26', '2023-08-10 06:08:26');
 
 -- --------------------------------------------------------
 
@@ -144,7 +171,15 @@ INSERT INTO `orders` (`id`, `name`, `address`, `email`, `order_status_id`, `phon
 (79, 'Tinh Nguyen', 'Ha Noi', 'princetinkie97@gmail.com', 1, '0981240297', 'note1', '2023-08-02 01:31:39', '2023-08-02 01:31:39'),
 (80, 'Hoang Sơn', 'Hồ Chí Minh', 'tinhnn.jvb@gmail.com', 2, '0981240297', 'note2', '2023-08-02 01:33:56', '2023-08-02 01:33:43'),
 (81, 'Rooney', 'Đà Nẵng', 'tinhnn.jvb@gmail.com', 3, '0981240299', 'note3', '2023-08-02 01:35:28', '2023-08-02 01:35:17'),
-(82, 'Lampard', 'Huế', 'tinhnn.jvb@gmail.com', 2, '0981240297', 'note33', '2023-08-02 01:36:40', '2023-08-02 01:36:21');
+(82, 'Lampard', 'Huế', 'tinhnn.jvb@gmail.com', 2, '0981240297', 'note33', '2023-08-02 01:36:40', '2023-08-02 01:36:21'),
+(83, 'Tinh Nguyen', 'Ha Noi', 'tinhnn.jvb@gmail.com', 1, '0981240297', 'fff', '2023-08-07 06:34:46', '2023-08-07 06:34:46'),
+(84, 'Tinh Nguyen', 'Ha Noi', 'tinhnn.jvb@gmail.com', 3, '0981240297', 'dfdf', '2023-08-07 07:23:20', '2023-08-07 06:37:03'),
+(85, 'Tinh Nguyen', 'Ha Noi', 'tinhnn.jvb@gmail.com', 3, '0981240297', 'rgrg', '2023-08-07 07:20:33', '2023-08-07 06:57:06'),
+(86, 'Tinh Nguyen', 'Ha Noi', 'tinhnn.jvb@gmail.com', 2, '0981240297', 'sds', '2023-08-07 07:19:28', '2023-08-07 07:01:27'),
+(87, 'Tinh Nguyen', 'Ha Noi', 'tinhnn.jvb@gmail.com', 2, '0981240297', 'dfd', '2023-08-07 07:07:42', '2023-08-07 07:02:52'),
+(88, 'Tinh Nguyen9x', 'Ha Noi', 'tinhnn.jvb@gmail.com', 2, '0981240297', 'lll', '2023-08-10 06:13:51', '2023-08-10 06:05:45'),
+(89, 'Tinh Nguyen', 'Ha Noi', 'tinhnn.jvb@gmail.com', 1, '0981240297', 'ô', '2023-08-10 06:07:10', '2023-08-10 06:07:10'),
+(90, 'Tinh Nguyen', 'Ha Noi', 'tinhnn.jvb@gmail.com', 1, '0981240297', 'zzzz', '2023-08-10 06:08:26', '2023-08-10 06:08:26');
 
 -- --------------------------------------------------------
 
@@ -169,12 +204,15 @@ CREATE TABLE `order_details` (
 INSERT INTO `order_details` (`id`, `user_id`, `product_id`, `order_id`, `quantity`, `created_at`, `updated_at`) VALUES
 (103, 2, 60, 79, 1, '2023-08-02 01:31:39', '2023-08-02 01:31:39'),
 (104, 2, 1, 79, 2, '2023-08-02 01:31:39', '2023-08-02 01:31:39'),
-(105, 5, 24, 80, 1, '2023-08-02 01:33:43', '2023-08-02 01:33:43'),
-(106, 5, 25, 80, 1, '2023-08-02 01:33:43', '2023-08-02 01:33:43'),
-(107, 5, 26, 80, 1, '2023-08-02 01:33:43', '2023-08-02 01:33:43'),
-(108, 5, 30, 81, 1, '2023-08-02 01:35:17', '2023-08-02 01:35:17'),
-(109, 5, 31, 81, 1, '2023-08-02 01:35:17', '2023-08-02 01:35:17'),
-(110, 5, 42, 82, 1, '2023-08-02 01:36:21', '2023-08-02 01:36:21');
+(111, 2, 1, 83, 1, '2023-08-07 06:34:46', '2023-08-07 06:34:46'),
+(112, 2, 42, 84, 2, '2023-08-07 06:37:04', '2023-08-07 06:37:04'),
+(113, 2, 1, 85, 4, '2023-08-07 06:57:06', '2023-08-07 06:57:06'),
+(114, 2, 2, 86, 2, '2023-08-07 07:01:27', '2023-08-07 07:01:27'),
+(115, 2, 1, 86, 1, '2023-08-07 07:01:27', '2023-08-07 07:01:27'),
+(116, 2, 2, 87, 3, '2023-08-07 07:02:52', '2023-08-07 07:02:52'),
+(117, 2, 60, 88, 1, '2023-08-10 06:05:45', '2023-08-10 06:05:45'),
+(118, 2, 2, 89, 1, '2023-08-10 06:07:10', '2023-08-10 06:07:10'),
+(119, 2, 2, 90, 1, '2023-08-10 06:08:26', '2023-08-10 06:08:26');
 
 -- --------------------------------------------------------
 
@@ -387,16 +425,23 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `email`, `email_verified_at`, `password`, `address`, `phone`, `is_active`, `is_admin`, `token`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Tinh Nguyen9x', 'princetinkie97@gmail.com', NULL, '$2y$10$ohgWPS.dPgu5eRL0TBJ.kO7KJGebA3/wDk7dvNx.VRj5/x/kdy46O', 'Ha Noi', '0981240297', 1, 1, NULL, 's5gDiPreddRkW8ruVhmaiksVruiEDIalT63Lu1jnG8u9qmkc6zbomdDooG20', '2023-07-20 09:20:33', '2023-08-01 07:10:29'),
-(2, 'Tinh Nguyen', 'tinhnn.jvb@gmail.com', NULL, '$2y$10$sQ8d4yrlKBqjqvhsf/hMCOUsTTWRH.FvJUgnHnoXx1EAB2Q0b5lZq', 'Ha Noi', '0981240297', 1, 1, NULL, 'QFE6ZBGOaKynPUirciQ8ERvBZLaQCLX0KXI1gvUb6svLHblPiX2fdxnEiRKL', '2023-07-28 01:49:19', '2023-08-01 06:04:27'),
-(4, 'Tinh Nguyen', 'princetinkie96@gmail.com', NULL, '$2y$10$Aq9y5IwM5lu.Dq5MJR5VkeeSwZQcys8LKPc/o44D86jpmpCSA6D9a', 'Ha Noi', '0981240297', 1, 1, NULL, NULL, '2023-07-28 03:06:16', '2023-07-28 03:06:16'),
-(5, 'Đây là admin', 'admin97@gmail.com', NULL, '$2y$10$0nK9OcxfSz8vfJiVsDPo/O5glQRRyVYGVFKPiVAT78RNBvt29H89G', 'Ha Noi', '0981240297', 1, 1, NULL, NULL, '2023-08-01 07:22:01', '2023-08-01 07:22:01'),
-(6, 'Lương Sơn', 'toidaidot@gmail.com', NULL, '$2y$10$b1ZBb5RVMUqWczsQBL9rneGaEZfx/6wYKqEqsrvZLBoSgcl2/KPcy', 'Hồ Chí Minh', '0805161666', 0, 0, NULL, NULL, '2023-08-01 09:04:33', '2023-08-01 09:04:33'),
+(1, 'Tinh Nguyen9x', 'princetinkie97@gmail.com', NULL, '$2y$10$ohgWPS.dPgu5eRL0TBJ.kO7KJGebA3/wDk7dvNx.VRj5/x/kdy46O', 'Ha Noi', '0981240297', 1, 1, NULL, 'NV6gOA9VTXJqYlAK1r8Rj39uvDMm1nZDY3fxv5CTQZ2tLYX26rlQlPPPekY7', '2023-07-20 09:20:33', '2023-08-01 07:10:29'),
+(2, 'Tinh Nguyen', 'tinhnn.jvb@gmail.com', NULL, '$2y$10$Ayl7lpMy68/XAHT88I6s5OElc5N/Z3ID1xcsUibzzOstDKYETxdXW', 'Ha Noi', '0981240297', 1, 1, NULL, 'eYtwEP42A6j3w1bXVhurDcgkwxd7wAROeohWmzbBFWSjWPd3kPosfty4zNVH', '2023-07-28 01:49:19', '2023-08-07 09:35:28'),
+(4, 'Peter', 'princetinkie96@gmail.com', NULL, '$2y$10$Aq9y5IwM5lu.Dq5MJR5VkeeSwZQcys8LKPc/o44D86jpmpCSA6D9a', 'Ha Noi', '0981240297', 1, 1, NULL, NULL, '2023-07-28 03:06:16', '2023-07-28 03:06:16'),
+(6, 'Lương Sơn', 'toidaidot@gmail.com', NULL, '$2y$10$b1ZBb5RVMUqWczsQBL9rneGaEZfx/6wYKqEqsrvZLBoSgcl2/KPcy', 'Hồ Chí Minh', '0805161666', 1, 0, NULL, NULL, '2023-08-01 09:04:33', '2023-08-01 09:04:33'),
 (7, 'Thánh Gióng', 'toidaidot2@gmail.com', NULL, '$2y$10$TlYCHWO7R1L.2tmb6CMZOO2e4oTg3ux9khYeAB5sn1aJNm.TQSxre', 'Đà Nẵng', '0702125595', 1, 0, NULL, NULL, '2023-08-01 09:05:19', '2023-08-01 09:05:19');
 
 --
 -- Chỉ mục cho các bảng đã đổ
 --
+
+--
+-- Chỉ mục cho bảng `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `comments_ibfk_1` (`product_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Chỉ mục cho bảng `failed_jobs`
@@ -470,6 +515,7 @@ ALTER TABLE `personal_access_tokens`
 -- Chỉ mục cho bảng `products`
 --
 ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `id_type` (`id_type`);
 
 --
@@ -490,10 +536,16 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT cho bảng `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT cho bảng `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `infors`
@@ -511,25 +563,25 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT cho bảng `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` bigint(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT cho bảng `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT cho bảng `order_statuses`
@@ -542,6 +594,12 @@ ALTER TABLE `order_statuses`
 --
 ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT cho bảng `type_products`
@@ -558,6 +616,13 @@ ALTER TABLE `users`
 --
 -- Các ràng buộc cho các bảng đã đổ
 --
+
+--
+-- Các ràng buộc cho bảng `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `notifications`
