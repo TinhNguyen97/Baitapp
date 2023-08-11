@@ -58,6 +58,23 @@
                             <p>{{ $product->description }}</p>
 
                         </div>
+                        <p>Bình luận</p>
+                        @if (count($comments) != 0)
+                            @foreach ($comments as $item)
+                                <div style="margin-left:25px"><span style="font-weight:bold">{{ $item['full_name'] }}
+                                    </span><span style="font-style: italic;">{{ $item->content }}</span>
+                                </div>
+                            @endforeach
+                        @else
+                            <p style="color:red">Không có bình luận</p>
+                        @endif
+
+
+                        <form action="{{ route('homes.comment', $product->id) }}" method="POST">
+                            <textarea name="content" id="" style="border:2px solid #f6f6f6; height:20vh"
+                                placeholder="Viết bình luận của bạn..."></textarea>
+                            <button class="btn btn-primary" type="submit">Gửi bình luận</button>
+                        </form>
                     </div>
                     <div class="space50">&nbsp;</div>
                     <div class="beta-products-list">

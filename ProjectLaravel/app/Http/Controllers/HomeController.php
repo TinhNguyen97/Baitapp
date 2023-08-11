@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\SendEmailConfirm;
 use App\Jobs\SendEmailCoverPass;
 use App\Models\Cart;
+use App\Models\Comment;
 use App\Models\Infors;
 use App\Models\Notification;
 use App\Models\Order;
@@ -89,10 +90,15 @@ class HomeController extends Controller
         $product = Products::find($id);
         $allProducts = Products::where('id_type', $product->id_type)->get();
         $relativeProducts = Products::where('id_type', $product->id_type)->paginate(3);
+        $comments = Comment::where('product_id', $id)
+            ->join('users', 'comments.user_id', '=', 'users.id')
+            ->get();
+        // dd($comments);
         return view('products.detail', [
             'product' => $product,
             'relativeProducts' => $relativeProducts,
-            'allProducts' => $allProducts
+            'allProducts' => $allProducts,
+            'comments' => $comments
         ]);
     }
     public function login()
@@ -154,6 +160,11 @@ class HomeController extends Controller
             if (!Auth::user()->is_active) {
                 return back()->with('ban', 'Tài khoản của bạn đã bị khóa!')->withInput();
             }
+            if (Session::has('admin')) {
+                Session::forget('admin');
+                return redirect('products')->with('success', 'Đăng nhập thành công!');
+            }
+
             return redirect('home')->with('success', 'Đăng nhập thành công!');
         }
         return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng!')->withInput();
@@ -427,5 +438,11 @@ class HomeController extends Controller
         ]);
         $user->update(['password' => $request->password, 'token' => null]);
         return redirect()->route('homes.login')->with('changepasssuccess', 'Đặt lại mật khẩu thành công.');
+    }
+    public function comment(Request $request, $id)
+    {
+        $data = ['content' => $request->content, 'product_id' => $id, 'user_id' => Auth::id()];
+        Comment::create($data);
+        return back();
     }
 }

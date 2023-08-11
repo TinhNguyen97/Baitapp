@@ -11,8 +11,7 @@
                 </li>
             @else
                 <li class="page-item">
-                    <a class="page-link" href="{{ \Request::url() }}" rel="prev"
-                        aria-label="@lang('pagination.first')">First</a>
+                    <a class="page-link" href="{{ \Request::url() }}" rel="prev" aria-label="@lang('pagination.first')">Đầu</a>
                 </li>
                 <li class="page-item">
                     <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev"
@@ -50,7 +49,7 @@
                 </li>
                 <li class="page-item">
                     <a class="page-link" href="{{ \Request::url() . '?page=' . $paginator->lastPage() }}" rel="last"
-                        aria-label="@lang('pagination.last')">Last</a>
+                        aria-label="@lang('pagination.last')">Cuối</a>
                 </li>
             @else
                 <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
