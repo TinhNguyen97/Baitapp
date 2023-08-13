@@ -73,6 +73,12 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href="/coupons" class="nav-link" id="nav-link-coupon">
+                        <i class="fa-brands fa-discourse"></i>
+                        <p>Coupons</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="/users" class="nav-link" id="nav-link-users">
                         <i class="fa-solid fa-user"></i>
                         <p>Tài khoản</p>
@@ -126,5 +132,8 @@
     }
     if (link.includes('infors')) {
         $('#nav-link-info').addClass('active');
+    }
+    if (link.includes('coupons')) {
+        $('#nav-link-coupon').addClass('active');
     }
 </script>

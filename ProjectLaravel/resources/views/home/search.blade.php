@@ -37,11 +37,11 @@
                                                     <p class="single-item-title">{{ $item->name }}</p>
                                                     <p class="single-item-price">
                                                         @if ($up > $pp)
-                                                            <span class="flash-del">{{ '$' . $up }}</span>
-                                                            <span class="flash-sale">{{ '$' . $pp }}</span>
+                                                            <span class="flash-del">{{ $up . ' VNĐ' }}</span>
+                                                            <span class="flash-sale">{{ $pp . ' VNĐ' }}</span>
                                                         @else
                                                             <span class="flash-sale"
-                                                                style="color: black">{{ '$' . $pp }}</span>
+                                                                style="color: black">{{ $pp . ' VNĐ' }}</span>
                                                         @endif
                                                     </p>
                                                 </div>

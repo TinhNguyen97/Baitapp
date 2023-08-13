@@ -13,7 +13,7 @@
                     <div class="col-4 input-group">
                         <input type="text" class="form-control" placeholder="Nhập tên hoặc địa chỉ email" name="key"
                             aria-label="Recipient's username" aria-describedby="button-addon2">
-                        <button class="btn btn-primary col-2 search"type="submit">
+                        <button class="btn btn-primary search"type="submit">
                             Tìm kiếm
                         </button>
                 </form>
@@ -203,6 +203,11 @@
         .pagination {
             display: flex;
             justify-content: center;
+        }
+
+        .search {
+            margin-left: 0.2vw;
+ 
         }
     </style>
     <script>

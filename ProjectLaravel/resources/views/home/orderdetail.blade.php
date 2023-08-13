@@ -91,6 +91,7 @@
                                 </form>
                             @endforeach
 
+                            <form action=""></form>
                             <tr>
                                 <th>Tổng</th>
                                 <th></th>

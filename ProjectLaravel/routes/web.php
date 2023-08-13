@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CouponController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
@@ -32,6 +33,16 @@ Route::prefix('/products')->middleware('admin')->name('products.')->group(functi
     Route::post('search', [ProductController::class, 'addSearch'])->name('addSearch');
     Route::delete('search/{id}', [ProductController::class, 'deleteSearch'])->name('deleteSearch');
     Route::put('search/{id}', [ProductController::class, 'putSearch'])->name('putSearch');
+});
+Route::prefix('/coupons')->middleware('admin')->name('coupons.')->group(function () {
+    Route::get('/', [CouponController::class, 'index'])->name('index');
+    Route::post('/', [CouponController::class, 'add'])->name('add');
+    Route::delete('/{id}', [CouponController::class, 'delete'])->name('delete');
+    Route::put('/{id}', [CouponController::class, 'put'])->name('put');
+
+
+    Route::get('search', [CouponController::class, 'search'])->name('search');
+    Route::post('search', [CouponController::class, 'addSearch'])->name('addSearch');
 });
 Route::prefix('/types')->middleware('admin')->name('types.')->group(function () {
     Route::get('/', [TypeProductController::class, 'index'])->name('index');

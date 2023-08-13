@@ -5,15 +5,14 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-4">
-                        <h1>Quản lý sản phẩm</h1>
+                        <h1>Quản lý coupon</h1>
                     </div>
 
                 </div>
-                <form action="{{ route('products.search') }}" method="get">
+                <form action="{{ route('coupons.search') }}" method="get">
                     <div class="col-4 input-group">
-                        <input type="text" class="form-control" placeholder="Nhập tên sản phẩm/giá tiền" name="key"
-                            aria-label="Recipient's username" aria-describedby="button-addon2"
-                            value="{{ $request->key ? $request->key : '' }}">
+                        <input type="text" class="form-control" placeholder="Nhập tên/mã coupon" name="key"
+                            aria-label="Recipient's username" aria-describedby="button-addon2">
                         <button class="btn btn-primary search"type="submit">
                             Tìm kiếm
                         </button>
@@ -30,12 +29,13 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h1 class="card-title col-11 abc">Sản phẩm</h1>
+                            <h1 class="card-title col-11 abc">Coupon</h1>
+
                             <button class="btn btn-primary col-1" data-target="#create-products" data-toggle="modal"
                                 type="button">
                                 Tạo mới
                             </button>
-                            <p style="color: blue">Tìm thấy {{ count($allProducts) }} sản phẩm!</p>
+                            <p style="color: blue">Tìm thấy {{ count($coupons) }} coupon!</p>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body" id="error-404">
@@ -43,12 +43,10 @@
                                 <thead>
                                     <tr>
                                         <th style="text-align: center">#</th>
-                                        <th style="text-align: center">Tên sản phẩm</th>
-                                        <th style="text-align: center">Danh mục</th>
-                                        <th style="text-align: center">Ảnh sản phẩm</th>
-                                        <th style="text-align: center">Đơn giá</th>
-                                        <th style="text-align: center">Giá sau khuyến mại</th>
-                                        <th style="text-align: center">Mô tả</th>
+                                        <th style="text-align: center">Tên coupon</th>
+                                        <th style="text-align: center">Mã coupon</th>
+                                        <th style="text-align: center">Số lượng</th>
+                                        <th style="text-align: center">% giảm</th>
                                         <th style="text-align: center">Ngày tạo</th>
                                         <th style="text-align: center">Ngày cập nhật</th>
 
@@ -58,37 +56,30 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (count($allProductSearch) !== 0)
-                                        @foreach ($allProductSearch as $key => $item)
+                                    @if (count($allCouponSearch) !== 0)
+                                        @foreach ($allCouponSearch as $key => $item)
                                             <tr>
                                                 <th scope="row" style="text-align: center">
-                                                    {{ $loop->iteration + ($allProductSearch->currentPage() - 1) * $allProductSearch->perPage() }}
+                                                    {{ $loop->iteration + ($allCouponSearch->currentPage() - 1) * $allCouponSearch->perPage() }}
                                                 </th>
                                                 <td style="text-align: center">{{ $item->name }}</td>
-                                                <td style="text-align: center">{{ $item->tp_name }}</td>
-                                                <td style="text-align: center"><img width="100px" height="100px"
-                                                        class="image" src="{{ asset('uploads' . '\\' . $item->image) }}">
-                                                </td>
-                                                <td style="text-align: center">{{ $item->unit_price }}</td>
-                                                <td style="text-align: center" class="promotion_price">
-                                                    {{ $item->promotion_price }}
-                                                </td>
-                                                <td style="text-align: center">{{ $item->description }}</td>
+                                                <td style="text-align: center">{{ $item->code }}</td>
+
+                                                <td style="text-align: center">{{ $item->time }}</td>
+                                                <td style="text-align: center">{{ $item->number }}</td>
+
                                                 <td style="text-align: center">{{ $item->created_at }}</td>
                                                 <td style="text-align: center">{{ $item->updated_at }}</td>
                                                 <td style="text-align: center"><button class="btn btn-primary"
                                                         data-target="#edit-category" data-toggle="modal" type="button"
-                                                        onclick="showDetail.call(this,
+                                                        onclick="showDetail(
                                                             '{{ $item->name }}',
                                                            {{ $item->id }} ,
-                                                           '{{ $item->tp_name }}',
-                                                           '{{ $item->image }}',
-                                                           {{ $item->promotion_price }},
-                                                           '{{ $item->description }}',
-                                                           {{ $item->unit_price }},
-                                                           {{ $item->id_type }}
+                                                           '{{ $item->code }}',
+                                                           {{ $item->time }},
+                                                           {{ $item->number }}
                                                            )">
-                                                        <i class="fa fa-edit"></i></button></td>
+                                                        <i class="fa-solid fa-pen-to-square"></i></button></td>
                                                 <td style="text-align: center"><button class="btn btn-danger"
                                                         data-target="#delete-category" data-toggle="modal" type="button"
                                                         onclick="deleteDish({{ $item->id }})"><i
@@ -97,7 +88,7 @@
                                         @endforeach
                                     @else
                                         <tr colspan='4'>
-                                            <td style="color: red">Không có dữ liệu</td>
+                                            <td>Không có dữ liệu</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -115,7 +106,8 @@
             <!-- /.row -->
         </div>
         <div class="pagination">
-            {{ $allProductSearch->appends($request->all())->links() }}
+            {{ $allCouponSearch->links() }}
+
         </div>
         <!-- /.container-fluid -->
     </section>
@@ -131,49 +123,35 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Chỉnh sửa sản phẩm</h4>
+                        <h4 class="modal-title">Chỉnh sửa coupon</h4>
                         <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="name">Tên sản phẩm</label>
-                            <input class="form-control" id="editName" name="editName" placeholder="Nhập tên sản phẩm"
+                            <label for="name">Tên coupon</label>
+                            <input class="form-control" id="editName" name="editName" placeholder="Nhập tên coupon"
                                 type="text" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="type">Danh mục</label>
-                            <select id="editType" name="editType">
-                                @if (!empty($allTypes))
-                                    @foreach ($allTypes as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="image">Ảnh sản phẩm</label>
+                            <label for="image">Mã coupon</label>
                             <!-- <p id="imageCategory"></p> -->
-                            <img src="" id="editImage" width="100px" height="100px" />
-                            <input class="form-control" id="editImage" type="file" name="editImage" />
+                            <input class="form-control" id="editCode" name="editCode" placeholder="Nhập mã coupon"
+                                type="text" required />
                         </div>
                         <div class="form-group">
-                            <label>Đơn giá</label>
-                            <input id="editPrice" class="form-control" placeholder="Nhập giá" type="number"
-                                name="editPrice" min="0" required />
+                            <label>Số lượng</label>
+                            <input id="editTime" class="form-control" placeholder="Nhập số lượng" type="number"
+                                name="editTime" min="0" required />
                         </div>
                         <div class="form-group">
-                            <label>Giá khuyến mại</label>
-                            <input id="editPromotionPrice" class="form-control" placeholder="Nhập giá" type="number"
-                                name="editPromotionPrice" required min="0" />
+                            <label>% giảm</label>
+                            <input id="editNumber" class="form-control" placeholder="Nhập % giảm" type="number"
+                                name="editNumber" required min="0" />
                         </div>
-                        <div class="form-group">
-                            <label>Mô tả</label>
-                            <input id="editDescr" class="form-control" placeholder="Nhập giá" name="editDescr"
-                                required />
-                        </div>
+
                     </div>
                     <div class="modal-footer justify-content-between" id="edit-form">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Đóng</button>
@@ -186,51 +164,37 @@
             <!-- /.modal-dialog -->
         </div>
     </form>
-    <form action="" method="post" enctype="multipart/form-data">
+    <form action="" method="post" enctype="multipart/form-data" id="create-form">
         <div class="modal fade" id="create-products">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Tạo mới sản phẩm</h4>
+                        <h4 class="modal-title">Tạo mới coupon</h4>
                         <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="name">Tên sản phẩm</label>
-                            <input name="name" class="form-control" id="name" placeholder="Nhập tên sản phẩm"
-                                type="text" required />
+                        <div class="form-group">Tên coupon</label>
+                            <input name="name" class="form-control" id="name" placeholder="Nhập tên coupon"
+                                type="text" />
                         </div>
-                        <div class="form-group">
-                            <label for="type">Danh mục sản phẩm</label>
-                            <select id="type" name="id_type">
-                                @if (!empty($allTypes))
-                                    @foreach ($allTypes as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
-                                @endif
 
-                            </select>
+
+                        <div class="form-group">
+                            <label for="price">Mã coupon</label>
+                            <input class="form-control" id="code" type="text" placeholder="Nhập mã coupon"
+                                name="code" required />
                         </div>
                         <div class="form-group">
-                            <label for="image">Ảnh sản phẩm</label>
-                            <input class="form-control" name="image" id="image" type="file" required />
+                            <label for="price">Số lượng</label>
+                            <input class="form-control" id="time" type="number" placeholder="Nhập giá"
+                                min="0" name="time" required />
                         </div>
                         <div class="form-group">
-                            <label for="price">Đơn giá</label>
-                            <input class="form-control" id="unit_price" type="number" placeholder="Nhập giá"
-                                name="unit_price" min="0" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="price">Giá sau khuyến mại</label>
-                            <input class="form-control" id="promotion_price" type="number" placeholder="Nhập giá"
-                                min="0" name="promotion_price" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="price">Mô tả</label>
-                            <input class="form-control" id="description" placeholder="Nhập giá" name="description"
-                                required />
+                            <label for="price">% giảm</label>
+                            <input class="form-control" id="number" placeholder="Nhập số lượng" name="number"
+                                type="number" required />
                         </div>
 
                     </div>
@@ -239,7 +203,8 @@
                             onclick="removeMessageCreateError()">
                             Đóng
                         </button>
-                        <button class="btn btn-primary" type="submit" class="close" name="save">
+                        <button class="btn btn-primary" type="submit" class="close" name="save"
+                            onclick="validForm()">
                             Tạo mới
                         </button>
                     </div>
@@ -257,7 +222,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Xóa sản phẩm</h4>
+                        <h4 class="modal-title">Xóa coupon</h4>
                         <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -299,11 +264,11 @@
     @endif
     <script>
         function routeDelete(id) {
-            return "{{ route('products.deleteSearch', 0) }}".replace(/\d$/, id);
+            return "{{ route('coupons.delete', 0) }}".replace(/\d$/, id);
         }
 
         function routeUpdate(id) {
-            return "{{ route('products.putSearch', 0) }}".replace(/\d$/, id);
+            return "{{ route('coupons.put', 0) }}".replace(/\d$/, id);
         }
 
         function alertSuccess(message) {
@@ -312,68 +277,96 @@
             })
         }
 
-        function removeMessageCreateError() {
-            document.getElementById("name-error").style.display = 'none';
-            document.getElementById("image-error").style.display = 'none';
-            document.getElementById("unit_price-error").style.display = 'none';
-            document.getElementById("promotion_price-error").style.display = 'none';
-            document.getElementById("description-error").style.display = 'none';
+        function validForm() {
+
         }
 
-        function removeMessageUpdateError() {
-            document.getElementById("editName-error").style.display = 'none';
-            document.getElementById("editPrice-error").style.display = 'none';
-            document.getElementById("editPromotionPrice-error").style.display = 'none';
-            document.getElementById("editDescr-error").style.display = 'none';
+        function removeMessageCreateError() {
+            document.getElementById("name-error").style.display = 'none';
+            document.getElementById("code-error").style.display = 'none';
+            document.getElementById("time-error").style.display = 'none';
+            document.getElementById("number-error").style.display = 'none';
         }
+
         $(document).ready(function() {
+            $.validator.addMethod("greaterThan", function(value, element, param) {
+                var $otherElement = $(param);
+                return parseInt(value, 10) >= parseInt($otherElement.val(), 10);
+            }, "Đơn giá phải lớn hơn giá khuyến mại.");
+            // console.log($('#create-products').parent())
             $('#create-products').parent().validate({
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false,
+
                 rules: {
-                    // name: {
-                    //     minlength: 2
-                    // }
+                    name: {
+                        required: true,
+                    },
+                    code: {
+                        required: true,
+                    },
+                    time: {
+                        required: true,
+                    },
+                    number: {
+                        required: true,
+                    }
+
                 },
                 messages: {
                     name: {
                         required: "Không được để trống tên."
                         // minlength: "it nhất 2 ký tự"
                     },
-                    image: {
-                        required: "Không được để trống ảnh."
+                    code: {
+                        required: "Không được để trống mã."
                         // minlength: "it nhất 2 ký tự"
                     },
-                    unit_price: {
-                        required: "Không được để trống giá tiền."
+                    time: {
+                        required: "Không được để trống số lượng.",
                     },
-                    promotion_price: {
-                        required: "Không được để trống giá khuyến mại."
-                    },
-                    description: {
-                        required: "Không được để trống mô tả sản phẩm."
+                    number: {
+                        required: "Không được để trống giảm giá."
                     }
-                    // image: {
-                    //     required: "Không được để trống ảnh."
-                    // }
                 }
             });
             $('#form-edit').validate({
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false,
+
+                rules: {
+                    editName: {
+                        required: true
+                    },
+
+                    editCode: {
+                        required: true,
+                    },
+                    editTime: {
+                        required: true,
+                    },
+                    editNumber: {
+                        required: true,
+                    }
+
+                },
                 messages: {
                     editName: {
                         required: "Không được để trống tên."
                         // minlength: "it nhất 2 ký tự"
                     },
-                    editPrice: {
-                        required: "Không được để trống giá tiền."
+                    editCode: {
+                        required: "Không được để trống mã."
+                        // minlength: "it nhất 2 ký tự"
                     },
-                    editPromotionPrice: {
-                        required: "Không được để trống giá khuyến mại."
+                    editTime: {
+                        required: "Không được để trống số lượng.",
                     },
-                    editDescr: {
-                        required: "Không được để trống mô tả sản phẩm."
+                    editNumber: {
+                        required: "Không được để trống giảm giá."
                     }
-                    // image: {
-                    //     required: "Không được để trống ảnh."
-                    // }
                 }
             })
         });
@@ -383,14 +376,13 @@
             // $('#delete-category').append('<input type="hidden" name="myfieldname"/>')
         }
 
-        function showDetail(name, id, tp_name, image, promotion_price, description, unit_price, id_type) {
-            $('#form-edit').attr('action', routeUpdate(id))
+        function showDetail(name, id, code, time, number) {
+            $('#form-edit').attr('action', routeUpdate(id)).valid()
             $('#editName').val(name);
-            $('#editType').val(id_type);
-            $('#editPrice').val(unit_price);
-            $('#editPromotionPrice').val(promotion_price);
-            $('#editDescr').val(description);
-            $('#editImage').attr('src', $(this).parents('.row').find('.image').attr('src'));
+            $('#editCode').val(code);
+            $('#editTime').val(time);
+            $('#editNumber').val(number);
+
         }
     </script>
     <style>
@@ -408,4 +400,5 @@
             margin-left: 0.2vw;
         }
     </style>
+
 @endsection
