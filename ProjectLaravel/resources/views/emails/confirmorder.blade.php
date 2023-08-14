@@ -78,8 +78,33 @@
             @endif
 
         </tbody>
-
     </table>
+    {{-- @if (Session::has('coupon')) --}}
+    @if ($number)
+        <p>Thanh toán sau khi giảm giá:</p>
+        <table border="1" cellspacing="0" cellpadding="10" style="width:40%">
+            <tr>
+                <th>Thanh toán</th>
+                <th>
+                    <ul style="text-align:left">
+                        @php
+                            $totalAfterCoupon = $totalPrice * (1 - $number / 100);
+                            $totalAfterCoupon = number_format($totalAfterCoupon, 0, ',', '.');
+                        @endphp
+
+                        <li>Tổng tiền: <span>{{ number_format($totalPrice, 0, ',', '.') . ' VNĐ' }}</span>
+                        </li>
+                        <li>Mã giảm: <span>{{ $number . '%' }}</span>
+                        </li>
+                        <li>Tổng đã giảm:<span id="total-after-cou">
+                                {{ $totalAfterCoupon . ' VNĐ' }}</span>
+                        </li>
+                    </ul>
+                </th>
+            </tr>
+        </table>
+    @endif
+
     <p>Thông tin người nhận hàng:</p>
     <table border="1" cellspacing="0" cellpadding="10" style="width:50%">
         <tr>

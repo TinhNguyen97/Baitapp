@@ -175,6 +175,7 @@ class HomeController extends Controller
     public function logout()
     {
         Auth::logout();
+        Session::forget('cart');
         return redirect('home');
     }
     public function profile()
@@ -300,6 +301,7 @@ class HomeController extends Controller
     }
     public function order(Request $request)
     {
+
         return view('home.order');
     }
 
@@ -373,7 +375,11 @@ class HomeController extends Controller
             $items = Session::get('cart')->items;
             $totalQty = Session::get('cart')->totalQty;
             $totalPrice = Session::get('cart')->totalPrice;
-            SendEmailConfirm::dispatch($request->email, $id, $request, $items, $totalQty, $totalPrice);
+            $number = null;
+            if (Session::has('coupon')) {
+                $number = Session::get('coupon')['number'];
+            }
+            SendEmailConfirm::dispatch($request->email, $id, $request, $items, $totalQty, $totalPrice, $number);
             Session::forget('cart');
         }
         Notification::create(['user_id' => Auth::id()]);

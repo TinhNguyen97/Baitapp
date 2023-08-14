@@ -20,10 +20,11 @@ class SendEmailConfirm implements ShouldQueue
     private $items;
     private $totalPrice;
     private $totalQty;
+    private $number;
     /**
      * Create a new job instance.
      */
-    public function __construct($email, $id, $request, $items, $totalQty, $totalPrice)
+    public function __construct($email, $id, $request, $items, $totalQty, $totalPrice, $number)
     {
         $this->email = $email;
         $this->id = $id;
@@ -31,6 +32,7 @@ class SendEmailConfirm implements ShouldQueue
         $this->items = $items;
         $this->totalPrice = $totalPrice;
         $this->totalQty = $totalQty;
+        $this->number = $number;
     }
 
     /**
@@ -45,7 +47,8 @@ class SendEmailConfirm implements ShouldQueue
                 'id' => $this->id,
                 'carts' => $this->items,
                 'totalQty' => $this->totalQty,
-                'totalPrice' => $this->totalPrice
+                'totalPrice' => $this->totalPrice,
+                'number' => $this->number
             ],
             function ($email) {
                 $email->subject('Xác nhận đơn hàng');

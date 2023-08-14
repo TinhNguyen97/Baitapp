@@ -59,7 +59,7 @@ html {
 html,
 body {
     height: 100%;
-    -webkit-font-smoothing: antialiased;
+    /* -webkit-font-smoothing: antialiased; */
 }
 
 body {
@@ -87,7 +87,7 @@ table {
     border-spacing: 0;
 }
 p {
-    font-size: 14px;
+    font-size: 12px;
 }
 a {
     border: none;

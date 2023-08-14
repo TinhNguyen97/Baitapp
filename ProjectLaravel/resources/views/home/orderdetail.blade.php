@@ -13,7 +13,45 @@
             <div class="clearfix"></div>
         </div>
     </div>
-
+    @if (Session::has('cart'))
+        <div class="container">
+            <form action="{{ route('coupons.checkCoupon') }}">
+                <div class="css-coupon">
+                    <div><input type="text" name="code" placeholder="Nhập mã khuyến mại"></div>
+                    <div><button class="btn btn-primary" type="submit">Áp dụng</button></div>
+                    <a href="{{ route('coupons.delCoupon') }}" class="btn btn-danger">Loại bỏ</a>
+                    <div style="font-style:italic; font-size:13px; color:blue">
+                        <p>(Lưu ý: Mỗi đơn hàng chỉ áp dụng được 1 mã khuyến mãi.)</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    @endif
+    @if (Session::has('delsuccess'))
+        <div class="container">
+            <div class="alert alert-success">{{ Session::get('delsuccess') }}</div>
+        </div>
+    @endif
+    @if (Session::has('duplicate'))
+        <div class="container">
+            <div class="alert alert-success">{{ Session::get('duplicate') }}</div>
+        </div>
+    @endif
+    @if (Session::has('message'))
+        <div class="container">
+            <div class="alert alert-success">{{ Session::get('message') }}</div>
+        </div>
+    @endif
+    @if (Session::has('error'))
+        <div class="container">
+            <div class="alert alert-danger">{{ Session::get('error') }}</div>
+        </div>
+    @endif
+    @if (Session::has('out'))
+        <div class="container">
+            <div class="alert alert-danger">{{ Session::get('out') }}</div>
+        </div>
+    @endif
     <div class="container">
         <div id="content">
 
@@ -61,6 +99,9 @@
                                                     class="product-qty ip-number" min="1" name="quantity"
                                                     data-price="{{ $item['item']['promotion_price'] }}">
                                             </td>
+                                            <td class="product-subtotal">
+                                                {{ number_format($item['item']['promotion_price'] * $item['qty'], 0, ',', '.') }}
+                                            </td>
                                         @else
                                             <td class="product-status" id="price">
                                                 {{ $item['item']['unit_price'] }}
@@ -70,14 +111,15 @@
                                                     class="product-qty ip-number" min="1" name="quantity"
                                                     data-price="{{ $item['item']['unit_price'] }}">
                                             </td>
+                                            <td class="product-subtotal">
+                                                {{ number_format($item['item']['unit_price'] * $item['qty'], 0, ',', '.') }}
+                                            </td>
                                         @endif
 
 
 
 
-                                        <td class="product-subtotal">
-                                            {{ number_format(Session::get('cart')->totalPrice, 0, ',', '.') }}
-                                        </td>
+
 
                                         <td class="product-update" id="update">
                                             <button type="submit" class="btn btn-primary">Cập nhật</button>
@@ -93,14 +135,7 @@
 
                             <form action=""></form>
                             <tr>
-                                <th>Tổng</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th id=total-quantity>{{ Session::get('cart')->totalQty }}</th>
-                                <th id="total-price">{{ number_format(Session::get('cart')->totalPrice, 0, ',', '.') }}
-                                </th>
-                                <td colspan="2"><a href="{{ route('homes.deleteallcart') }}" class="btn btn-danger">Xoá
+                                <td colspan="8"><a href="{{ route('homes.deleteallcart') }}" class="btn btn-danger">Xoá
                                         tất cả</a></td>
                             </tr>
                         @else
@@ -112,11 +147,44 @@
                     </tbody>
 
                 </table>
-
+                @if (Session::has('cart'))
+                    <table class="shop_table beta-shopping-cart-table">
+                        <tr>
+                            <thead>
+                                <th>Tổng</th>
+                                <th colspan="2">
+                                    <ul style="text-align:left; font-weight:bold">
+                                        <li>Tổng tiền:<span id="total-price">
+                                                {{ number_format(Session::get('cart')->totalPrice, 0, ',', '.') . ' VNĐ' }}
+                                            </span>
+                                        </li>
+                                        @if (Session::has('coupon'))
+                                            @php
+                                                $totalAfterCoupon = Session::get('cart')->totalPrice * (1 - Session::get('coupon')['number'] / 100);
+                                                $totalAfterCoupon = number_format($totalAfterCoupon, 0, ',', '.');
+                                            @endphp
+                                            <li>Mã giảm: <span
+                                                    id="coupon">{{ Session::get('coupon')['number'] . '%' }}</span>
+                                            </li>
+                                            <li>Tổng đã giảm:<span id="total-after-cou">
+                                                    {{ $totalAfterCoupon . ' VNĐ' }}</span>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                </th>
+                            </thead>
+                            {{-- <tbody>
+                            <tr>
+                     
+                            </tr>
+                        </tbody> --}}
+                    </table>
+                    <div class="text-center"><a class="btn btn-primary" href="{{ route('homes.order') }}">Thông tin đặt
+                            hàng <i class="fa fa-chevron-right"></i></a></div>
+                @endif
                 <!-- End of Shop Table Products -->
 
-                <div class="text-center"><a class="btn btn-primary" href="{{ route('homes.order') }}">Thông tin đặt
-                        hàng <i class="fa fa-chevron-right"></i></a></div>
+
             </div>
         </div>
     </div>
@@ -128,7 +196,7 @@
             var totalQty = 0;
             var quantity = $(this).val();
             var oldPrice = $(this).data('price');
-            console.log(oldPrice, 'old');
+            var coupon = $('#coupon').text().replace('%', '');
             $(this).parents('tr').find('.product-subtotal').text(formatNumberWithDot(quantity * oldPrice));
             $(this).parents('tbody').find('.product-subtotal').each((index, item) => {
                 totalPrice += Number($(item).text().trim().replaceAll('.', ''));
@@ -139,7 +207,8 @@
             });
 
             $('#total-quantity').text(totalQty)
-            $('#total-price').text(formatNumberWithDot(totalPrice))
+            $('#total-price').text(' ' + formatNumberWithDot(totalPrice) + ' VNĐ')
+            $('#total-after-cou').text(' ' + formatNumberWithDot(totalPrice * (1 - coupon / 100)) + ' VNĐ')
 
         }
 
@@ -152,6 +221,12 @@
             text-align: center;
             width: 100px;
             height: 21px;
+        }
+
+        .css-coupon {
+            display: flex;
+            gap: 5px;
+            align-items: center;
         }
     </style>
 @endsection

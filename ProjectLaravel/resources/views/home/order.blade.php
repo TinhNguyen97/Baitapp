@@ -94,15 +94,28 @@
                                                             <p class="font-large">{{ $item['item']->name }}</p>
                                                             @if ($item['item']->promotion_price == 0)
                                                                 <span class="color-gray your-order-info">Giá:
-                                                                    ${{ number_format($item['item']->unit_price, 0, ',', '.') }}</span>
+                                                                    {{ number_format($item['item']->unit_price, 0, ',', '.') . ' VNĐ' }}</span>
                                                             @else
                                                                 <span class="color-gray your-order-info">Giá:
-                                                                    ${{ number_format($item['item']->promotion_price, 0, ',', '.') }}</span>
+                                                                    {{ number_format($item['item']->promotion_price, 0, ',', '.') . ' VNĐ' }}</span>
                                                             @endif
                                                             <span class="color-gray your-order-info">SL:
                                                                 {{ $item['qty'] }}</span>
-                                                            <span class="color-gray your-order-info">Thành
-                                                                tiền: ${{ number_format($money, 0, ',', '.') }}</span>
+                                                            @if (Session::has('coupon'))
+                                                                @php
+                                                                    $totalAfterCoupon = $money * (1 - Session::get('coupon')['number'] / 100);
+                                                                    
+                                                                @endphp
+                                                                <span class="color-gray your-order-info">Giảm giá:
+                                                                    {{ Session::get('coupon')['number'] . '%' }}</span>
+                                                                <span class="color-gray your-order-info">Thành
+                                                                    tiền:
+                                                                    {{ number_format($totalAfterCoupon, 0, ',', '.') . ' VNĐ' }}</span>
+                                                            @else
+                                                                <span class="color-gray your-order-info">Thành
+                                                                    tiền:
+                                                                    {{ number_format($money, 0, ',', '.') . ' VNĐ' }}</span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 @endforeach
@@ -116,8 +129,15 @@
                                             <p class="your-order-f18">Tổng:</p>
                                         </div>
                                         <div class="pull-right">
-                                            <h5 class="color-black">
-                                                ${{ number_format(Session::get('cart')->totalPrice, 0, ',', '.') }}</h5>
+                                            @if (Session::has('coupon'))
+                                                <h5 class="color-black">
+                                                    {{ number_format($totalAfterCoupon, 0, ',', '.') . ' VNĐ' }}
+                                                </h5>
+                                            @else
+                                                <h5 class="color-black">
+                                                    {{ number_format(Session::get('cart')->totalPrice, 0, ',', '.') . ' VNĐ' }}
+                                                </h5>
+
                                         </div>
                                         @endif
                                         <div class="clearfix"></div>

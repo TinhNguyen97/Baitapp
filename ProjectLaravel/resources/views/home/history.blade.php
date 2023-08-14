@@ -19,6 +19,7 @@
                                                 <th style="text-align: center">Đơn giá</th>
                                                 <th style="text-align: center">Giá khuyến mại</th>
                                                 <th style="text-align: center">Số lượng</th>
+                                                <th style="text-align: center">Giảm giá</th>
                                                 <th style="text-align: center">Thành tiền</th>
 
                                             </tr>
@@ -51,6 +52,9 @@
                                                             {{ number_format($item->promotion_price, 0, ',', '.') }}</td>
                                                         <td style="text-align: center">
                                                             {{ $item->sq }}</td>
+                                                        {{-- <td style="text-align: center">
+                                                            {{ Session::has('coupon') ? Session::get('coupon')['number'] . '%' : '' }}
+                                                        </td> --}}
                                                         @if ($item->promotion_price < $item->unit_price)
                                                             <td style="text-align: center">
                                                                 {{ number_format($item->promotion_price * $item->sq, 0, ',', '.') }}
@@ -65,7 +69,7 @@
                                                 @endforeach
                                                 <tr>
                                                     <th style="text-align: center" colspan="8">Tổng:
-                                                        {{ number_format($count, 0, ',', '.') }}
+                                                        {{ number_format($count, 0, ',', '.') . ' VNĐ' }}
                                                     </th>
 
                                                 </tr>

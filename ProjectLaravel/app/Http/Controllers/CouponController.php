@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class CouponController extends Controller
 {
@@ -115,5 +116,32 @@ class CouponController extends Controller
         Coupon::create(array_merge($request->all()));
 
         return back()->with(['isCreateSuccess' => true]);
+    }
+    public function checkCoupon(Request $request)
+    {
+        // Session::forget('coupon');
+        $code = $request->code;
+        $coupon = Coupon::where('code', $code)->first();
+        if ($coupon) {
+            $coupon_session = Session::get('coupon');
+            if ($coupon_session && $code ==  $coupon_session['code']) {
+                return back()->with('duplicate', 'Mã giảm giá đã được áp dụng rồi.');
+            }
+            $cou = [
+                'code' => $coupon->code,
+                'number' => $coupon->number
+            ];
+            Session::put('coupon', $cou);
+
+
+            return back()->with('message', 'Thêm mã giảm giá thành công');
+        }
+
+        return back()->with('error', 'Mã giảm giá không đúng');
+    }
+    public function delCoupon()
+    {
+        Session::forget('coupon');
+        return back()->with('delsuccess', 'Mã giảm giá đã được loại bỏ');
     }
 }

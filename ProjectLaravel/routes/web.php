@@ -43,6 +43,8 @@ Route::prefix('/coupons')->middleware('admin')->name('coupons.')->group(function
 
     Route::get('search', [CouponController::class, 'search'])->name('search');
     Route::post('search', [CouponController::class, 'addSearch'])->name('addSearch');
+    Route::get('checkcoupon', [CouponController::class, 'checkCoupon'])->name('checkCoupon');
+    Route::get('delcoupon', [CouponController::class, 'delCoupon'])->name('delCoupon');
 });
 Route::prefix('/types')->middleware('admin')->name('types.')->group(function () {
     Route::get('/', [TypeProductController::class, 'index'])->name('index');
