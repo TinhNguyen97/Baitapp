@@ -128,6 +128,7 @@ class CouponController extends Controller
                 return back()->with('duplicate', 'Mã giảm giá đã được áp dụng rồi.');
             }
             $cou = [
+                'id' => $coupon->id,
                 'code' => $coupon->code,
                 'number' => $coupon->number
             ];

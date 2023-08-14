@@ -27,7 +27,8 @@
                                             <th style="text-align: center">Giá khuyến mại</th>
                                             <th style="text-align: center">Số lượng</th>
                                             <th style="text-align: center">Thành tiền</th>
-                                            <th style="text-align: center">Ngày tạo</th>
+                                            <th style="text-align: center">Giảm giá</th>
+                                            <th style="text-align: center">Tiền sau giảm giá</th>
 
                                         </tr>
                                     </thead>
@@ -40,9 +41,9 @@
                                                 @php
                                                     
                                                     if ($item->promotion_price < $item->unit_price) {
-                                                        $count += $item->promotion_price * $item->quantity;
+                                                        $count += $item->promotion_price * $item->quantity * (1 - $item->number / 100);
                                                     } else {
-                                                        $count += $item->unit_price * $item->quantity;
+                                                        $count += $item->unit_price * $item->quantity * (1 - $item->number / 100);
                                                     }
                                                 @endphp
                                                 <tr>
@@ -59,17 +60,25 @@
                                                     @if ($item->promotion_price < $item->unit_price)
                                                         <td style="text-align: center">
                                                             {{ $item->promotion_price * $item->quantity }} </td>
+                                                        <td style="text-align: center">{{ $item->number . '%' }}</td>
+                                                        <td style="text-align: center">
+                                                            {{ $item->promotion_price * $item->quantity * (1 - $item->number / 100) }}
+                                                        </td>
                                                     @else
                                                         <td style="text-align: center">
-                                                            {{ $item->unit_price * $item->quantity }}
+                                                            {{ $item->unit_price * $item->quantity }} </td>
+                                                        <td style="text-align: center">{{ $item->number . '%' }}</td>
+                                                        <td style="text-align: center">
+                                                            {{ $item->unit_price * $item->quantity * (1 - $item->number / 100) }}
                                                         </td>
                                                     @endif
-                                                    <td style="text-align: center">{{ $item->created_at }}</td>
+
+
 
                                                 </tr>
                                             @endforeach
                                             <tr>
-                                                <th style="text-align: center" colspan="8">Tổng: {{ $count }}
+                                                <th style="text-align: center" colspan="9">Tổng: {{ $count }}
                                                 </th>
 
                                             </tr>

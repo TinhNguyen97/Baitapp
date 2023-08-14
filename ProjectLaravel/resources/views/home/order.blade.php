@@ -119,8 +119,8 @@
                                                         </div>
                                                     </div>
                                                 @endforeach
-
-                                                <!-- end one item -->
+                                            @endif
+                                            <!-- end one item -->
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>

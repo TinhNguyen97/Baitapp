@@ -337,7 +337,8 @@ class HomeController extends Controller
             'email.email' => 'Vui lòng nhập email đúng định dạng.',
             'phone.regex' => 'Số điện thoại không hợp lệ.'
         ]);
-        $id = Order::create($request->all())->id;
+        $order = Order::create($request->all());
+        $id = $order->id;
         if (Session::has('cart')) {
             $carts = Session::get('cart')->items;
             $idProducts = array_keys($carts);
@@ -360,25 +361,18 @@ class HomeController extends Controller
                     ]);
                 }
             }
-            //gửi mail xác nhận đơn hàng
-            // Mail::send(
-            //     'emails.confirmorder',
-            //     [
-            //         'request' => $request,
-            //         'id' => $id
-            //     ],
-            //     function ($email) use ($request) {
-            //         $email->subject('Xác nhận đơn hàng');
-            //         $email->to($request->email);
-            //     }
-            // );
-            $items = Session::get('cart')->items;
-            $totalQty = Session::get('cart')->totalQty;
-            $totalPrice = Session::get('cart')->totalPrice;
+            $couponId = null;
             $number = null;
             if (Session::has('coupon')) {
                 $number = Session::get('coupon')['number'];
-            }
+                $couponId = Session::get('coupon')['id'];
+            };
+            // OrderCoupon::create(['coupon_id' => $couponId, 'order_id' => $id]);
+            $order->orderCoupons()->create(['coupon_id' => $couponId]);
+            $items = Session::get('cart')->items;
+            $totalQty = Session::get('cart')->totalQty;
+            $totalPrice = Session::get('cart')->totalPrice;
+
             SendEmailConfirm::dispatch($request->email, $id, $request, $items, $totalQty, $totalPrice, $number);
             Session::forget('cart');
         }
@@ -388,18 +382,19 @@ class HomeController extends Controller
     }
     public function history()
     {
-        DB::enableQueryLog();
         $id = Auth::id();
         $list = DB::table('order_details')
             ->join('orders', 'order_details.order_id', '=', 'orders.id')
             ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
             ->join('products', 'order_details.product_id', '=', 'products.id')
+            ->rightjoin('order_coupons', 'orders.id', 'order_coupons.order_id')
+            ->join('coupons', 'order_coupons.coupon_id', 'coupons.id')
             ->where('order_details.user_id', $id)
             ->where('order_statuses.id', 2)
             ->groupBy('products.id')
             ->selectRaw('*, sum(order_details.quantity) AS sq')
             ->get();
-        // dd(DB::getQueryLog());
+        // dd($list);
         return view('home.history', ['list' => $list]);
     }
     public function forgetPass()

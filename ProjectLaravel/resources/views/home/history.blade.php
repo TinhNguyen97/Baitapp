@@ -34,9 +34,9 @@
                                                     @php
                                                         
                                                         if ($item->promotion_price < $item->unit_price) {
-                                                            $count += $item->promotion_price * $item->sq;
+                                                            $count += $item->promotion_price * $item->sq * (1 - $item->number / 100);
                                                         } else {
-                                                            $count += $item->unit_price * $item->sq;
+                                                            $count += $item->unit_price * $item->sq * (1 - $item->number / 100);
                                                         }
                                                     @endphp
                                                     <tr>
@@ -52,12 +52,12 @@
                                                             {{ number_format($item->promotion_price, 0, ',', '.') }}</td>
                                                         <td style="text-align: center">
                                                             {{ $item->sq }}</td>
-                                                        {{-- <td style="text-align: center">
-                                                            {{ Session::has('coupon') ? Session::get('coupon')['number'] . '%' : '' }}
-                                                        </td> --}}
+                                                        <td style="text-align: center">
+                                                            {{ $item->number . '%' }}
+                                                        </td>
                                                         @if ($item->promotion_price < $item->unit_price)
                                                             <td style="text-align: center">
-                                                                {{ number_format($item->promotion_price * $item->sq, 0, ',', '.') }}
+                                                                {{ number_format($item->promotion_price * $item->sq * (1 - $item->number / 100), 0, ',', '.') }}
                                                             </td>
                                                         @else
                                                             <td style="text-align: center">
