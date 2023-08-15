@@ -52,9 +52,13 @@
                                                             {{ number_format($item->promotion_price, 0, ',', '.') }}</td>
                                                         <td style="text-align: center">
                                                             {{ $item->sq }}</td>
-                                                        <td style="text-align: center">
-                                                            {{ $item->number . '%' }}
-                                                        </td>
+                                                        @if ($item->number)
+                                                            <td style="text-align: center">
+                                                                {{ $item->number . '%' }}
+                                                            </td>
+                                                        @else
+                                                            <td></td>
+                                                        @endif
                                                         @if ($item->promotion_price < $item->unit_price)
                                                             <td style="text-align: center">
                                                                 {{ number_format($item->promotion_price * $item->sq * (1 - $item->number / 100), 0, ',', '.') }}

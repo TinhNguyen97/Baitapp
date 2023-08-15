@@ -361,7 +361,7 @@ class HomeController extends Controller
                     ]);
                 }
             }
-            $couponId = null;
+            $couponId = 0;
             $number = null;
             if (Session::has('coupon')) {
                 $number = Session::get('coupon')['number'];
@@ -375,6 +375,7 @@ class HomeController extends Controller
 
             SendEmailConfirm::dispatch($request->email, $id, $request, $items, $totalQty, $totalPrice, $number);
             Session::forget('cart');
+            Session::forget('coupon');
         }
         Notification::create(['user_id' => Auth::id()]);
 
@@ -382,18 +383,20 @@ class HomeController extends Controller
     }
     public function history()
     {
+        // DB::enableQueryLog();
         $id = Auth::id();
         $list = DB::table('order_details')
             ->join('orders', 'order_details.order_id', '=', 'orders.id')
             ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
             ->join('products', 'order_details.product_id', '=', 'products.id')
-            ->rightjoin('order_coupons', 'orders.id', 'order_coupons.order_id')
+            ->join('order_coupons', 'orders.id', 'order_coupons.order_id')
             ->join('coupons', 'order_coupons.coupon_id', 'coupons.id')
             ->where('order_details.user_id', $id)
             ->where('order_statuses.id', 2)
-            ->groupBy('products.id')
-            ->selectRaw('*, sum(order_details.quantity) AS sq')
+            ->selectRaw('*, order_details.quantity AS sq')
+            ->orderBy('products.name')
             ->get();
+        // dd(DB::getQueryLog());
         // dd($list);
         return view('home.history', ['list' => $list]);
     }

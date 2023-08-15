@@ -37,8 +37,8 @@ Route::prefix('/products')->middleware('admin')->name('products.')->group(functi
 Route::prefix('/coupons')->middleware('admin')->name('coupons.')->group(function () {
     Route::get('/', [CouponController::class, 'index'])->name('index');
     Route::post('/', [CouponController::class, 'add'])->name('add');
-    Route::delete('/{id}', [CouponController::class, 'delete'])->name('delete');
-    Route::put('/{id}', [CouponController::class, 'put'])->name('put');
+    Route::delete('/{code}', [CouponController::class, 'delete'])->name('delete');
+    Route::put('/{code}', [CouponController::class, 'put'])->name('put');
 
 
     Route::get('search', [CouponController::class, 'search'])->name('search');

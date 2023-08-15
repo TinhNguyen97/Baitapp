@@ -31,19 +31,12 @@ class OrderController extends Controller
     public function orderDetails($order_id)
     {
         $details = DB::table('order_details')
-            ->join('products', 'order_details.product_id', '=', 'products.id')
             ->join('orders', 'order_details.order_id', '=', 'orders.id')
             ->join('order_coupons', 'order_coupons.order_id', '=', 'orders.id')
             ->join('coupons', 'order_coupons.coupon_id', '=', 'coupons.id')
+            ->join('products', 'order_details.product_id', '=', 'products.id')
             ->where('order_details.order_id', $order_id)
             ->paginate(5);
-        // dd($details);
-        // $count = 
-        // $test = OrderDetail::with('product')->where('order_id', $order_id)->get();
-        // $test2 = Products::with(['orderDetails'])->whereHas('orderDetails', function ($query) use ($order_id) {
-        //     $query->where('order_id', $order_id);
-        // })->paginate(5);
-        // dd($test2[0]->orderdetails);
         return view('orders.orderdetail', ['details' => $details]);
     }
     public function search(Request $request)

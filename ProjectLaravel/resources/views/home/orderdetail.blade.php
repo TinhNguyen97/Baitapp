@@ -27,6 +27,11 @@
             </form>
         </div>
     @endif
+    @if (Session::has('outtime'))
+        <div class="container">
+            <div class="alert alert-danger">{{ Session::get('outtime') }}</div>
+        </div>
+    @endif
     @if (Session::has('delsuccess'))
         <div class="container">
             <div class="alert alert-success">{{ Session::get('delsuccess') }}</div>
@@ -63,9 +68,9 @@
                             <th>STT</th>
                             <th class="product-name">Sản phẩm</th>
                             <th class="product-price">Ảnh sản phẩm</th>
-                            <th class="product-status">Đơn giá($)</th>
+                            <th class="product-status">Đơn giá</th>
                             <th class="product-quantity">Số lượng</th>
-                            <th class="product-subtotal">Thành tiền($)</th>
+                            <th class="product-subtotal">Thành tiền</th>
                             <th class="product-remove">Cập nhật</th>
                             <th class="product-remove">Xóa</th>
                         </tr>
@@ -132,12 +137,6 @@
                                     </tr>
                                 </form>
                             @endforeach
-
-                            <form action=""></form>
-                            <tr>
-                                <td colspan="8"><a href="{{ route('homes.deleteallcart') }}" class="btn btn-danger">Xoá
-                                        tất cả</a></td>
-                            </tr>
                         @else
                             <tr>
                                 <td colspan="8" style="color:red">Giỏ hàng trống</td>
@@ -179,8 +178,14 @@
                             </tr>
                         </tbody> --}}
                     </table>
-                    <div class="text-center"><a class="btn btn-primary" href="{{ route('homes.order') }}">Thông tin đặt
-                            hàng <i class="fa fa-chevron-right"></i></a></div>
+
+                    <div>
+
+                        <div class="text-center"><a class="btn btn-danger" href="{{ route('homes.deleteallcart') }}">Xóa
+                                tất cả<i class="fa fa-chevron-right"></i></a> <a class="btn btn-primary"
+                                href="{{ route('homes.order') }}">Thông tin đặt
+                                hàng <i class="fa fa-chevron-right"></i></a></div>
+                    </div>
                 @endif
                 <!-- End of Shop Table Products -->
 

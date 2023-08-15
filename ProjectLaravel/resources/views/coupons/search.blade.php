@@ -62,7 +62,7 @@
                                                 <th scope="row" style="text-align: center">
                                                     {{ $loop->iteration + ($allCouponSearch->currentPage() - 1) * $allCouponSearch->perPage() }}
                                                 </th>
-                                                <td style="text-align: center">{{ $item->name }}</td>
+                                                <td style="text-align: center">{{ $item->coupon_name }}</td>
                                                 <td style="text-align: center">{{ $item->code }}</td>
 
                                                 <td style="text-align: center">{{ $item->time }}</td>
@@ -73,7 +73,7 @@
                                                 <td style="text-align: center"><button class="btn btn-primary"
                                                         data-target="#edit-category" data-toggle="modal" type="button"
                                                         onclick="showDetail(
-                                                            '{{ $item->name }}',
+                                                            '{{ $item->coupon_name }}',
                                                            {{ $item->id }} ,
                                                            '{{ $item->code }}',
                                                            {{ $item->time }},
@@ -82,7 +82,7 @@
                                                         <i class="fa-solid fa-pen-to-square"></i></button></td>
                                                 <td style="text-align: center"><button class="btn btn-danger"
                                                         data-target="#delete-category" data-toggle="modal" type="button"
-                                                        onclick="deleteDish({{ $item->id }})"><i
+                                                        onclick="deleteDish('{{ $item->code }}')"><i
                                                             class="fa fa-trash"></i></button></td>
                                             </tr>
                                         @endforeach
@@ -176,7 +176,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">Tên coupon</label>
-                            <input name="name" class="form-control" id="name" placeholder="Nhập tên coupon"
+                            <input name="coupon_name" class="form-control" id="name" placeholder="Nhập tên coupon"
                                 type="text" />
                         </div>
 
@@ -193,8 +193,8 @@
                         </div>
                         <div class="form-group">
                             <label for="price">% giảm</label>
-                            <input class="form-control" id="number" placeholder="Nhập số lượng" name="number"
-                                type="number" required />
+                            <input class="form-control" id="number" min="0" max="100"
+                                placeholder="Nhập số % giảm" name="number" type="number" required />
                         </div>
 
                     </div>
@@ -263,16 +263,22 @@
         </script>
     @endif
     <script>
-        function routeDelete(id) {
-            return "{{ route('coupons.delete', 0) }}".replace(/\d$/, id);
+        function routeDelete(code) {
+            return "{{ route('coupons.delete', 0) }}".replace(/\d$/, code);
         }
 
-        function routeUpdate(id) {
-            return "{{ route('coupons.put', 0) }}".replace(/\d$/, id);
+        function routeUpdate(code) {
+            return "{{ route('coupons.put', 0) }}".replace(/\d$/, code);
         }
 
         function alertSuccess(message) {
             swal(message, "", "success", {
+                button: "OK!",
+            })
+        }
+
+        function alertError(message) {
+            swal(message, "", "error", {
                 button: "OK!",
             })
         }
@@ -371,13 +377,13 @@
             })
         });
 
-        function deleteDish(id) {
-            $('#delete-category').parents('form').attr('action', routeDelete(id))
+        function deleteDish(code) {
+            $('#delete-category').parents('form').attr('action', routeDelete(code))
             // $('#delete-category').append('<input type="hidden" name="myfieldname"/>')
         }
 
         function showDetail(name, id, code, time, number) {
-            $('#form-edit').attr('action', routeUpdate(id)).valid()
+            $('#form-edit').attr('action', routeUpdate(code)).valid()
             $('#editName').val(name);
             $('#editCode').val(code);
             $('#editTime').val(time);
