@@ -6,13 +6,18 @@
                     <div class="row mb-2">
                         <div class="col-sm-4">
                             <h1>Quản lý sản phẩm</h1>
+                            <ul style="color: blue">
+                                <li>Số sản phẩm bán được trong tháng {{ date('m') . ':' }}</li>
+                                <li>Doanh thu:</li>
+                            </ul>
                         </div>
+
 
                     </div>
                     <form action="{{ route('products.search') }}" method="get">
                         <div class="col-4 input-group">
-                            <input type="text" class="form-control" placeholder="Nhập tên sản phẩm/giá tiền" name="key"
-                                aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <input type="text" class="form-control" placeholder="Nhập tên sản phẩm/giá tiền"
+                                name="key" aria-label="Recipient's username" aria-describedby="button-addon2">
                             <button class="btn btn-primary search" type="submit">
                                 Tìm kiếm
                             </button>

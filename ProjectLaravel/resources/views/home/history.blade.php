@@ -57,7 +57,7 @@
                                                                 {{ $item->number . '%' }}
                                                             </td>
                                                         @else
-                                                            <td></td>
+                                                            <td style="text-align: center">Không áp dụng</td>
                                                         @endif
                                                         @if ($item->promotion_price < $item->unit_price)
                                                             <td style="text-align: center">

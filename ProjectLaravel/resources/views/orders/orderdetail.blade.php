@@ -60,7 +60,11 @@
                                                     @if ($item->promotion_price < $item->unit_price)
                                                         <td style="text-align: center">
                                                             {{ $item->promotion_price * $item->quantity }} </td>
-                                                        <td style="text-align: center">{{ $item->number . '%' }}</td>
+                                                        @if ($item->number)
+                                                            <td style="text-align: center">{{ $item->number . '%' }}</td>
+                                                        @else
+                                                            <td style="text-align: center">Không áp dụng</td>
+                                                        @endif
                                                         <td style="text-align: center">
                                                             {{ $item->promotion_price * $item->quantity * (1 - $item->number / 100) }}
                                                         </td>
