@@ -101,8 +101,8 @@
                                             </td>
                                             <td class="product-quantity">
                                                 <input value="{{ $item['qty'] }}" type="number"
-                                                    class="product-qty ip-number" min="1" name="quantity"
-                                                    data-price="{{ $item['item']['promotion_price'] }}">
+                                                    class="product-qty {{ $key }} ip-number" min="1"
+                                                    name="quantity" data-price="{{ $item['item']['promotion_price'] }}">
                                             </td>
                                             <td class="product-subtotal">
                                                 {{ number_format($item['item']['promotion_price'] * $item['qty'], 0, ',', '.') }}
@@ -120,12 +120,6 @@
                                                 {{ number_format($item['item']['unit_price'] * $item['qty'], 0, ',', '.') }}
                                             </td>
                                         @endif
-
-
-
-
-
-
                                         <td class="product-update" id="update">
                                             <button type="submit" class="btn btn-primary">Cập nhật</button>
                                         </td>
@@ -200,6 +194,7 @@
             var totalPrice = 0;
             var totalQty = 0;
             var quantity = $(this).val();
+            console.log({{ $i }});
             var oldPrice = $(this).data('price');
             var coupon = $('#coupon').text().replace('%', '');
             $(this).parents('tr').find('.product-subtotal').text(formatNumberWithDot(quantity * oldPrice));

@@ -131,7 +131,7 @@
                                         <div class="pull-right">
                                             @if (Session::has('coupon'))
                                                 <h5 class="color-black">
-                                                    {{ number_format($totalAfterCoupon, 0, ',', '.') . ' VNĐ' }}
+                                                    {{ number_format(Session::get('cart')->totalPrice * (1 - Session::get('coupon')['number'] / 100), 0, ',', '.') . ' VNĐ' }}
                                                 </h5>
                                             @else
                                                 <h5 class="color-black">
@@ -143,14 +143,18 @@
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
-                                <div class="btn-action">
-                                    <div class="text-center"><a class="btn btn-success"
-                                            href="{{ route('homes.orderdetail') }}">Quay
-                                            lại <i class="fa fa-chevron-left"></i></a></div>
-                                    <div class="text-center"><button class="btn btn-primary" type="submit">Đặt hàng <i
-                                                class="fa fa-chevron-right"></i></button></div>
-                                </div>
+
+
                             </div> <!-- .your-order -->
+
+                            <div class="btn-action">
+
+                                <div class="text-center"><a class="btn btn-success"
+                                        href="{{ route('homes.orderdetail') }}">Quay
+                                        lại <i class="fa fa-chevron-left"></i></a></div>
+                                <div class="text-center"><button class="btn btn-primary" type="submit">Đặt hàng <i
+                                            class="fa fa-chevron-right"></i></button></div>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -160,8 +164,9 @@
     <style>
         .btn-action {
             display: flex;
-            gap: 10px;
-            justify-content: center
+            gap: 6px;
+            justify-content: center;
+            margin-top: 12%;
         }
 
         .text-note {

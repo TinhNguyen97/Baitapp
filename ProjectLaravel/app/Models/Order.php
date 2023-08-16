@@ -15,7 +15,8 @@ class Order extends Model
         'address',
         'email',
         'phone',
-        'note'
+        'note',
+        'coupon_id'
     ];
     public function orderStatuses()
     {

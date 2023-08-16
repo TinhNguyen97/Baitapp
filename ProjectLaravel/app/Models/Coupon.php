@@ -13,6 +13,7 @@ class Coupon extends Model
         'coupon_name',
         'time',
         'number',
-        'code'
+        'code',
+        'is_active'
     ];
 }

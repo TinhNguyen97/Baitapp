@@ -306,7 +306,7 @@
                 onclick: false,
 
                 rules: {
-                    name: {
+                    coupon_name: {
                         required: true,
                     },
                     code: {
@@ -321,7 +321,7 @@
 
                 },
                 messages: {
-                    name: {
+                    coupon_name: {
                         required: "Không được để trống tên."
                         // minlength: "it nhất 2 ký tự"
                     },

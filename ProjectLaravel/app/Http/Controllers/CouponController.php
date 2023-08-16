@@ -13,18 +13,24 @@ class CouponController extends Controller
     {
         // echo public_path('uploads' . '\\' . '123');
         // die;
-        $allCoupons = DB::table('coupons')->latest()
+        $allCoupons = DB::table('coupons')->where('is_active', 1)->latest()
             ->paginate(5);
         // dd($allCoupons);
         return view('coupons.index', ['allCoupons' => $allCoupons]);
     }
     public function search(Request $request)
     {
-        $coupons = Coupon::where('coupon_name', 'like', '%' . $request->key . '%')
-            ->orwhere('code', 'like', '%' . $request->key . '%')->get();
+        $coupons = Coupon::where('is_active', 1)
+            ->where(function ($query) use ($request) {
+                $query->where('coupon_name', 'like', '%' . $request->key . '%');
+                $query->orwhere('code', 'like', '%' . $request->key . '%');
+            })->get();
         $allCouponSearch = DB::table('coupons')
-            ->where('coupon_name', 'like', '%' . $request->key . '%')
-            ->orwhere('code', 'like', '%' . $request->key . '%')
+            ->where('is_active', 1)
+            ->where(function ($query) use ($request) {
+                $query->where('coupon_name', 'like', '%' . $request->key . '%');
+                $query->orwhere('code', 'like', '%' . $request->key . '%');
+            })
             ->latest()
             ->paginate(5);
         return view('coupons.search', [
@@ -54,10 +60,6 @@ class CouponController extends Controller
                 'editNumber.required' => 'Không được để trống.'
             ]
         );
-        $cou = DB::table('coupons')->where('code', $request->code)->get();
-        if ($cou) {
-            return back()->with(['samecode' => true]);
-        }
 
         // dd($request->all());
         Coupon::where('code', $code)->update([
@@ -86,7 +88,7 @@ class CouponController extends Controller
             ]
         );
         $cou = DB::table('coupons')->where('code', $request->code)->get();
-        if ($cou) {
+        if (count($cou)) {
             return back()->with(['samecode' => true]);
         }
         $coupon = Coupon::create($request->all());
@@ -122,7 +124,7 @@ class CouponController extends Controller
         );
 
         $cou = DB::table('coupons')->where('code', $request->code)->get();
-        if ($cou) {
+        if (count($cou)) {
             return back()->with(['samecode' => true]);
         }
         Coupon::create($request->all());

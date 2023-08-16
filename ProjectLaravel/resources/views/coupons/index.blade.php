@@ -193,7 +193,7 @@
                         <div class="form-group">
                             <label for="price">% giảm</label>
                             <input class="form-control" id="number" placeholder="Nhập số lượng" name="number"
-                                type="number" required />
+                                type="number" min="0" max="100" required />
                         </div>
 
                     </div>
@@ -312,7 +312,7 @@
                 onclick: false,
 
                 rules: {
-                    name: {
+                    coupon_name: {
                         required: true,
                     },
                     code: {
@@ -327,7 +327,7 @@
 
                 },
                 messages: {
-                    name: {
+                    coupon_name: {
                         required: "Không được để trống tên."
                         // minlength: "it nhất 2 ký tự"
                     },

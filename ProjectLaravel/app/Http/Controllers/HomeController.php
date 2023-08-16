@@ -6,6 +6,7 @@ use App\Jobs\SendEmailConfirm;
 use App\Jobs\SendEmailCoverPass;
 use App\Models\Cart;
 use App\Models\Comment;
+use App\Models\Coupon;
 use App\Models\Infors;
 use App\Models\Notification;
 use App\Models\Order;
@@ -29,6 +30,7 @@ class HomeController extends Controller
     public function index()
 
     {
+
         $slides = Slides::all();
         $newProducts = Products::orderByRaw('created_at DESC')->limit(4)->get();
         $topSaleProducts = DB::table('products')
@@ -337,6 +339,24 @@ class HomeController extends Controller
             'email.email' => 'Vui lòng nhập email đúng định dạng.',
             'phone.regex' => 'Số điện thoại không hợp lệ.'
         ]);
+        // $couponId = 0;
+        $number = null;
+        if (Session::has('coupon')) {
+            $number = Session::get('coupon')['number'];
+            $couponIdSession = Session::get('coupon')['id'];
+            $request['coupon_id'] =  $couponIdSession;
+        } else {
+            $randomCode = date('dmyhis') . rand(10, 100) . 'code';
+            $fakeCoupon = [
+                'coupon_name' => 'fake',
+                'time' => 0,
+                'number' => 0,
+                'code' => $randomCode,
+                'is_active' => 0
+            ];
+            $couponId = Coupon::create($fakeCoupon);
+            $request['coupon_id'] =  $couponId->id;
+        };
         $order = Order::create($request->all());
         $id = $order->id;
         if (Session::has('cart')) {
@@ -360,15 +380,11 @@ class HomeController extends Controller
                         'quantity' => $qty,
                     ]);
                 }
-            }
-            $couponId = 0;
-            $number = null;
-            if (Session::has('coupon')) {
-                $number = Session::get('coupon')['number'];
-                $couponId = Session::get('coupon')['id'];
             };
+
             // OrderCoupon::create(['coupon_id' => $couponId, 'order_id' => $id]);
-            $order->orderCoupons()->create(['coupon_id' => $couponId]);
+            // $order->orderCoupons()->create(['coupon_id' => $couponId]);
+
             $items = Session::get('cart')->items;
             $totalQty = Session::get('cart')->totalQty;
             $totalPrice = Session::get('cart')->totalPrice;
@@ -389,8 +405,7 @@ class HomeController extends Controller
             ->join('orders', 'order_details.order_id', '=', 'orders.id')
             ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
             ->join('products', 'order_details.product_id', '=', 'products.id')
-            ->join('order_coupons', 'orders.id', 'order_coupons.order_id')
-            ->join('coupons', 'order_coupons.coupon_id', 'coupons.id')
+            ->join('coupons', 'orders.coupon_id', 'coupons.id')
             ->where('order_details.user_id', $id)
             ->where('order_statuses.id', 2)
             ->selectRaw('*, order_details.quantity AS sq')

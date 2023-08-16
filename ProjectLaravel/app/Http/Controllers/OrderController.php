@@ -32,8 +32,7 @@ class OrderController extends Controller
     {
         $details = DB::table('order_details')
             ->join('orders', 'order_details.order_id', '=', 'orders.id')
-            ->join('order_coupons', 'order_coupons.order_id', '=', 'orders.id')
-            ->join('coupons', 'order_coupons.coupon_id', '=', 'coupons.id')
+            ->join('coupons', 'orders.coupon_id', '=', 'coupons.id')
             ->join('products', 'order_details.product_id', '=', 'products.id')
             ->where('order_details.order_id', $order_id)
             ->paginate(5);

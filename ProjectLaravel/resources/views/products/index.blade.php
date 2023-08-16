@@ -6,10 +6,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-4">
                             <h1>Quản lý sản phẩm</h1>
-                            <ul style="color: blue">
-                                <li>Số sản phẩm bán được trong tháng {{ date('m') . ':' }}</li>
-                                <li>Doanh thu:</li>
-                            </ul>
+                            
                         </div>
 
 
