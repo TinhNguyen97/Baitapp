@@ -59,7 +59,11 @@
     @endif
     <div class="container">
         <div id="content">
-
+            @if (Session::has('cart'))
+                <div style="text-align:right;margin-bottom:24px"><a class="btn btn-danger"
+                        href="{{ route('homes.deleteallcart') }}">Xóa
+                        tất cả<i class="fa fa-chevron-right"></i></a></div>
+            @endif
             <div class="table-responsive">
                 <!-- Shop Products Table -->
                 <table class="shop_table beta-shopping-cart-table" cellspacing="0">
@@ -70,8 +74,7 @@
                             <th class="product-price">Ảnh sản phẩm</th>
                             <th class="product-status">Đơn giá</th>
                             <th class="product-quantity">Số lượng</th>
-                            <th class="product-subtotal">Thành tiền</th>
-                            <th class="product-remove">Cập nhật</th>
+                            <th class="product-subtotal" style="width:20%">Thành tiền</th>
                             <th class="product-remove">Xóa</th>
                         </tr>
                     </thead>
@@ -84,52 +87,48 @@
                                 // dd($carts);
                             @endphp
                             @foreach ($carts as $key => $item)
-                                <form action="{{ route('homes.updatecart', $key) }}" method="post">
-                                    @csrf
-                                    {{-- @dd($carts) --}}
-                                    <tr class="cart_item">
-                                        <td>{{ $i++ }}</td>
-                                        <td class="product-name">
-                                            {{ $item['item']['name'] }}
-                                        </td>
+                                {{-- @dd($carts) --}}
+                                <tr class="cart_item">
+                                    <td>{{ $i++ }}</td>
+                                    <td class="product-name">
+                                        {{ $item['item']['name'] }}
+                                    </td>
 
-                                        <td class="product-price"><img width="100px" height="100px"
-                                                src="{{ asset('uploads' . '\\' . $item['item']['image']) }}"></td>
-                                        @if ($item['item']['promotion_price'] != 0)
-                                            <td class="product-status" id="price">
-                                                {{ number_format($item['item']['promotion_price'], 0, ',', '.') }}
-                                            </td>
-                                            <td class="product-quantity">
-                                                <input value="{{ $item['qty'] }}" type="number"
-                                                    class="product-qty {{ $key }} ip-number" min="1"
-                                                    name="quantity" data-price="{{ $item['item']['promotion_price'] }}">
-                                            </td>
-                                            <td class="product-subtotal">
-                                                {{ number_format($item['item']['promotion_price'] * $item['qty'], 0, ',', '.') }}
-                                            </td>
-                                        @else
-                                            <td class="product-status" id="price">
-                                                {{ $item['item']['unit_price'] }}
-                                            </td>
-                                            <td class="product-quantity">
-                                                <input value="{{ $item['qty'] }}" type="number"
-                                                    class="product-qty ip-number" min="1" name="quantity"
-                                                    data-price="{{ $item['item']['unit_price'] }}">
-                                            </td>
-                                            <td class="product-subtotal">
-                                                {{ number_format($item['item']['unit_price'] * $item['qty'], 0, ',', '.') }}
-                                            </td>
-                                        @endif
-                                        <td class="product-update" id="update">
-                                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                    <td class="product-price"><img width="100px" height="100px"
+                                            src="{{ asset('uploads' . '\\' . $item['item']['image']) }}"></td>
+                                    @if ($item['item']['promotion_price'] != 0)
+                                        <td class="product-status" id="price">
+                                            {{ number_format($item['item']['promotion_price'], 0, ',', '.') }}
                                         </td>
+                                        <td class="product-quantity">
+                                            <input value="{{ $item['qty'] }}" class="product-qty ip-number" min="1"
+                                                oninput="updateTotalPay.call(this, {{ $key }})" id="qty"
+                                                type="text" name="quantity"
+                                                data-price="{{ $item['item']['promotion_price'] }}">
+                                        </td>
+                                        <td class="product-subtotal">
+                                            {{ number_format($item['item']['promotion_price'] * $item['qty'], 0, ',', '.') }}
+                                        </td>
+                                    @else
+                                        <td class="product-status" id="price">
+                                            {{ $item['item']['unit_price'] }}
+                                        </td>
+                                        <td class="product-quantity">
+                                            <input value="{{ $item['qty'] }}" class="product-qty ip-number" min="1"
+                                                oninput="updateTotalPay.call(this, {{ $key }})" id="qty"
+                                                type="text" name="quantity"
+                                                data-price="{{ $item['item']['unit_price'] }}">
+                                        </td>
+                                        <td class="product-subtotal">
+                                            {{ number_format($item['item']['unit_price'] * $item['qty'], 0, ',', '.') }}
+                                        </td>
+                                    @endif
 
-                                        <td class="product-remove">
-                                            <a class="btn btn-danger" href="{{ route('homes.deletefromcart', $key) }}"
-                                                title="Remove this item">Xóa</a>
-                                        </td>
-                                    </tr>
-                                </form>
+                                    <td class="product-remove">
+                                        <a class="btn btn-danger" href="{{ route('homes.deletefromcart', $key) }}"
+                                            title="Remove this item">Xóa</a>
+                                    </td>
+                                </tr>
                             @endforeach
                         @else
                             <tr>
@@ -140,6 +139,8 @@
                     </tbody>
 
                 </table>
+
+
                 @if (Session::has('cart'))
                     <table class="shop_table beta-shopping-cart-table">
                         <tr>
@@ -173,11 +174,11 @@
                         </tbody> --}}
                     </table>
 
+
                     <div>
 
-                        <div class="text-center"><a class="btn btn-danger" href="{{ route('homes.deleteallcart') }}">Xóa
-                                tất cả<i class="fa fa-chevron-right"></i></a> <a class="btn btn-primary"
-                                href="{{ route('homes.order') }}">Thông tin đặt
+                        <div class="text-center"> <a class="btn btn-primary" href="{{ route('homes.order') }}">Thông tin
+                                đặt
                                 hàng <i class="fa fa-chevron-right"></i></a></div>
                     </div>
                 @endif
@@ -188,13 +189,24 @@
         </div>
     </div>
     <script>
-        $('.product-qty').on('change', updateTotalPay)
-
-        function updateTotalPay() {
+        function updateTotalPay(key) {
+            var index = this.value.length - 1;
+            if (isNaN(Number(this.value[index]))) {
+                this.value = this.value?.slice(0, -1);
+                // console.log(this.value);
+            }
+            if (!this.value) {
+                this.value = 1
+                return
+            }
+            if (this.value[0] == 0 && this.value.length > 1) {
+                this.value = this.value?.slice(1);
+            }
+            // $(this).parents('tr').find('.product-subtotal').text(123)
+            // return;
             var totalPrice = 0;
             var totalQty = 0;
             var quantity = $(this).val();
-            console.log({{ $i }});
             var oldPrice = $(this).data('price');
             var coupon = $('#coupon').text().replace('%', '');
             $(this).parents('tr').find('.product-subtotal').text(formatNumberWithDot(quantity * oldPrice));
@@ -202,13 +214,25 @@
                 totalPrice += Number($(item).text().trim().replaceAll('.', ''));
             });
 
-            $(this).parents('tbody').find('.product-quantity .product-qty').each((index, item) => {
+            $('.product-qty').parents('tbody').find('.product-quantity .product-qty').each((index, item) => {
                 totalQty += Number($(item).val().trim().replaceAll('.', ''));
             });
 
             $('#total-quantity').text(totalQty)
             $('#total-price').text(' ' + formatNumberWithDot(totalPrice) + ' VNĐ')
             $('#total-after-cou').text(' ' + formatNumberWithDot(totalPrice * (1 - coupon / 100)) + ' VNĐ')
+
+            $.ajax({
+                url: "{{ route('homes.updatecart', [' a', ' b']) }}".replace('%20a', key).replace('%20b',
+                    quantity),
+                type: 'POST',
+                data: {
+
+                },
+                success: function() {
+                    // console.log("Data sent!");
+                }
+            })
 
         }
 
@@ -220,7 +244,8 @@
         .ip-number {
             text-align: center;
             width: 100px;
-            height: 21px;
+            height: 35px;
+            border: 1px solid #e1e1e1;
         }
 
         .css-coupon {

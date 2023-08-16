@@ -77,7 +77,7 @@ Route::prefix('home')->name('homes.')->group(function () {
     Route::get('/addtocart/{id}', [HomeController::class, 'addToCart'])->middleware('auth')->name('addtocart');
     Route::get('/deletefromcart/{id}', [HomeController::class, 'deleteFromCart'])->middleware('auth')->name('deletefromcart');
     Route::get('/deleteallcart', [HomeController::class, 'deleteAllCart'])->middleware('auth')->name('deleteallcart');
-    Route::post('/updateCart/{id}', [HomeController::class, 'updateCart'])->middleware('auth')->name('updatecart');
+    Route::post('/updateCart/{id}/{quantity}', [HomeController::class, 'updateCart'])->middleware('auth')->name('updatecart');
     Route::get('/order', [HomeController::class, 'order'])->middleware('auth')->name('order');
     Route::get('/orderdetail', [HomeController::class, 'orderDetail'])->middleware('auth')->name('orderdetail');
     Route::post('/handleorder', [HomeController::class, 'handleOrder'])->middleware('auth')->name('handleorder');
