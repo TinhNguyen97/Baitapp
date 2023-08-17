@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="beta-products-list">
-                            <h4>Danh sách sản phẩm</h4>
+                            <h4>Danh mục {{ $type }}</h4>
                             <p style="color: blue">Tìm thấy {{ count($allProducts) }} sản phẩm</p>
                             <div class="beta-products-details">
                                 <div class="clearfix"></div>

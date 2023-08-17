@@ -15,6 +15,7 @@ use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Slides;
+use App\Models\TypeProduct;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -81,11 +82,13 @@ class HomeController extends Controller
     }
     public function typeSearch(Request $request, $idType)
     {
+        $type = TypeProduct::find($idType)->name;
         $allProductSearch = Products::where('is_active', 1)->where('id_type', $idType)->paginate(8);
         $allProducts = Products::where('is_active', 1)->where('id_type', $idType)->get();
         return view(
             'home.producttype',
             [
+                'type' => $type,
                 'allProductSearch' => $allProductSearch,
                 'allProducts' => $allProducts,
                 'request' => $request
