@@ -32,12 +32,13 @@ class HomeController extends Controller
     {
 
         $slides = Slides::all();
-        $newProducts = Products::orderByRaw('created_at DESC')->limit(4)->get();
+        $newProducts = Products::orderByRaw('created_at DESC')->where('is_active', 1)->limit(4)->get();
         $topSaleProducts = DB::table('products')
             ->join('order_details', 'products.id', '=', 'order_details.product_id')
             ->join('orders', 'order_details.order_id', '=', 'orders.id')
             ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
             ->where('orders.order_status_id', 2)
+            ->where('is_active', 1)
             ->groupBy('products.name')
             ->orderByRaw('count(products.name) DESC')
             ->orderByRaw('products.name')
@@ -53,17 +54,21 @@ class HomeController extends Controller
     public function search(Request $request)
     {
         $allProductSearch = DB::table('products')
-            ->where('products.name', 'like', '%' . $request->key . '%')
-            ->orWhere('products.unit_price', $request->key)
-            ->orWhere('products.promotion_price',  $request->key)
+            ->where('is_active', 1)
+            ->where(function ($query) use ($request) {
+                $query->where('products.name', 'like', '%' . $request->key . '%');
+                $query->orWhere('products.unit_price', $request->key);
+                $query->orWhere('products.promotion_price',  $request->key);
+            })
             ->latest()
             ->paginate(8);
-        $allProducts = Products::where('name', 'like', '%' . $request->key . '%')
-            ->orWhere('products.unit_price', $request->key)
-            ->orWhere('products.promotion_price',  $request->key)
+        $allProducts = Products::where('is_active', 1)
+            ->where(function ($query) use ($request) {
+                $query->where('products.name', 'like', '%' . $request->key . '%');
+                $query->orWhere('products.unit_price', $request->key);
+                $query->orWhere('products.promotion_price',  $request->key);
+            })
             ->latest()->get();
-        // dd($allProductSearch);
-        // dd($newProducts);
         return view(
             'home.search',
             [
@@ -76,8 +81,8 @@ class HomeController extends Controller
     }
     public function typeSearch(Request $request, $idType)
     {
-        $allProductSearch = Products::where('id_type', $idType)->paginate(8);
-        $allProducts = Products::where('id_type', $idType)->get();
+        $allProductSearch = Products::where('is_active', 1)->where('id_type', $idType)->paginate(8);
+        $allProducts = Products::where('is_active', 1)->where('id_type', $idType)->get();
         return view(
             'home.producttype',
             [
@@ -277,7 +282,7 @@ class HomeController extends Controller
         $cart->add($product, $id);
         $request->session()->put('cart', $cart);
         // Session::forget('cart');
-        return back();
+        return back()->with('addsuccess', 'Thêm vào giỏ hàng thành công');
     }
     public function deleteFromCart($id)
     {
@@ -303,7 +308,22 @@ class HomeController extends Controller
     }
     public function order(Request $request)
     {
-
+        if (!Session::has('cart')) {
+            return view('home.blank');
+        }
+        $carts[] = Session::get('cart')->items;
+        $message = '';
+        foreach ($carts[0] as $key => $item) {
+            if (!$item['item']->product_quantity) {
+                $message .= '<p>Sản phẩm ' . $item['item']->name . ' đã hết hàng, xin lựa chọn sản phẩm khác.</p>';
+            }
+            if ($item['qty'] > $item['item']->product_quantity) {
+                $message .= '<p>Do số lượng sản phẩm ' . $item['item']->name . ' có hạn, vui lòng mua sản phẩm với số lượng nhỏ hơn ' . ($item['item']->product_quantity + 1) . '.</p>';
+            }
+        }
+        if ($message) {
+            return back()->with('overquantity', $message);
+        }
         return view('home.order');
     }
 

@@ -23,7 +23,6 @@ class ProductController extends Controller
     }
     public function add(Request $request)
     {
-        // dd($request->all());
         $file_name = null;
         if ($request->has('image')) {
             $file = $request->image;
@@ -37,14 +36,16 @@ class ProductController extends Controller
                 'id_type' => 'required',
                 'description' => 'required',
                 'unit_price' => 'required',
-                'promotion_price' => 'required'
+                'promotion_price' => 'required',
+                'product_quantity' => 'required'
             ],
             [
                 'name.required' => 'Tên không được để trống.',
                 'id_type.required' => 'Không được để trống.',
                 'description.required' => 'Không được để trống.',
                 'unit_price.required' => 'Không được để trống.',
-                'promotion_price.required' => 'Không được để trống.'
+                'promotion_price.required' => 'Không được để trống.',
+                'product_quantity.required' => 'Không được để trống.'
             ]
         );
 
@@ -79,14 +80,16 @@ class ProductController extends Controller
                 'editType' => 'required',
                 'editPrice' => 'required',
                 'editDescr' => 'required',
-                'editPromotionPrice' => 'required'
+                'editPromotionPrice' => 'required',
+                'editQuantity' => 'required'
             ],
             [
                 'editName.required' => 'Tên không được để trống.',
                 'editType.required' => 'Không được để trống.',
                 'editPrice.required' => 'Không được để trống.',
                 'editDescr.required' => 'Không được để trống.',
-                'editPromotionPrice.required' => 'Không được để trống.'
+                'editPromotionPrice.required' => 'Không được để trống.',
+                'editQuantity.required' => 'Không được để trống.'
             ]
         );
         if ($request->has('editImage')) {
@@ -101,7 +104,9 @@ class ProductController extends Controller
                 'description' => $request->editDescr,
                 'unit_price' => $request->editPrice,
                 'promotion_price' => $request->editPromotionPrice,
-                'image' => $file_name
+                'product_quantity' => $request->editQuantity,
+                'image' => $file_name,
+                'is_active' => $request->is_active
             ];
             Products::where('id', $id)->update($data);
             return back()->with(['isUpdateSuccess' => true]);
@@ -112,7 +117,9 @@ class ProductController extends Controller
                 'id_type' => $request->editType,
                 'description' => $request->editDescr,
                 'unit_price' => $request->editPrice,
-                'promotion_price' => $request->editPromotionPrice
+                'promotion_price' => $request->editPromotionPrice,
+                'product_quantity' => $request->editQuantity,
+                'is_active' => $request->is_active
             ]);
             return back()->with(['isUpdateSuccess' => true]);
         }
@@ -155,14 +162,16 @@ class ProductController extends Controller
                 'id_type' => 'required',
                 'description' => 'required',
                 'unit_price' => 'required',
-                'promotion_price' => 'required'
+                'promotion_price' => 'required',
+                'product_quantity' => ' required'
             ],
             [
                 'name.required' => 'Tên không được để trống.',
                 'id_type.required' => 'Không được để trống.',
                 'description.required' => 'Không được để trống.',
                 'unit_price.required' => 'Không được để trống.',
-                'promotion_price.required' => 'Không được để trống.'
+                'promotion_price.required' => 'Không được để trống.',
+                'product_quantity.required' => 'Không được để trống.'
             ]
         );
 
@@ -205,7 +214,9 @@ class ProductController extends Controller
                 'description' => $request->editDescr,
                 'unit_price' => $request->editPrice,
                 'promotion_price' => $request->editPromotionPrice,
-                'image' => $file_name
+                'product_quantity' => $request->editQuantity,
+                'image' => $file_name,
+                'is_active' => $request->is_active
             ];
             Products::where('id', $id)->update($data);
             return back()->with(['isUpdateSuccess' => true]);
@@ -216,7 +227,9 @@ class ProductController extends Controller
                 'id_type' => $request->editType,
                 'description' => $request->editDescr,
                 'unit_price' => $request->editPrice,
-                'promotion_price' => $request->editPromotionPrice
+                'promotion_price' => $request->editPromotionPrice,
+                'product_quantity' => $request->editQuantity,
+                'is_active' => $request->is_active
             ]);
             return back()->with(['isUpdateSuccess' => true]);
         }

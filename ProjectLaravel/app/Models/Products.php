@@ -14,7 +14,10 @@ class Products extends Model
         'description',
         'unit_price',
         'promotion_price',
-        'image'
+        'product_quantity',
+        'quantity_sold',
+        'image',
+        'is_active'
     ];
 
     public function orderDetails()

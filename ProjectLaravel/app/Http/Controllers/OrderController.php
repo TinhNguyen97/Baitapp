@@ -30,12 +30,14 @@ class OrderController extends Controller
     }
     public function orderDetails($order_id)
     {
+
         $details = DB::table('order_details')
             ->join('orders', 'order_details.order_id', '=', 'orders.id')
             ->join('coupons', 'orders.coupon_id', '=', 'coupons.id')
             ->join('products', 'order_details.product_id', '=', 'products.id')
             ->where('order_details.order_id', $order_id)
             ->paginate(5);
+        // dd($details);
         return view('orders.orderdetail', ['details' => $details]);
     }
     public function search(Request $request)
@@ -72,6 +74,14 @@ class OrderController extends Controller
     }
     public function handleApprove($id)
     {
+        $orderDetails = DB::table('order_details')->where('order_id', $id)->get();
+        foreach ($orderDetails as $key => $item) {
+            $product = Products::find($item->product_id);
+            $product->update([
+                'product_quantity' => $product->product_quantity - $item->quantity,
+                'quantity_sold' => $product->quantity_sold + $item->quantity
+            ]);
+        };
         DB::table('orders')->where('id', $id)->update(['order_status_id' => 2]);
         $emailTo = Order::find($id)->email;
         SendEmailDelivering::dispatch($emailTo);

@@ -73,6 +73,12 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href="/statisticals" class="nav-link" id="nav-link-statistical">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                        <p>Thống kê</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="/coupons" class="nav-link" id="nav-link-coupon">
                         <i class="fa-brands fa-discourse"></i>
                         <p>Coupons</p>
@@ -135,5 +141,8 @@
     }
     if (link.includes('coupons')) {
         $('#nav-link-coupon').addClass('active');
+    }
+    if (link.includes('statisticals')) {
+        $('#nav-link-statistical').addClass('active');
     }
 </script>

@@ -165,4 +165,18 @@
             </div> <!-- .main-content -->
         </div> <!-- #content -->
     </div> <!-- .container -->
+    @if (session()->has('addsuccess') && session()->get('addsuccess'))
+        <script>
+            $(function() {
+                alertSuccess('Thêm vào giỏ hàng thành công.')
+            })
+        </script>
+    @endif
+    <script>
+        function alertSuccess(message) {
+            swal(message, "", "success", {
+                button: "OK!",
+            })
+        }
+    </script>
 @endsection

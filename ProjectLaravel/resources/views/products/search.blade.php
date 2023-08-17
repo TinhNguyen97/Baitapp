@@ -48,7 +48,10 @@
                                         <th style="text-align: center">Ảnh sản phẩm</th>
                                         <th style="text-align: center">Đơn giá</th>
                                         <th style="text-align: center">Giá sau khuyến mại</th>
+                                        <th style="text-align: center">Số lượng</th>
+                                        <th style="text-align: center">Đã bán</th>
                                         <th style="text-align: center">Mô tả</th>
+                                        <th style="text-align: center">Kích hoạt</th>
                                         <th style="text-align: center">Ngày tạo</th>
                                         <th style="text-align: center">Ngày cập nhật</th>
 
@@ -73,7 +76,14 @@
                                                 <td style="text-align: center" class="promotion_price">
                                                     {{ $item->promotion_price }}
                                                 </td>
+                                                <td style="text-align: center">{{ $item->product_quantity }}</td>
+                                                <td style="text-align: center">{{ $item->quantity_sold }}</td>
                                                 <td style="text-align: center">{{ $item->description }}</td>
+                                                @if ($item->is_active)
+                                                    <td style="text-align: center">Đã kích hoạt</td>
+                                                @else
+                                                    <td style="text-align: center">Chưa kích hoạt</td>
+                                                @endif
                                                 <td style="text-align: center">{{ $item->created_at }}</td>
                                                 <td style="text-align: center">{{ $item->updated_at }}</td>
                                                 <td style="text-align: center"><button class="btn btn-primary"
@@ -84,9 +94,11 @@
                                                            '{{ $item->tp_name }}',
                                                            '{{ $item->image }}',
                                                            {{ $item->promotion_price }},
+                                                           {{ $item->product_quantity }},
                                                            '{{ $item->description }}',
                                                            {{ $item->unit_price }},
-                                                           {{ $item->id_type }}
+                                                           {{ $item->id_type }},
+                                                           {{ $item->is_active }}
                                                            )">
                                                         <i class="fa fa-edit"></i></button></td>
                                                 <td style="text-align: center"><button class="btn btn-danger"
@@ -170,9 +182,21 @@
                                 name="editPromotionPrice" required min="0" />
                         </div>
                         <div class="form-group">
+                            <label>Số lượng</label>
+                            <input id="editQuantity" class="form-control" placeholder="Nhập số lượng" type="number"
+                                name="editQuantity" required min="0" />
+                        </div>
+                        <div class="form-group">
                             <label>Mô tả</label>
                             <input id="editDescr" class="form-control" placeholder="Nhập giá" name="editDescr"
                                 required />
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Kích hoạt</label>
+                            <select id="is_active" name="is_active">
+                                <option value="1">Đã kích hoạt</option>
+                                <option value="0">Chưa kích hoạt</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between" id="edit-form">
@@ -228,9 +252,21 @@
                                 min="0" name="promotion_price" required />
                         </div>
                         <div class="form-group">
+                            <label for="price">Số lượng</label>
+                            <input class="form-control" id="quantity" type="number" placeholder="Nhập số lượng"
+                                min="0" name="product_quantity" required />
+                        </div>
+                        <div class="form-group">
                             <label for="price">Mô tả</label>
                             <input class="form-control" id="description" placeholder="Nhập giá" name="description"
                                 required />
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Kích hoạt</label>
+                            <select id="is_active" name="is_active">
+                                <option value="1">Kích hoạt</option>
+                                <option value="0">Không kích hoạt</option>
+                            </select>
                         </div>
 
                     </div>
@@ -317,6 +353,7 @@
             document.getElementById("image-error").style.display = 'none';
             document.getElementById("unit_price-error").style.display = 'none';
             document.getElementById("promotion_price-error").style.display = 'none';
+            document.getElementById("quantity-error").style.display = 'none';
             document.getElementById("description-error").style.display = 'none';
         }
 
@@ -348,6 +385,9 @@
                     promotion_price: {
                         required: "Không được để trống giá khuyến mại."
                     },
+                    product_quantity: {
+                        required: "Không được để trống số lượng."
+                    },
                     description: {
                         required: "Không được để trống mô tả sản phẩm."
                     }
@@ -368,6 +408,10 @@
                     editPromotionPrice: {
                         required: "Không được để trống giá khuyến mại."
                     },
+
+                    editQuantity: {
+                        required: "Không được để trống số lượng."
+                    },
                     editDescr: {
                         required: "Không được để trống mô tả sản phẩm."
                     }
@@ -383,14 +427,17 @@
             // $('#delete-category').append('<input type="hidden" name="myfieldname"/>')
         }
 
-        function showDetail(name, id, tp_name, image, promotion_price, description, unit_price, id_type) {
+        function showDetail(name, id, tp_name, image, promotion_price, quantity, description, unit_price, id_type,
+            is_active) {
             $('#form-edit').attr('action', routeUpdate(id))
             $('#editName').val(name);
             $('#editType').val(id_type);
             $('#editPrice').val(unit_price);
             $('#editPromotionPrice').val(promotion_price);
+            $('#editQuantity').val(quantity);
             $('#editDescr').val(description);
             $('#editImage').attr('src', $(this).parents('.row').find('.image').attr('src'));
+            $('#is_active').val(is_active)
         }
     </script>
     <style>
@@ -406,6 +453,11 @@
 
         .search {
             margin-left: 0.2vw;
+        }
+
+        select {
+            height: 36px;
+            border: 1px solid #ced4da;
         }
     </style>
 @endsection

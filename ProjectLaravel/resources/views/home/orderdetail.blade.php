@@ -64,6 +64,9 @@
                         href="{{ route('homes.deleteallcart') }}">Xóa
                         tất cả<i class="fa fa-chevron-right"></i></a></div>
             @endif
+            @if (Session::has('overquantity'))
+                <div class="alert alert-danger">{!! Session::get('overquantity') !!}</div>
+            @endif
             <div class="table-responsive">
                 <!-- Shop Products Table -->
                 <table class="shop_table beta-shopping-cart-table" cellspacing="0">
@@ -87,7 +90,8 @@
                                 // dd($carts);
                             @endphp
                             @foreach ($carts as $key => $item)
-                                {{-- @dd($carts) --}}
+                                {{-- @dd($item) --}}
+
                                 <tr class="cart_item">
                                     <td>{{ $i++ }}</td>
                                     <td class="product-name">
@@ -140,7 +144,6 @@
 
                 </table>
 
-
                 @if (Session::has('cart'))
                     <table class="shop_table beta-shopping-cart-table">
                         <tr>
@@ -177,7 +180,8 @@
 
                     <div>
 
-                        <div class="text-center"> <a class="btn btn-primary" href="{{ route('homes.order') }}">Thông tin
+                        <div class="text-center"> <a class="btn btn-primary" href="{{ route('homes.order') }}">Thông
+                                tin
                                 đặt
                                 hàng <i class="fa fa-chevron-right"></i></a></div>
                     </div>
@@ -188,6 +192,7 @@
             </div>
         </div>
     </div>
+
     <script>
         function updateTotalPay(key) {
             var index = this.value.length - 1;
@@ -195,9 +200,8 @@
                 this.value = this.value?.slice(0, -1);
                 // console.log(this.value);
             }
-            if (!this.value) {
+            if (this.value == 0) {
                 this.value = 1
-                return
             }
             if (this.value[0] == 0 && this.value.length > 1) {
                 this.value = this.value?.slice(1);

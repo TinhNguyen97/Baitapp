@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\StatisticalController;
 use App\Http\Controllers\TypeProductController;
 use App\Http\Controllers\UserController;
 
@@ -45,6 +46,9 @@ Route::prefix('/coupons')->middleware('admin')->name('coupons.')->group(function
     Route::post('search', [CouponController::class, 'addSearch'])->name('addSearch');
     Route::get('checkcoupon', [CouponController::class, 'checkCoupon'])->name('checkCoupon');
     Route::get('delcoupon', [CouponController::class, 'delCoupon'])->name('delCoupon');
+});
+Route::prefix('/statisticals')->middleware('admin')->name('statisticals.')->group(function () {
+    Route::get('/', [StatisticalController::class, 'index'])->name('index');
 });
 Route::prefix('/types')->middleware('admin')->name('types.')->group(function () {
     Route::get('/', [TypeProductController::class, 'index'])->name('index');
