@@ -1,1 +1,1 @@
-<p style="color: blue">Đơn hàng đã được giao.</p>
+<p style="color: blue">Cảm ơn bạn đã mua hàng.</p>

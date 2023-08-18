@@ -46,8 +46,8 @@
                                         <th style="text-align: center">Tên sản phẩm</th>
                                         <th style="text-align: center">Danh mục</th>
                                         <th style="text-align: center">Ảnh sản phẩm</th>
-                                        <th style="text-align: center">Đơn giá</th>
-                                        <th style="text-align: center">Giá sau khuyến mại</th>
+                                        <th style="text-align: center">Đơn giá(VNĐ)</th>
+                                        <th style="text-align: center">Giá sau khuyến mại(VNĐ)</th>
                                         <th style="text-align: center">Số lượng</th>
                                         <th style="text-align: center">Đã bán</th>
                                         <th style="text-align: center">Mô tả</th>
@@ -72,9 +72,9 @@
                                                 <td style="text-align: center"><img width="100px" height="100px"
                                                         class="image" src="{{ asset('uploads' . '\\' . $item->image) }}">
                                                 </td>
-                                                <td style="text-align: center">{{ $item->unit_price }}</td>
+                                                <td style="text-align: center">{{ formatMoney($item->unit_price) }}</td>
                                                 <td style="text-align: center" class="promotion_price">
-                                                    {{ $item->promotion_price }}
+                                                    {{ formatMoney($item->promotion_price) }}
                                                 </td>
                                                 <td style="text-align: center">{{ $item->product_quantity }}</td>
                                                 <td style="text-align: center">{{ $item->quantity_sold }}</td>

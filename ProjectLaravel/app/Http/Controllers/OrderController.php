@@ -7,6 +7,7 @@ use App\Jobs\SendEmailDelivering;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Products;
+use App\Models\Statistical;
 // use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -75,6 +76,7 @@ class OrderController extends Controller
     public function handleApprove($id)
     {
         $orderDetails = DB::table('order_details')->where('order_id', $id)->get();
+
         foreach ($orderDetails as $key => $item) {
             $product = Products::find($item->product_id);
             $product->update([
@@ -85,6 +87,41 @@ class OrderController extends Controller
         DB::table('orders')->where('id', $id)->update(['order_status_id' => 2]);
         $emailTo = Order::find($id)->email;
         SendEmailDelivering::dispatch($emailTo);
+
+
+        //handle table statistical
+        $countProduct = 0;
+        $countRevenue = 0;
+        $details = DB::table('order_details')
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->join('coupons', 'orders.coupon_id', '=', 'coupons.id')
+            ->join('products', 'order_details.product_id', '=', 'products.id')
+            ->where('order_details.order_id', $id)
+            ->get();
+        foreach ($details as $key => $item) {
+            $countProduct += $item->quantity;
+            if ($item->promotion_price < $item->unit_price) {
+                $countRevenue += $item->promotion_price * $item->quantity * (1 - $item->number / 100);
+            } else {
+                $countRevenue += $item->unit_price * $item->quantity * (1 - $item->number / 100);
+            }
+        }
+        $monthYear = date('m/Y');
+        // dd(date("Y-m-d H:i:s"));
+        $statistical = Statistical::where('month_year', 'like', '%' . $monthYear . '%')->first();
+        if (!$statistical) {
+            Statistical::create([
+                'month_year' => $monthYear,
+                'count_product' => $countProduct,
+                'count_revenue' => $countRevenue,
+            ]);
+        } else {
+            $statistical->update([
+                'count_product' =>  $statistical->count_product += $countProduct,
+                'count_revenue' => $statistical->count_revenue += $countRevenue
+            ]);
+        }
+
 
         return back()->with(['successApprove' => true]);
     }

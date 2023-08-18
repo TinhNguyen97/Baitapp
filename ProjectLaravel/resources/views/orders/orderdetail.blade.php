@@ -23,12 +23,12 @@
                                             <th style="text-align: center">#</th>
                                             <th style="text-align: center">Tên sản phẩm</th>
                                             <th style="text-align: center">Ảnh sản phẩm</th>
-                                            <th style="text-align: center">Đơn giá</th>
-                                            <th style="text-align: center">Giá khuyến mại</th>
+                                            <th style="text-align: center">Đơn giá(VNĐ)</th>
+                                            <th style="text-align: center">Giá khuyến mại(VNĐ)</th>
                                             <th style="text-align: center">Số lượng</th>
-                                            <th style="text-align: center">Thành tiền</th>
+                                            <th style="text-align: center">Thành tiền(VNĐ)</th>
                                             <th style="text-align: center">Giảm giá</th>
-                                            <th style="text-align: center">Tiền sau giảm giá</th>
+                                            <th style="text-align: center">Tiền sau giảm giá(VNĐ)</th>
 
                                         </tr>
                                     </thead>
@@ -53,27 +53,29 @@
                                                     <td style="text-align: center">{{ $item->name }}</td>
                                                     <td style="text-align: center"><img width="100px" height="100px"
                                                             src="{{ asset('uploads' . '\\' . $item->image) }}"></td>
-                                                    <td style="text-align: center">{{ $item->unit_price }}</td>
-                                                    <td style="text-align: center">{{ $item->promotion_price }}</td>
+                                                    <td style="text-align: center">{{ formatMoney($item->unit_price) }}</td>
+                                                    <td style="text-align: center">{{ formatMoney($item->promotion_price) }}
+                                                    </td>
                                                     <td style="text-align: center">
                                                         {{ $item->quantity }}</td>
                                                     @if ($item->promotion_price < $item->unit_price)
                                                         <td style="text-align: center">
-                                                            {{ $item->promotion_price * $item->quantity }} </td>
-                                                        @if ($item->number)
-                                                            <td style="text-align: center">{{ $item->number . '%' }}</td>
-                                                        @else
+                                                            {{ formatMoney($item->promotion_price * $item->quantity) }}
+                                                        </td>
+                                                        @if ($item->number == 0)
                                                             <td style="text-align: center">Không áp dụng</td>
+                                                        @else
+                                                            <td style="text-align: center">{{ $item->number . '%' }}</td>
                                                         @endif
                                                         <td style="text-align: center">
-                                                            {{ $item->promotion_price * $item->quantity * (1 - $item->number / 100) }}
+                                                            {{ formatMoney($item->promotion_price * $item->quantity * (1 - $item->number / 100)) }}
                                                         </td>
                                                     @else
                                                         <td style="text-align: center">
-                                                            {{ $item->unit_price * $item->quantity }} </td>
+                                                            {{ formatMoney($item->unit_price * $item->quantity) }} </td>
                                                         <td style="text-align: center">{{ $item->number . '%' }}</td>
                                                         <td style="text-align: center">
-                                                            {{ $item->unit_price * $item->quantity * (1 - $item->number / 100) }}
+                                                            {{ formatMoney($item->unit_price * $item->quantity * (1 - $item->number / 100)) }}
                                                         </td>
                                                     @endif
 
@@ -82,7 +84,8 @@
                                                 </tr>
                                             @endforeach
                                             <tr>
-                                                <th style="text-align: center" colspan="9">Tổng: {{ $count }}
+                                                <th style="text-align: center" colspan="9">Tổng:
+                                                    {{ formatMoney($count) . ' VNĐ' }}
                                                 </th>
 
                                             </tr>

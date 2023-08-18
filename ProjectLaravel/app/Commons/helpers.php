@@ -32,3 +32,7 @@ function checkRoute($name = '')
 {
   return request()->route()->getName() == $name ? 'active menu-is-opening menu-open' : '';
 }
+function formatMoney($money)
+{
+  return number_format($money, 0, ',', '.');
+}

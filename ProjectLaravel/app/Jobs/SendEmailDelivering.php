@@ -32,7 +32,7 @@ class SendEmailDelivering implements ShouldQueue
             'emails.ordersuccess',
             [],
             function ($email) {
-                $email->subject('Đơn hàng đang giao');
+                $email->subject('Cảm ơn bạn đã mua hàng');
                 $email->to($this->email);
             }
         );
