@@ -10,7 +10,7 @@ class TypeProductController extends Controller
 {
     public function index()
     {
-        $allTypes = DB::table('type_products')->paginate(5);
+        $allTypes = DB::table('type_products')->latest()->paginate(5);
         // dd($allTypes);
         return view('types.index', ['allTypes' => $allTypes]);
     }

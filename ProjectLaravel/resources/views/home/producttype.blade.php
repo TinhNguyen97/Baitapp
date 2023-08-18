@@ -90,4 +90,32 @@
             z-index: 1;
         }
     </style>
+    @if (session()->has('addsuccess') && session()->get('addsuccess'))
+        <script>
+            $(function() {
+                alertSuccess('Thêm vào giỏ hàng thành công.')
+            })
+        </script>
+    @endif
+    @if (session()->has('delsuccess') && session()->get('delsuccess'))
+        <script>
+            $(function() {
+                alertSuccess('Sản phẩm đã được xóa khỏi giỏ hàng.')
+            })
+        </script>
+    @endif
+    @if (session()->has('delallsuccess') && session()->get('delallsuccess'))
+        <script>
+            $(function() {
+                alertSuccess('Tất cả sản phẩm đã được xóa khỏi giỏ hàng.')
+            })
+        </script>
+    @endif
+    <script>
+        function alertSuccess(message) {
+            swal(message, "", "success", {
+                button: "OK!",
+            })
+        }
+    </script>
 @endsection

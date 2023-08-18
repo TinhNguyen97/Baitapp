@@ -300,14 +300,14 @@ class HomeController extends Controller
         }
 
         // dd(Session::get('cart'));
-        return back();
+        return back()->with('delsuccess', 'Sản phẩm đã được xóa khỏi giỏ hàng');
     }
     public function deleteAllCart()
     {
         if (Session::has('cart')) {
             Session::forget('cart');
         }
-        return back();
+        return back()->with('delallsuccess', 'Tất cả sản phẩm đã được xóa khỏi giỏ hàng');
     }
     public function order(Request $request)
     {

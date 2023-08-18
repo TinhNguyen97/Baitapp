@@ -76,14 +76,27 @@ class OrderController extends Controller
     public function handleApprove($id)
     {
         $orderDetails = DB::table('order_details')->where('order_id', $id)->get();
-
+        $listProductNameError = '';
         foreach ($orderDetails as $key => $item) {
+            $error = false;
             $product = Products::find($item->product_id);
-            $product->update([
-                'product_quantity' => $product->product_quantity - $item->quantity,
-                'quantity_sold' => $product->quantity_sold + $item->quantity
-            ]);
+            if ($product->product_quantity < $item->quantity) {
+                $error = true;
+                $listProductNameError .= $product->name . ', ';
+            }
+            if ($key == count($orderDetails) - 1) {
+                $listProductNameError = rtrim($listProductNameError, ', ');
+            }
+            if ($error == false) {
+                $product->update([
+                    'product_quantity' => $product->product_quantity - $item->quantity,
+                    'quantity_sold' => $product->quantity_sold + $item->quantity
+                ]);
+            }
         };
+        if ($error == true) {
+            return back()->with(['overqty' => 'Số lượng hàng còn lại ít hơn số lượng hàng đặt', 'productname' => $listProductNameError]);
+        }
         DB::table('orders')->where('id', $id)->update(['order_status_id' => 2]);
         $emailTo = Order::find($id)->email;
         SendEmailDelivering::dispatch($emailTo);

@@ -172,6 +172,21 @@
             })
         </script>
     @endif
+    @if (session()->has('delsuccess') && session()->get('delsuccess'))
+        <script>
+            $(function() {
+                alertSuccess('Sản phẩm đã được xóa khỏi giỏ hàng.')
+            })
+        </script>
+    @endif
+
+    @if (session()->has('delallsuccess') && session()->get('delallsuccess'))
+        <script>
+            $(function() {
+                alertSuccess('Tất cả sản phẩm đã được xóa khỏi giỏ hàng.')
+            })
+        </script>
+    @endif
     <script>
         function alertSuccess(message) {
             swal(message, "", "success", {

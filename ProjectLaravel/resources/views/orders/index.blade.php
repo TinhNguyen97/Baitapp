@@ -22,7 +22,9 @@
     </div>
 
     </section>
-
+    {{-- @php
+        dd($productname);
+    @endphp --}}
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -104,6 +106,7 @@
         </div>
         <!-- /.container-fluid -->
     </section>
+    </div>
     @if (session()->has('successApprove') && session()->get('successApprove'))
         <script>
             $(function() {
@@ -115,6 +118,14 @@
         <script>
             $(function() {
                 alertSuccess('Đơn hàng đã bị hủy, mail đã được gửi tới khách hàng!')
+            })
+        </script>
+    @endif
+    @if (session()->has('overqty') && session()->get('overqty'))
+        <script>
+            $(function() {
+                alertError('Số lượng sản phẩm ' + '{{ session()->get('productname') }}' +
+                    ' trong kho còn lại ít hơn số lượng hàng đặt. Hãy kiểm tra lại kho!')
             })
         </script>
     @endif
@@ -131,10 +142,20 @@
         .search {
             margin-left: 0.2vw;
         }
+
+        .main-footer {
+            margin-left: 250px !important;
+        }
     </style>
     <script>
         function alertSuccess(message) {
             swal(message, "", "success", {
+                button: "OK!",
+            })
+        }
+
+        function alertError(message) {
+            swal(message, "", "error", {
                 button: "OK!",
             })
         }

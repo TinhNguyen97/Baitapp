@@ -91,7 +91,7 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-
+    </div>
     <style>
         .main-footer {
             margin-left: 0px !important;
@@ -104,6 +104,10 @@
 
         .search {
             margin-left: 0.2vw;
+        }
+
+        .main-footer {
+            margin-left: 250px !important;
         }
     </style>
     <script>
