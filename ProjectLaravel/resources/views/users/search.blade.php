@@ -10,7 +10,7 @@
 
                 </div>
                 <form action="{{ route('users.search') }}" method="get">
-                    <div class="col-4 input-group">
+                    <div class="col-sm-4 input-group">
                         <input type="text" class="form-control" placeholder="Nhập tên hoặc địa chỉ email" name="key"
                             aria-label="Recipient's username" aria-describedby="button-addon2"
                             value="{{ $request->key ? $request->key : '' }}">
@@ -41,10 +41,10 @@
                                         <th style="text-align: center">#</th>
                                         <th style="text-align: center">Tên</th>
                                         <th style="text-align: center">Địa chỉ</th>
-                                        <th style="text-align: center">Email</th>
-                                        <th style="text-align: center">Số điện thoại</th>
-                                        <th style="text-align: center">Ngày tạo</th>
-                                        <th style="text-align: center">Trạng thái</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Email</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Số điện thoại</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Ngày tạo</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Trạng thái</th>
                                         <th style="text-align: center">Cấp quyền admin</th>
                                         <th colspan="2" style="text-align: center">
                                             Hành động
@@ -61,12 +61,16 @@
                                                 </th>
                                                 <td style="text-align: center">{{ $item->full_name }}</td>
                                                 <td style="text-align: center">{{ $item->address }}</td>
-                                                <td style="text-align: center">{{ $item->email }}</td>
-                                                <td style="text-align: center">{{ $item->phone }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->email }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->phone }}</td>
                                                 {{-- <td style="text-align: center"> {{ $item->status }} </td> --}}
-                                                <td style="text-align: center">{{ $item->created_at }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->created_at }}</td>
                                                 @if ($item->is_active)
-                                                    <td style="text-align: center">Đã kích hoạt</td>
+                                                    <td class="d-none d-xl-table-cell" style="text-align: center">Đã kích
+                                                        hoạt</td>
                                                     <td style="text-align: center"><a class="btn btn-primary"
                                                             href="{{ route('users.activeadmin', $item->id) }}">
                                                             <i class="fa-solid fa-hammer"></i></a></td>

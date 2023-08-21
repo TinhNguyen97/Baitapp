@@ -12,12 +12,13 @@
 
                     </div>
                     <form action="{{ route('products.search') }}" method="get">
-                        <div class="col-4 input-group">
+                        <div class="col-sm-4 input-group">
                             <input type="text" class="form-control" placeholder="Nhập tên sản phẩm/giá tiền" name="key"
                                 aria-label="Recipient's username" aria-describedby="button-addon2">
                             <button class="btn btn-primary search" type="submit">
                                 Tìm kiếm
                             </button>
+
                     </form>
                 </div>
         </div>
@@ -31,30 +32,31 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h1 class="card-title col-11 abc">Sản phẩm</h1>
+                                <h1 class="card-title col-8 col-sm-11 abc">Sản phẩm</h1>
 
-                                <button class="btn btn-primary col-1" data-target="#create-products" data-toggle="modal"
-                                    type="button">
+                                <button class="btn btn-primary col-4 col-sm-1" data-target="#create-products"
+                                    data-toggle="modal" type="button">
                                     Tạo mới
                                 </button>
                             </div>
                             <!-- /.card-header -->
-                            <div class="card-body" id="error-404">
+                            <div class="col-sm-12 card-body" id="error-404">
                                 <table class="table table-bordered table-hover" id="table_category">
                                     <thead>
                                         <tr>
                                             <th style="text-align: center">#</th>
                                             <th style="text-align: center">Tên sản phẩm</th>
-                                            <th style="text-align: center">Danh mục</th>
+                                            <th class="d-none d-xl-table-cell" style="text-align: center">Danh mục</th>
                                             <th style="text-align: center">Ảnh sản phẩm</th>
-                                            <th style="text-align: center">Đơn giá(VNĐ)</th>
-                                            <th style="text-align: center">Giá sau khuyến mại(VNĐ)</th>
-                                            <th style="text-align: center">Số lượng</th>
-                                            <th style="text-align: center">Đã bán</th>
-                                            <th style="text-align: center">Mô tả</th>
-                                            <th style="text-align: center">Kích hoạt</th>
-                                            <th style="text-align: center">Ngày tạo</th>
-                                            <th style="text-align: center">Ngày cập nhật</th>
+                                            <th class="d-none d-xl-table-cell" style="text-align: center">Đơn giá(VNĐ)</th>
+                                            <th class="d-none d-xl-table-cell" style="text-align: center">Giá sau khuyến
+                                                mại(VNĐ)</th>
+                                            <th class="d-none d-xl-table-cell" style="text-align: center">Số lượng</th>
+                                            <th class="d-none d-xl-table-cell" style="text-align: center">Đã bán</th>
+                                            <th class="d-none d-xl-table-cell" style="text-align: center">Mô tả</th>
+                                            <th class="d-none d-xl-table-cell" style="text-align: center">Kích hoạt</th>
+                                            <th class="d-none d-xl-table-cell" style="text-align: center">Ngày tạo</th>
+                                            <th class="d-none d-xl-table-cell" style="text-align: center">Ngày cập nhật</th>
 
                                             <th colspan="2" style="text-align: center">
                                                 Thao tác
@@ -69,22 +71,32 @@
                                                         {{ $loop->iteration + ($allProducts->currentPage() - 1) * $allProducts->perPage() }}
                                                     </th>
                                                     <td style="text-align: center">{{ $item->name }}</td>
-                                                    <td style="text-align: center">{{ $item->tp_name }}</td>
+                                                    <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                        {{ $item->tp_name }}</td>
                                                     <td style="text-align: center"><img width="100px" height="100px"
                                                             src="{{ asset('uploads' . '\\' . $item->image) }}"></td>
-                                                    <td style="text-align: center">{{ formatMoney($item->unit_price) }}</td>
-                                                    <td style="text-align: center">{{ formatMoney($item->promotion_price) }}
+                                                    <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                        {{ formatMoney($item->unit_price) }}</td>
+                                                    <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                        {{ formatMoney($item->promotion_price) }}
                                                     </td>
-                                                    <td style="text-align: center">{{ $item->product_quantity }}</td>
-                                                    <td style="text-align: center">{{ $item->quantity_sold }}</td>
-                                                    <td style="text-align: center">{{ $item->description }}</td>
+                                                    <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                        {{ $item->product_quantity }}</td>
+                                                    <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                        {{ $item->quantity_sold }}</td>
+                                                    <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                        {{ $item->description }}</td>
                                                     @if ($item->is_active)
-                                                        <td style="text-align: center">Đã kích hoạt</td>
+                                                        <td class="d-none d-xl-table-cell" style="text-align: center">Đã
+                                                            kích hoạt</td>
                                                     @else
-                                                        <td style="text-align: center">Chưa kích hoạt</td>
+                                                        <td class="d-none d-xl-table-cell" style="text-align: center">Chưa
+                                                            kích hoạt</td>
                                                     @endif
-                                                    <td style="text-align: center">{{ $item->created_at }}</td>
-                                                    <td style="text-align: center">{{ $item->updated_at }}</td>
+                                                    <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                        {{ $item->created_at }}</td>
+                                                    <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                        {{ $item->updated_at }}</td>
                                                     <td style="text-align: center"><button class="btn btn-primary"
                                                             data-target="#edit-category" data-toggle="modal" type="button"
                                                             onclick="showDetail(

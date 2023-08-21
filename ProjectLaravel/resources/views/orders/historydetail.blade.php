@@ -23,11 +23,12 @@
                                             <th style="text-align: center">#</th>
                                             <th style="text-align: center">Tên sản phẩm</th>
                                             <th style="text-align: center">Ảnh sản phẩm</th>
-                                            <th style="text-align: center">Đơn giá</th>
-                                            <th style="text-align: center">Giá khuyến mại</th>
-                                            <th style="text-align: center">Số lượng</th>
-                                            <th style="text-align: center">Thành tiền</th>
-                                            <th style="text-align: center">Ngày tạo</th>
+                                            <th class="d-none d-xl-table-cell" style="text-align: center">Đơn giá</th>
+                                            <th class="d-none d-xl-table-cell" style="text-align: center">Giá khuyến mại
+                                            </th>
+                                            <th class="d-none d-xl-table-cell" style="text-align: center">Số lượng</th>
+                                            <th class="d-none d-xl-table-cell" style="text-align: center">Thành tiền</th>
+                                            <th class="d-none d-xl-table-cell" style="text-align: center">Ngày tạo</th>
 
                                         </tr>
                                     </thead>
@@ -52,19 +53,22 @@
                                                     <td style="text-align: center">{{ $item->name }}</td>
                                                     <td style="text-align: center"><img width="100px" height="100px"
                                                             src="{{ asset('uploads' . '\\' . $item->image) }}"></td>
-                                                    <td style="text-align: center">{{ $item->unit_price }}</td>
-                                                    <td style="text-align: center">{{ $item->promotion_price }}</td>
-                                                    <td style="text-align: center">
+                                                    <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                        {{ $item->unit_price }}</td>
+                                                    <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                        {{ $item->promotion_price }}</td>
+                                                    <td class="d-none d-xl-table-cell" style="text-align: center">
                                                         {{ $item->quantity }}</td>
                                                     @if ($item->promotion_price < $item->unit_price)
-                                                        <td style="text-align: center">
+                                                        <td class="d-none d-xl-table-cell" style="text-align: center">
                                                             {{ $item->promotion_price * $item->quantity }} </td>
                                                     @else
-                                                        <td style="text-align: center">
+                                                        <td class="d-none d-xl-table-cell" style="text-align: center">
                                                             {{ $item->unit_price * $item->quantity }}
                                                         </td>
                                                     @endif
-                                                    <td style="text-align: center">{{ $item->created_at }}</td>
+                                                    <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                        {{ $item->created_at }}</td>
 
                                                 </tr>
                                             @endforeach

@@ -10,7 +10,7 @@
 
                 </div>
                 <form action="{{ route('orders.search') }}" method="get">
-                    <div class="col-4 input-group">
+                    <div class="col-sm-4 input-group">
                         <input type="text" class="form-control" placeholder="Nhập email hoặc số điện thoại" name="key"
                             aria-label="Recipient's username" aria-describedby="button-addon2"
                             value="{{ $request->key ? $request->key : '' }}">
@@ -41,12 +41,12 @@
                                         <th style="text-align: center">#</th>
                                         <th style="text-align: center">Tên</th>
                                         <th style="text-align: center">Địa chỉ</th>
-                                        <th style="text-align: center">Email</th>
-                                        <th style="text-align: center">Số điện thoại</th>
-                                        <th style="text-align: center">Ghi chú</th>
-                                        <th style="text-align: center">Trạng thái</th>
-                                        <th style="text-align: center">Ngày tạo</th>
-                                        <th style="text-align: center">Ngày cập nhật</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Email</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Số điện thoại</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Ghi chú</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Trạng thái</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Ngày tạo</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Ngày cập nhật</th>
 
                                         <th colspan="3" style="text-align: center">
                                             Hành động
@@ -62,12 +62,18 @@
                                                 </th>
                                                 <td style="text-align: center">{{ $item->name }}</td>
                                                 <td style="text-align: center">{{ $item->address }}</td>
-                                                <td style="text-align: center">{{ $item->email }}</td>
-                                                <td style="text-align: center">{{ $item->phone }}</td>
-                                                <td style="text-align: center">{{ $item->note }}</td>
-                                                <td style="text-align: center"> {{ $item->status }} </td>
-                                                <td style="text-align: center">{{ $item->created_at }}</td>
-                                                <td style="text-align: center">{{ $item->updated_at }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->email }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->phone }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->note }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->status }} </td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->created_at }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->updated_at }}</td>
                                                 <td style="text-align: center"><a
                                                         href="{{ route('orders.orderdetails', $item->id) }}"><i
                                                             class="fa-solid fa-eye"></i></a></td>

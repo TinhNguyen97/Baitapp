@@ -29,10 +29,10 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h1 class="card-title col-11 abc">Coupon</h1>
+                            <h1 class="card-title col-8 col-sm-11 abc">Coupon</h1>
 
-                            <button class="btn btn-primary col-1" data-target="#create-products" data-toggle="modal"
-                                type="button">
+                            <button class="btn btn-primary col-4 col-sm-1" data-target="#create-products"
+                                data-toggle="modal" type="button">
                                 Tạo mới
                             </button>
                             <p style="color: blue">Tìm thấy {{ count($coupons) }} coupon!</p>
@@ -45,10 +45,10 @@
                                         <th style="text-align: center">#</th>
                                         <th style="text-align: center">Tên coupon</th>
                                         <th style="text-align: center">Mã coupon</th>
-                                        <th style="text-align: center">Số lượng</th>
-                                        <th style="text-align: center">% giảm</th>
-                                        <th style="text-align: center">Ngày tạo</th>
-                                        <th style="text-align: center">Ngày cập nhật</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Số lượng</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">% giảm</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Ngày tạo</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Ngày cập nhật</th>
 
                                         <th colspan="2" style="text-align: center">
                                             Thao tác
@@ -65,13 +65,18 @@
                                                 <td style="text-align: center">{{ $item->coupon_name }}</td>
                                                 <td style="text-align: center">{{ $item->code }}</td>
 
-                                                <td style="text-align: center">{{ $item->time }}</td>
-                                                <td style="text-align: center">{{ $item->number }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->time }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->number }}</td>
 
-                                                <td style="text-align: center">{{ $item->created_at }}</td>
-                                                <td style="text-align: center">{{ $item->updated_at }}</td>
-                                                <td style="text-align: center"><button class="btn btn-primary"
-                                                        data-target="#edit-category" data-toggle="modal" type="button"
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->created_at }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->updated_at }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center"><button
+                                                        class="btn btn-primary" data-target="#edit-category"
+                                                        data-toggle="modal" type="button"
                                                         onclick="showDetail(
                                                             '{{ $item->coupon_name }}',
                                                            {{ $item->id }} ,
