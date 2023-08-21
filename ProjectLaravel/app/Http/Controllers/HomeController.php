@@ -178,6 +178,9 @@ class HomeController extends Controller
             // }
 
             // keyword intended
+            if (str_contains(Session::get('url'), 'get-pass')) {
+                return $this->index();
+            }
             return redirect(Session::get('url'));;
         }
         return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng!')->withInput();
@@ -440,6 +443,7 @@ class HomeController extends Controller
     }
     public function forgetPass()
     {
+
 
         return view('home.forgetpass');
     }
