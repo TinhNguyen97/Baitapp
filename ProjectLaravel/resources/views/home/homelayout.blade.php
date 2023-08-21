@@ -70,3 +70,11 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 </html>
+<style>
+    body {
+        flex-direction: column;
+        display: flex;
+        justify-content: space-between;
+        min-height: 100vh;
+    }
+</style>

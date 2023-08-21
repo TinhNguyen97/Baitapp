@@ -112,8 +112,8 @@
                                     </div>
                                 </div>
                             </div>
+                        @endif
                     </div> <!-- .cart -->
-                    @endif
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -144,7 +144,7 @@
                 <div class="clearfix"></div>
             </nav>
         </div> <!-- .container -->
-    </div> <!-- .header-bottom -->
+    </div>
 </div>
 <style>
     .text-wellcome {
