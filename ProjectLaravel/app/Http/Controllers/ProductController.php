@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Products;
@@ -233,5 +234,21 @@ class ProductController extends Controller
             ]);
             return back()->with(['isUpdateSuccess' => true]);
         }
+    }
+    public function details($id)
+    {
+        $product = Products::find($id);
+        $allProducts = Products::where('type_id', $product->type_id)->get();
+        $relativeProducts = Products::where('type_id', $product->type_id)->paginate(3);
+        $comments = Comment::where('product_id', $id)
+            ->join('users', 'comments.user_id', '=', 'users.id')
+            ->get();
+        // dd($comments);
+        return view('products.detail', [
+            'product' => $product,
+            'relativeProducts' => $relativeProducts,
+            'allProducts' => $allProducts,
+            'comments' => $comments
+        ]);
     }
 }

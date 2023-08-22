@@ -95,32 +95,9 @@ class HomeController extends Controller
             ]
         );
     }
-    public function details($id)
-    {
-        $product = Products::find($id);
-        $allProducts = Products::where('type_id', $product->type_id)->get();
-        $relativeProducts = Products::where('type_id', $product->type_id)->paginate(3);
-        $comments = Comment::where('product_id', $id)
-            ->join('users', 'comments.user_id', '=', 'users.id')
-            ->get();
-        // dd($comments);
-        return view('products.detail', [
-            'product' => $product,
-            'relativeProducts' => $relativeProducts,
-            'allProducts' => $allProducts,
-            'comments' => $comments
-        ]);
-    }
-    public function login()
-    {
-        Session::put('url', url()->previous());
-        return view('auth.login');
-    }
-    public function register()
-    {
 
-        return view('auth.register');
-    }
+
+
     public function checkRegister(Request $request)
     {
         $request->validate(
@@ -191,13 +168,7 @@ class HomeController extends Controller
         Session::forget('cart');
         return redirect('home');
     }
-    public function profile()
-    {
-        $user = Auth::user();
-        abort_if(!$user, 404);
-        $user->email = $this->obfuscate_email($user->email);
-        return view('auth.profile', ['user' => $user]);
-    }
+
 
     public function updateProfile(Request $request)
     {
@@ -231,10 +202,7 @@ class HomeController extends Controller
 
         return substr($name, 0, $len) . str_repeat('*', $len) . "@" . end($em);
     }
-    public function changePassword()
-    {
-        return view('auth.changepassword');
-    }
+
     public function handleChangePass(Request $request)
     {
         $id = Auth::id();

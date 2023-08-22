@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CouponController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -66,15 +67,15 @@ Route::prefix('home')->name('homes.')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('/search', [HomeController::class, 'search'])->name('search');
     Route::get('/typesearch/{idType}', [HomeController::class, 'typeSearch'])->name('typesearch');
-    Route::get('detail-product/{id}', [HomeController::class, 'details'])->name('detail');
-    Route::get('/login', [HomeController::class, 'login'])->name('login');
+    Route::get('detail-product/{id}', [ProductController::class, 'details'])->name('detail');
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [HomeController::class, 'checkLogin'])->name('checklogin');
-    Route::get('/register', [HomeController::class, 'register'])->name('register');
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
     Route::post('/register', [HomeController::class, 'checkRegister'])->name('checkregister');
     Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
-    Route::get('/profile', [HomeController::class, 'profile'])->middleware('auth')->name('profile');
+    Route::get('/profile', [AuthController::class, 'profile'])->middleware('auth')->name('profile');
     Route::put('/profile', [HomeController::class, 'updateProfile'])->middleware('auth')->name('updateprofile');
-    Route::get('/changepassword', [HomeController::class, 'changePassword'])->middleware('auth')->name('changepassword');
+    Route::get('/changepassword', [AuthController::class, 'changePassword'])->middleware('auth')->name('changepassword');
     Route::patch('/changepassword', [HomeController::class, 'handleChangePass'])->middleware('auth')->name('handleChangePass');
     Route::get('/about', [HomeController::class, 'about'])->name('about');
     Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
