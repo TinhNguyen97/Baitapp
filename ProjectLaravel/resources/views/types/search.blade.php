@@ -1,5 +1,6 @@
 @extends('layouts.adminlayout')
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/type.css') }}">
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
@@ -260,104 +261,8 @@
         function routeUpdate(id) {
             return "{{ route('types.deleteSearch', 0) }}".replace(/\d$/, id);
         }
-
-        function alertSuccess(message) {
-            swal(message, "", "success", {
-                button: "OK!",
-            })
-        }
-
-        function removeMessageCreateError() {
-            document.getElementById("name-error").style.display = 'none';
-            document.getElementById("image-error").style.display = 'none';
-            document.getElementById("unit_price-error").style.display = 'none';
-            document.getElementById("promotion_price-error").style.display = 'none';
-            document.getElementById("description-error").style.display = 'none';
-        }
-
-        function removeMessageUpdateError() {
-            document.getElementById("editName-error").style.display = 'none';
-            document.getElementById("editPrice-error").style.display = 'none';
-            document.getElementById("editPromotionPrice-error").style.display = 'none';
-            document.getElementById("editDescr-error").style.display = 'none';
-        }
-        $(document).ready(function() {
-            $('#create-products').parent().validate({
-                rules: {
-                    // name: {
-                    //     minlength: 2
-                    // }
-                },
-                messages: {
-                    name: {
-                        required: "Không được để trống tên."
-                        // minlength: "it nhất 2 ký tự"
-                    },
-                    image: {
-                        required: "Không được để trống ảnh."
-                        // minlength: "it nhất 2 ký tự"
-                    },
-                    unit_price: {
-                        required: "Không được để trống giá tiền."
-                    },
-                    promotion_price: {
-                        required: "Không được để trống giá khuyến mại."
-                    },
-                    description: {
-                        required: "Không được để trống mô tả sản phẩm."
-                    }
-                    // image: {
-                    //     required: "Không được để trống ảnh."
-                    // }
-                }
-            });
-            $('#form-edit').validate({
-                messages: {
-                    editName: {
-                        required: "Không được để trống tên."
-                        // minlength: "it nhất 2 ký tự"
-                    },
-                    editPrice: {
-                        required: "Không được để trống giá tiền."
-                    },
-                    editPromotionPrice: {
-                        required: "Không được để trống giá khuyến mại."
-                    },
-                    editDescr: {
-                        required: "Không được để trống mô tả sản phẩm."
-                    }
-                    // image: {
-                    //     required: "Không được để trống ảnh."
-                    // }
-                }
-            })
-        });
-
-        function deleteDish(id) {
-            $('#delete-category').parents('form').attr('action', routeDelete(id))
-            // $('#delete-category').append('<input type="hidden" name="myfieldname"/>')
-        }
-
-        function showDetail(name, id, image, description) {
-            $('#form-edit').attr('action', routeUpdate(id))
-            $('#editName').val(name);
-            $('#editDescr').val(description);
-            $('#editImage').attr('src', $(this).parents('.row').find('.image').attr('src'));
-        }
     </script>
-    <style>
-        label.error {
-            color: red;
-            font-size: 14px;
-        }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-        }
-
-        .search {
-            margin-left: 0.2vw;
-        }
-    </style>
+    <script src="{{ asset('js/notification.js') }}"></script>
+    <script src="{{ asset('js/type.js') }}"></script>
 @endsection

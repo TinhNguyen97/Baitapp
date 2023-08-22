@@ -1,5 +1,7 @@
 @extends('layouts.homelayout')
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/inputpassword.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dflex.css') }}">
     <div class="container">
         <div id="content">
 
@@ -35,17 +37,4 @@
         </form>
     </div> <!-- #content -->
     </div> <!-- .container -->
-    <style>
-        input[type="password"] {
-            width: 100%;
-            height: 35px;
-            border: 1px solid #e1e1e1;
-            padding: 0px 12px;
-        }
-
-        .d-flex {
-            display: flex;
-            justify-content: space-between;
-        }
-    </style>
 @endsection

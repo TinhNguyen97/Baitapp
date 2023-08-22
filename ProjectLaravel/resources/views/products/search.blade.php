@@ -1,5 +1,6 @@
 @extends('layouts.adminlayout')
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/product.css') }}">
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
@@ -351,123 +352,7 @@
         function routeUpdate(id) {
             return "{{ route('products.putSearch', 0) }}".replace(/\d$/, id);
         }
-
-        function alertSuccess(message) {
-            swal(message, "", "success", {
-                button: "OK!",
-            })
-        }
-
-        function removeMessageCreateError() {
-            document.getElementById("name-error").style.display = 'none';
-            document.getElementById("image-error").style.display = 'none';
-            document.getElementById("unit_price-error").style.display = 'none';
-            document.getElementById("promotion_price-error").style.display = 'none';
-            document.getElementById("quantity-error").style.display = 'none';
-            document.getElementById("description-error").style.display = 'none';
-        }
-
-        function removeMessageUpdateError() {
-            document.getElementById("editName-error").style.display = 'none';
-            document.getElementById("editPrice-error").style.display = 'none';
-            document.getElementById("editPromotionPrice-error").style.display = 'none';
-            document.getElementById("editDescr-error").style.display = 'none';
-        }
-        $(document).ready(function() {
-            $('#create-products').parent().validate({
-                rules: {
-                    // name: {
-                    //     minlength: 2
-                    // }
-                },
-                messages: {
-                    name: {
-                        required: "Không được để trống tên."
-                        // minlength: "it nhất 2 ký tự"
-                    },
-                    image: {
-                        required: "Không được để trống ảnh."
-                        // minlength: "it nhất 2 ký tự"
-                    },
-                    unit_price: {
-                        required: "Không được để trống giá tiền."
-                    },
-                    promotion_price: {
-                        required: "Không được để trống giá khuyến mại."
-                    },
-                    product_quantity: {
-                        required: "Không được để trống số lượng."
-                    },
-                    description: {
-                        required: "Không được để trống mô tả sản phẩm."
-                    }
-                    // image: {
-                    //     required: "Không được để trống ảnh."
-                    // }
-                }
-            });
-            $('#form-edit').validate({
-                messages: {
-                    editName: {
-                        required: "Không được để trống tên."
-                        // minlength: "it nhất 2 ký tự"
-                    },
-                    editPrice: {
-                        required: "Không được để trống giá tiền."
-                    },
-                    editPromotionPrice: {
-                        required: "Không được để trống giá khuyến mại."
-                    },
-
-                    editQuantity: {
-                        required: "Không được để trống số lượng."
-                    },
-                    editDescr: {
-                        required: "Không được để trống mô tả sản phẩm."
-                    }
-                    // image: {
-                    //     required: "Không được để trống ảnh."
-                    // }
-                }
-            })
-        });
-
-        function deleteDish(id) {
-            $('#delete-category').parents('form').attr('action', routeDelete(id))
-            // $('#delete-category').append('<input type="hidden" name="myfieldname"/>')
-        }
-
-        function showDetail(name, id, tp_name, image, promotion_price, quantity, description, unit_price, type_id,
-            is_active) {
-            $('#form-edit').attr('action', routeUpdate(id))
-            $('#editName').val(name);
-            $('#editType').val(type_id);
-            $('#editPrice').val(unit_price);
-            $('#editPromotionPrice').val(promotion_price);
-            $('#editQuantity').val(quantity);
-            $('#editDescr').val(description);
-            $('#editImage').attr('src', $(this).parents('.row').find('.image').attr('src'));
-            $('#is_active').val(is_active)
-        }
     </script>
-    <style>
-        label.error {
-            color: red;
-            font-size: 14px;
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-        }
-
-        .search {
-            margin-left: 0.2vw;
-        }
-
-        select {
-            height: 36px;
-            border: 1px solid #ced4da;
-        }
-    </style>
+    <script src="{{ asset('js/notification.js') }}"></script>
+    <script src="{{ asset('js/product.js') }}"></script>
 @endsection

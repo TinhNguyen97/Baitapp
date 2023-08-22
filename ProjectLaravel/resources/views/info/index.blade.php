@@ -37,11 +37,5 @@
             </script>
         @endif
     </div>
-    <script>
-        function alertSuccess(message) {
-            swal(message, "", "success", {
-                button: "OK!",
-            })
-        }
-    </script>
+    <script src="{{ asset('js/notification.js') }}"></script>
 @endsection

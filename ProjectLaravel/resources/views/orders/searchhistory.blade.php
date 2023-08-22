@@ -1,19 +1,19 @@
 @extends('layouts.adminlayout')
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/order.css') }}">
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-4">
-                        <h1>Đơn hàng đã hủy</h1>
+                        <h1>Đơn hàng đã gửi</h1>
                     </div>
 
                 </div>
                 <form action="{{ route('orders.searchhistory') }}" method="get">
-                    <div class="col-4 input-group">
-                        <input type="text" class="form-control" placeholder="Nhập email hoặc số điện thoại" name="key"
-                            aria-label="Recipient's username" aria-describedby="button-addon2"
-                            value="{{ $request->key ? $request->key : '' }}">
+                    <div class="col-sm-4 input-group">
+                        <input type="text" class="form-control" placeholder="Nhập email hoặc số điện thoại"
+                            name="key" aria-label="Recipient's username" aria-describedby="button-addon2">
                         <button class="btn btn-primary search"type="submit">
                             Tìm kiếm
                         </button>
@@ -41,12 +41,12 @@
                                         <th style="text-align: center">#</th>
                                         <th style="text-align: center">Tên</th>
                                         <th style="text-align: center">Địa chỉ</th>
-                                        <th style="text-align: center">Email</th>
-                                        <th style="text-align: center">Số điện thoại</th>
-                                        <th style="text-align: center">Ghi chú</th>
-                                        <th style="text-align: center">Trạng thái</th>
-                                        <th style="text-align: center">Ngày tạo</th>
-                                        <th style="text-align: center">Ngày cập nhật</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Email</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Số điện thoại</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Ghi chú</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Trạng thái</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Ngày tạo</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Ngày cập nhật</th>
 
 
                                     </tr>
@@ -60,17 +60,23 @@
                                                 </th>
                                                 <td style="text-align: center">{{ $item->name }}</td>
                                                 <td style="text-align: center">{{ $item->address }}</td>
-                                                <td style="text-align: center">{{ $item->email }}</td>
-                                                <td style="text-align: center">{{ $item->phone }}</td>
-                                                <td style="text-align: center">{{ $item->note }}</td>
-                                                <td style="text-align: center"> {{ $item->status }} </td>
-                                                <td style="text-align: center">{{ $item->created_at }}</td>
-                                                <td style="text-align: center">{{ $item->updated_at }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->email }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->phone }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->note }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->status }} </td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->created_at }}</td>
+                                                <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                    {{ $item->updated_at }}</td>
                                             </tr>
                                         @endforeach
                                     @else
-                                        <tr colspan='4'>
-                                            <td style="color: red">Không có dữ liệu</td>
+                                        <tr colspan='4' style="color: red">
+                                            <td>Không có dữ liệu</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -92,14 +98,7 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-    <style>
-        .main-footer {
-            margin-left: 0px !important;
-        }
+    </div>
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
+    <script src="{{ asset('js/notification.js') }}"></script>
 @endsection

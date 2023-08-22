@@ -1,5 +1,6 @@
 @extends('layouts.adminlayout')
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/coupon.css') }}">
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
@@ -10,10 +11,10 @@
 
                 </div>
                 <form action="{{ route('coupons.search') }}" method="get">
-                    <div class="col-4 input-group">
+                    <div class="col-sm-4 input-group">
                         <input type="text" class="form-control" placeholder="Nhập tên/mã coupon" name="key"
                             aria-label="Recipient's username" aria-describedby="button-addon2">
-                        <button class="btn btn-primary search"type="submit">
+                        <button class="btn btn-primary search" type="submit">
                             Tìm kiếm
                         </button>
                 </form>
@@ -35,7 +36,6 @@
                                 data-toggle="modal" type="button">
                                 Tạo mới
                             </button>
-                            <p style="color: blue">Tìm thấy {{ count($coupons) }} coupon!</p>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body" id="error-404">
@@ -74,9 +74,8 @@
                                                     {{ $item->created_at }}</td>
                                                 <td class="d-none d-xl-table-cell" style="text-align: center">
                                                     {{ $item->updated_at }}</td>
-                                                <td class="d-none d-xl-table-cell" style="text-align: center"><button
-                                                        class="btn btn-primary" data-target="#edit-category"
-                                                        data-toggle="modal" type="button"
+                                                <td style="text-align: center"><button class="btn btn-primary"
+                                                        data-target="#edit-category" data-toggle="modal" type="button"
                                                         onclick="showDetail(
                                                             '{{ $item->coupon_name }}',
                                                            {{ $item->id }} ,
@@ -154,7 +153,7 @@
                         <div class="form-group">
                             <label>% giảm</label>
                             <input id="editNumber" class="form-control" placeholder="Nhập % giảm" type="number"
-                                name="editNumber" required min="0" />
+                                name="editNumber" required min="0" max="100" />
                         </div>
 
                     </div>
@@ -198,8 +197,8 @@
                         </div>
                         <div class="form-group">
                             <label for="price">% giảm</label>
-                            <input class="form-control" id="number" min="0" max="100"
-                                placeholder="Nhập số % giảm" name="number" type="number" required />
+                            <input class="form-control" id="number" placeholder="Nhập số lượng" name="number"
+                                type="number" min="0" max="100" required />
                         </div>
 
                     </div>
@@ -246,6 +245,13 @@
             <!-- /.modal-dialog -->
         </div>
     </form>
+    @if (session()->has('samecode') && session()->get('samecode'))
+        <script>
+            $(function() {
+                alertError('Không thể tạo mới do mã code đã bị trùng lặp')
+            })
+        </script>
+    @endif
     @if (session()->has('isCreateSuccess') && session()->get('isCreateSuccess'))
         <script>
             $(function() {
@@ -276,140 +282,11 @@
             return "{{ route('coupons.put', 0) }}".replace(/\d$/, code);
         }
 
-        function alertSuccess(message) {
-            swal(message, "", "success", {
-                button: "OK!",
-            })
-        }
-
-        function alertError(message) {
-            swal(message, "", "error", {
-                button: "OK!",
-            })
-        }
 
         function validForm() {
 
         }
-
-        function removeMessageCreateError() {
-            document.getElementById("name-error").style.display = 'none';
-            document.getElementById("code-error").style.display = 'none';
-            document.getElementById("time-error").style.display = 'none';
-            document.getElementById("number-error").style.display = 'none';
-        }
-
-        $(document).ready(function() {
-            $.validator.addMethod("greaterThan", function(value, element, param) {
-                var $otherElement = $(param);
-                return parseInt(value, 10) >= parseInt($otherElement.val(), 10);
-            }, "Đơn giá phải lớn hơn giá khuyến mại.");
-            // console.log($('#create-products').parent())
-            $('#create-products').parent().validate({
-                onfocusout: false,
-                onkeyup: false,
-                onclick: false,
-
-                rules: {
-                    coupon_name: {
-                        required: true,
-                    },
-                    code: {
-                        required: true,
-                    },
-                    time: {
-                        required: true,
-                    },
-                    number: {
-                        required: true,
-                    }
-
-                },
-                messages: {
-                    coupon_name: {
-                        required: "Không được để trống tên."
-                        // minlength: "it nhất 2 ký tự"
-                    },
-                    code: {
-                        required: "Không được để trống mã."
-                        // minlength: "it nhất 2 ký tự"
-                    },
-                    time: {
-                        required: "Không được để trống số lượng.",
-                    },
-                    number: {
-                        required: "Không được để trống giảm giá."
-                    }
-                }
-            });
-            $('#form-edit').validate({
-                onfocusout: false,
-                onkeyup: false,
-                onclick: false,
-
-                rules: {
-                    editName: {
-                        required: true
-                    },
-
-                    editCode: {
-                        required: true,
-                    },
-                    editTime: {
-                        required: true,
-                    },
-                    editNumber: {
-                        required: true,
-                    }
-
-                },
-                messages: {
-                    editName: {
-                        required: "Không được để trống tên."
-                        // minlength: "it nhất 2 ký tự"
-                    },
-                    editCode: {
-                        required: "Không được để trống mã."
-                        // minlength: "it nhất 2 ký tự"
-                    },
-                    editTime: {
-                        required: "Không được để trống số lượng.",
-                    },
-                    editNumber: {
-                        required: "Không được để trống giảm giá."
-                    }
-                }
-            })
-        });
-
-        function deleteDish(code) {
-            $('#delete-category').parents('form').attr('action', routeDelete(code))
-            // $('#delete-category').append('<input type="hidden" name="myfieldname"/>')
-        }
-
-        function showDetail(name, id, code, time, number) {
-            $('#form-edit').attr('action', routeUpdate(code)).valid()
-            $('#editName').val(name);
-            $('#editCode').val(code);
-            $('#editTime').val(time);
-            $('#editNumber').val(number);
-
-        }
     </script>
-    <style>
-        label.error {
-            color: red;
-            font-size: 14px;
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-        }
-
-        .search {
-            margin-left: 0.2vw;
-        }
-    </style>
-
+    <script src="{{ asset('js/notification.js') }}"></script>
+    <script src="{{ asset('js/coupon.js') }}"></script>
 @endsection

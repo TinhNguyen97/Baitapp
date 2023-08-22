@@ -30,5 +30,4 @@
         </div>
         </form>
     </div> <!-- #content -->
-    </div> <!-- .container -->
 @endsection

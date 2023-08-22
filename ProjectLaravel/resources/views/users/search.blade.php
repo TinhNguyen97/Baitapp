@@ -1,5 +1,6 @@
 @extends('layouts.adminlayout')
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/user.css') }}">
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
@@ -184,7 +185,7 @@
     @if (session()->has('preventDelete') && session()->get('preventDelete'))
         <script>
             $(function() {
-                alertSuccess('Không thể xóa tài khoản ADMIN ');
+                alertError('Không thể xóa tài khoản ADMIN ');
             })
         </script>
     @endif
@@ -202,39 +203,12 @@
             })
         </script>
     @endif
-    <style>
-        .main-footer {
-            margin-left: 0px !important;
-        }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-        }
-
-        .search {
-            margin-left: 0.2vw;
-        }
-    </style>
     <script>
         function routeDelete(id) {
             return "{{ route('users.handledelete', 0) }}".replace(/\d$/, id);
         }
-
-        function alertSuccess(message) {
-            swal(message, "", "success", {
-                button: "OK!",
-            })
-        }
-
-        function alertError(message) {
-            swal(message, "", "error", {
-                button: "OK!",
-            })
-        }
-
-        function deleteUser(id) {
-            $('#delete-user').parents('form').attr('action', routeDelete(id))
-        }
     </script>
+    <script src="{{ asset('js/notification.js') }}"></script>
+    <script src="{{ asset('js/user.js') }}"></script>
 @endsection

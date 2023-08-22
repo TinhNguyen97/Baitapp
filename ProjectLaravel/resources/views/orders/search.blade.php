@@ -1,19 +1,20 @@
 @extends('layouts.adminlayout')
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/order.css') }}">
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-4">
                         <h1>Quản lý đơn hàng</h1>
+
                     </div>
 
                 </div>
                 <form action="{{ route('orders.search') }}" method="get">
                     <div class="col-sm-4 input-group">
-                        <input type="text" class="form-control" placeholder="Nhập email hoặc số điện thoại" name="key"
-                            aria-label="Recipient's username" aria-describedby="button-addon2"
-                            value="{{ $request->key ? $request->key : '' }}">
+                        <input type="text" class="form-control" placeholder="Nhập email hoặc số điện thoại"
+                            name="key" aria-label="Recipient's username" aria-describedby="button-addon2">
                         <button class="btn btn-primary search"type="submit">
                             Tìm kiếm
                         </button>
@@ -22,7 +23,9 @@
     </div>
 
     </section>
-
+    {{-- @php
+        dd($productname);
+    @endphp --}}
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -54,6 +57,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     @if (count($allOrders) !== 0)
                                         @foreach ($allOrders as $key => $item)
                                             <tr>
@@ -72,22 +76,21 @@
                                                     {{ $item->status }} </td>
                                                 <td class="d-none d-xl-table-cell" style="text-align: center">
                                                     {{ $item->created_at }}</td>
-                                                <td class="d-none d-xl-table-cell" style="text-align: center">
-                                                    {{ $item->updated_at }}</td>
-                                                <td style="text-align: center"><a
+                                                <td style="text-align: center">{{ $item->updated_at }}</td>
+                                                <td style="text-align: center"><a class="btn btn-primary"
                                                         href="{{ route('orders.orderdetails', $item->id) }}"><i
                                                             class="fa-solid fa-eye"></i></a></td>
-                                                <td style="text-align: center"><a
+                                                <td style="text-align: center"><a class="btn btn-primary"
                                                         href="{{ route('orders.handleapprove', $item->id) }}"><i
                                                             class="fa-sharp fa-solid fa-check"></i></a></td>
-                                                <td style="text-align: center"><a
+                                                <td style="text-align: center"><a class="btn btn-danger"
                                                         href="{{ route('orders.handlecancel', $item->id) }}"><i
                                                             class="fa-solid fa-xmark"></i></a></td>
                                             </tr>
                                         @endforeach
                                     @else
-                                        <tr colspan='4'>
-                                            <td style="color: red">Không có dữ liệu</td>
+                                        <tr colspan='4' style="color: red">
+                                            <td>Không có dữ liệu</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -109,10 +112,11 @@
         </div>
         <!-- /.container-fluid -->
     </section>
+    </div>
     @if (session()->has('successApprove') && session()->get('successApprove'))
         <script>
             $(function() {
-                alertSuccess('Đơn hàng đã được gửi đi,mail đã được gửi tới khách hàng!')
+                alertSuccess('Đơn hàng đã được gửi đi, mail đã được gửi tới khách hàng!')
             })
         </script>
     @endif
@@ -123,21 +127,14 @@
             })
         </script>
     @endif
-    <style>
-        .main-footer {
-            margin-left: 0px !important;
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
-    <script>
-        function alertSuccess(message) {
-            swal(message, "", "success", {
-                button: "OK!",
+    @if (session()->has('overqty') && session()->get('overqty'))
+        <script>
+            $(function() {
+                alertError('Số lượng sản phẩm ' + '{{ session()->get('productname') }}' +
+                    ' trong kho còn lại ít hơn số lượng hàng đặt. Hãy kiểm tra lại kho!')
             })
-        }
-    </script>
+        </script>
+    @endif
+
+    <script src="{{ asset('js/notification.js') }}"></script>
 @endsection

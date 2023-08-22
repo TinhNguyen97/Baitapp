@@ -1,6 +1,6 @@
 @extends('layouts.adminlayout')
 @section('content')
-
+    <link rel="stylesheet" href="{{ asset('css/vieworderdetail.css.css') }}">
 
     <!-- Main content -->
     <div class="content-wrapper">
@@ -114,15 +114,6 @@
             <!-- /.container-fluid -->
         </section>
     </div>
-    <style>
-        .main-footer {
-            margin-left: 0px !important;
-        }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
 
 @endsection

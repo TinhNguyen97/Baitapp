@@ -1,0 +1,13 @@
+label.error {
+    color: red;
+    font-size: 14px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.search {
+    margin-left: 0.2vw;
+}

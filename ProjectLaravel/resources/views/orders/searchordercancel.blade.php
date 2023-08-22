@@ -1,5 +1,6 @@
 @extends('layouts.adminlayout')
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/ordercancel.css') }}">
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
@@ -11,9 +12,8 @@
                 </div>
                 <form action="{{ route('orders.searchordercancel') }}" method="get">
                     <div class="col-sm-4 input-group">
-                        <input type="text" class="form-control" placeholder="Nhập email hoặc số điện thoại" name="key"
-                            aria-label="Recipient's username" aria-describedby="button-addon2"
-                            value="{{ $request->key ? $request->key : '' }}">
+                        <input type="text" class="form-control" placeholder="Nhập email hoặc số điện thoại"
+                            name="key" aria-label="Recipient's username" aria-describedby="button-addon2">
                         <button class="btn btn-primary search"type="submit">
                             Tìm kiếm
                         </button>
@@ -48,7 +48,6 @@
                                         <th class="d-none d-xl-table-cell" style="text-align: center">Ngày tạo</th>
                                         <th class="d-none d-xl-table-cell" style="text-align: center">Ngày cập nhật</th>
 
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -76,8 +75,8 @@
                                             </tr>
                                         @endforeach
                                     @else
-                                        <tr colspan='4'>
-                                            <td style="color: red">Không có dữ liệu</td>
+                                        <tr colspan='4' style="color: red">
+                                            <td>Không có dữ liệu</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -99,14 +98,7 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-    <style>
-        .main-footer {
-            margin-left: 0px !important;
-        }
+    </div>
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
+
 @endsection

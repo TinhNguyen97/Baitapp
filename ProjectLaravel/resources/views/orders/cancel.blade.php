@@ -1,5 +1,6 @@
 @extends('layouts.adminlayout')
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/ordercancel.css') }}">
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
@@ -11,8 +12,8 @@
                 </div>
                 <form action="{{ route('orders.searchordercancel') }}" method="get">
                     <div class="col-sm-4 input-group">
-                        <input type="text" class="form-control" placeholder="Nhập email hoặc số điện thoại" name="key"
-                            aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <input type="text" class="form-control" placeholder="Nhập email hoặc số điện thoại"
+                            name="key" aria-label="Recipient's username" aria-describedby="button-addon2">
                         <button class="btn btn-primary search"type="submit">
                             Tìm kiếm
                         </button>
@@ -98,29 +99,6 @@
         <!-- /.container-fluid -->
     </section>
     </div>
-    <style>
-        .main-footer {
-            margin-left: 0px !important;
-        }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-        }
 
-        .search {
-            margin-left: 0.2vw;
-        }
-
-        .main-footer {
-            margin-left: 250px !important;
-        }
-    </style>
-    <script>
-        function alertSuccess(message) {
-            swal(message, "", "success", {
-                button: "OK!",
-            })
-        }
-    </script>
 @endsection
