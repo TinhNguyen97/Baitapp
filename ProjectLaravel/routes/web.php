@@ -66,7 +66,7 @@ Route::prefix('home')->name('homes.')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('/search', [HomeController::class, 'search'])->name('search');
     Route::get('/typesearch/{idType}', [HomeController::class, 'typeSearch'])->name('typesearch');
-    Route::get('details/{id}', [HomeController::class, 'details'])->name('detail');
+    Route::get('detail-product/{id}', [HomeController::class, 'details'])->name('detail');
     Route::get('/login', [HomeController::class, 'login'])->name('login');
     Route::post('/login', [HomeController::class, 'checkLogin'])->name('checklogin');
     Route::get('/register', [HomeController::class, 'register'])->name('register');
