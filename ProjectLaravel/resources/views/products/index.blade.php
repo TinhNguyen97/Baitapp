@@ -108,7 +108,7 @@
                                                            {{ $item->product_quantity }},
                                                            '{{ $item->description }}',
                                                            {{ $item->unit_price }},
-                                                           {{ $item->id_type }},
+                                                           {{ $item->type_id }},
                                                            {{ $item->is_active }}
                                                            )">
                                                             <i class="fa-solid fa-pen-to-square"></i></button></td>
@@ -240,7 +240,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="type">Danh mục sản phẩm</label>
-                                <select id="type" name="id_type">
+                                <select id="type" name="type_id">
                                     @if (!empty($allTypes))
                                         @foreach ($allTypes as $item)
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -461,11 +461,11 @@
                 // $('#delete-category').append('<input type="hidden" name="myfieldname"/>')
             }
 
-            function showDetail(name, id, tp_name, image, promotion_price, quantity, description, unit_price, id_type,
+            function showDetail(name, id, tp_name, image, promotion_price, quantity, description, unit_price, type_id,
                 is_active) {
                 $('#form-edit').attr('action', routeUpdate(id)).valid()
                 $('#editName').val(name);
-                $('#editType').val(id_type);
+                $('#editType').val(type_id);
                 $('#editImage').attr('src', 'uploads\\' + image);
                 $('#editPrice').val(unit_price);
                 $('#editPromotionPrice').val(promotion_price);

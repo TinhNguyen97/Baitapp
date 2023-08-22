@@ -13,8 +13,8 @@ class ProductController extends Controller
         // echo public_path('uploads' . '\\' . '123');
         // die;
         $allProducts = DB::table('products')
-            ->join('type_products', 'products.id_type', '=', 'type_products.id')
-            ->select('products.*', 'type_products.name as tp_name', 'type_products.id as id_type')
+            ->join('type_products', 'products.type_id', '=', 'type_products.id')
+            ->select('products.*', 'type_products.name as tp_name', 'type_products.id as type_id')
             ->latest()
             ->paginate(5);
         $allTypes = DB::table('type_products')->get();
@@ -33,7 +33,7 @@ class ProductController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'id_type' => 'required',
+                'type_id' => 'required',
                 'description' => 'required',
                 'unit_price' => 'required',
                 'promotion_price' => 'required',
@@ -41,7 +41,7 @@ class ProductController extends Controller
             ],
             [
                 'name.required' => 'Tên không được để trống.',
-                'id_type.required' => 'Không được để trống.',
+                'type_id.required' => 'Không được để trống.',
                 'description.required' => 'Không được để trống.',
                 'unit_price.required' => 'Không được để trống.',
                 'promotion_price.required' => 'Không được để trống.',
@@ -100,7 +100,7 @@ class ProductController extends Controller
             $file->move(public_path('uploads'), $file_name);
             $data = [
                 'name' => $request->editName,
-                'id_type' => $request->editType,
+                'type_id' => $request->editType,
                 'description' => $request->editDescr,
                 'unit_price' => $request->editPrice,
                 'promotion_price' => $request->editPromotionPrice,
@@ -114,7 +114,7 @@ class ProductController extends Controller
             // dd($request->all());
             Products::where('id', $id)->update([
                 'name' => $request->editName,
-                'id_type' => $request->editType,
+                'type_id' => $request->editType,
                 'description' => $request->editDescr,
                 'unit_price' => $request->editPrice,
                 'promotion_price' => $request->editPromotionPrice,
@@ -130,8 +130,8 @@ class ProductController extends Controller
             ->orWhere('unit_price', $request->key)
             ->orWhere('promotion_price', $request->key)->latest()->get();
         $allProductSearch = DB::table('products')
-            ->join('type_products', 'products.id_type', '=', 'type_products.id')
-            ->select('products.*', 'type_products.name as tp_name', 'type_products.id as id_type')
+            ->join('type_products', 'products.type_id', '=', 'type_products.id')
+            ->select('products.*', 'type_products.name as tp_name', 'type_products.id as type_id')
             ->where('products.name', 'like', '%' . $request->key . '%')
             ->orWhere('products.unit_price',   $request->key)
             ->orWhere('products.promotion_price',  $request->key)
@@ -159,7 +159,7 @@ class ProductController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'id_type' => 'required',
+                'type_id' => 'required',
                 'description' => 'required',
                 'unit_price' => 'required',
                 'promotion_price' => 'required',
@@ -167,7 +167,7 @@ class ProductController extends Controller
             ],
             [
                 'name.required' => 'Tên không được để trống.',
-                'id_type.required' => 'Không được để trống.',
+                'type_id.required' => 'Không được để trống.',
                 'description.required' => 'Không được để trống.',
                 'unit_price.required' => 'Không được để trống.',
                 'promotion_price.required' => 'Không được để trống.',
@@ -210,7 +210,7 @@ class ProductController extends Controller
             $file->move(public_path('uploads'), $file_name);
             $data = [
                 'name' => $request->editName,
-                'id_type' => $request->editType,
+                'type_id' => $request->editType,
                 'description' => $request->editDescr,
                 'unit_price' => $request->editPrice,
                 'promotion_price' => $request->editPromotionPrice,
@@ -224,7 +224,7 @@ class ProductController extends Controller
             // dd($request->all());
             Products::where('id', $id)->update([
                 'name' => $request->editName,
-                'id_type' => $request->editType,
+                'type_id' => $request->editType,
                 'description' => $request->editDescr,
                 'unit_price' => $request->editPrice,
                 'promotion_price' => $request->editPromotionPrice,

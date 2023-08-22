@@ -11,7 +11,7 @@ class AdminController extends Controller
     public function index()
     {
         // dd(Dish::all());
-        $allProducts = DB::table('products')->join('type_products', 'products.id_type', '=', 'type_products.id')->select('products.*', 'type_products.name as tp_name')->get();
+        $allProducts = DB::table('products')->join('type_products', 'products.type_id', '=', 'type_products.id')->select('products.*', 'type_products.name as tp_name')->get();
         $allTypes = DB::table('type_products')->get();
         // dd($allTypes);
         return view('admin.index', ['allProducts' => $allProducts, 'allTypes' => $allTypes]);

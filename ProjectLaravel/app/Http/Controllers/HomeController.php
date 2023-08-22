@@ -83,8 +83,8 @@ class HomeController extends Controller
     public function typeSearch(Request $request, $idType)
     {
         $type = TypeProduct::find($idType)->name;
-        $allProductSearch = Products::where('is_active', 1)->where('id_type', $idType)->paginate(8);
-        $allProducts = Products::where('is_active', 1)->where('id_type', $idType)->get();
+        $allProductSearch = Products::where('is_active', 1)->where('type_id', $idType)->paginate(8);
+        $allProducts = Products::where('is_active', 1)->where('type_id', $idType)->get();
         return view(
             'home.producttype',
             [
@@ -98,8 +98,8 @@ class HomeController extends Controller
     public function details($id)
     {
         $product = Products::find($id);
-        $allProducts = Products::where('id_type', $product->id_type)->get();
-        $relativeProducts = Products::where('id_type', $product->id_type)->paginate(3);
+        $allProducts = Products::where('type_id', $product->type_id)->get();
+        $relativeProducts = Products::where('type_id', $product->type_id)->paginate(3);
         $comments = Comment::where('product_id', $id)
             ->join('users', 'comments.user_id', '=', 'users.id')
             ->get();
