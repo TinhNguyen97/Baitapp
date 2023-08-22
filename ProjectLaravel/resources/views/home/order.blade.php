@@ -1,4 +1,4 @@
-@extends('home.homelayout')
+@extends('layouts.homelayout')
 @section('content')
     <div>
         <div class="inner-header">

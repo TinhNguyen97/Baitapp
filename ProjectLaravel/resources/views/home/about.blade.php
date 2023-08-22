@@ -1,4 +1,4 @@
-@extends('home.homelayout')
+@extends('layouts.homelayout')
 @section('content')
     <div class="inner-header">
         <div class="container">
@@ -262,7 +262,8 @@
             <div class="space20">&nbsp;</div>
             <h5 class="text-center other-title wow fadeInLeft">Founders</h5>
             <p class="text-center wow fadeInRight">Nemo enims voluptatem quia volupas sit aspe aut odit aut fugit, sed quia
-                <br />consequuntur magni dolores.</p>
+                <br />consequuntur magni dolores.
+            </p>
             <div class="space20">&nbsp;</div>
             <div class="row">
                 <div class="col-sm-6 wow fadeInLeft">
@@ -300,7 +301,8 @@
             <div class="space60">&nbsp;</div>
             <h5 class="text-center other-title wow fadeInDown">The Best of Professionals</h5>
             <p class="text-center wow fadeInUp">Nemo enims voluptatem quia volupas sit aspe aut odit aut fugit, sed quia
-                <br />consequuntur magni dolores.</p>
+                <br />consequuntur magni dolores.
+            </p>
             <div class="space20">&nbsp;</div>
             <div class="row">
                 <div class="col-sm-3">

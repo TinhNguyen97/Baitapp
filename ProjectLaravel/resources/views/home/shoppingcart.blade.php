@@ -1,4 +1,4 @@
-@extends('home.homelayout')
+@extends('layouts.homelayout')
 @section('content')
     @php
         if (Session::has('cart')) {

@@ -1,4 +1,4 @@
-@extends('home.homelayout')
+@extends('layouts.homelayout')
 @section('content')
     <div class="alert alert-success flex-success">
         <h3>Đặt hàng thành công!Vui lòng kiểm tra email!</h3>

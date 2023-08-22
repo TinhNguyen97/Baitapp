@@ -1,4 +1,4 @@
-@extends('home.homelayout')
+@extends('layouts.homelayout')
 @section('content')
     <div class="rev-slider">
         <div class="fullwidthbanner-container" style="z-index: 0">
