@@ -102,19 +102,22 @@ class HomeController extends Controller
     {
         $request->validate(
             [
-                'email' => 'required|email|unique:users,email',
-                'full_name' => 'required',
+                'email' => 'required|email|unique:users,email|max:255',
+                'full_name' => 'required|max:255',
                 'password' => 'required|min:6|max:20',
                 're_pass' => 'same:password',
                 'phone' => 'required|regex:/^0[0-9]{9,10}$/',
-                'address' => 'required'
+                'address' => 'required|max:255'
             ],
             [
                 'email.required' => 'Vui lòng nhập email.',
                 'email.email' => 'Vui lòng nhập email đúng định dạng.',
                 'email.unique' => 'Email đã có người sử dụng.',
+                'email.max' => 'Vui lòng nhập email ngắn hơn.',
                 'address.required' => 'Vui lòng nhập địa chỉ.',
+                'address.max' => 'Vui lòng nhập địa chỉ ngắn hơn.',
                 'full_name.required' => 'Vui lòng nhập tên.',
+                'full_name.max' => 'Vui lòng nhập tên ngắn hơn.',
                 'password.required' => 'Vui lòng nhập password.',
                 're_pass.same' => 'Mật khẩu không trùng khớp.',
                 'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
