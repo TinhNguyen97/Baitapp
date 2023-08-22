@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3307
--- Thời gian đã tạo: Th8 11, 2023 lúc 09:45 AM
+-- Thời gian đã tạo: Th8 22, 2023 lúc 08:41 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.1.17
 
@@ -28,26 +28,71 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `comments` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `product_id` int(10) UNSIGNED NOT NULL,
+  `id` bigint(10) UNSIGNED NOT NULL,
+  `product_id` bigint(10) NOT NULL,
   `content` text DEFAULT NULL,
   `user_id` bigint(10) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `comments`
 --
 
 INSERT INTO `comments` (`id`, `product_id`, `content`, `user_id`, `created_at`, `updated_at`) VALUES
-(2, 1, 'dfdf', 2, '2023-08-11 06:50:06', '2023-08-11 06:50:06'),
-(3, 1, 'ngon ls,', 2, '2023-08-11 06:56:12', '2023-08-11 06:56:12'),
-(4, 1, 'dc', 2, '2023-08-11 07:02:54', '2023-08-11 07:02:54'),
-(5, 1, 'không ra gi', 4, '2023-08-11 07:05:30', '2023-08-11 07:05:30'),
-(6, 60, 'ngon', 4, '2023-08-11 07:08:29', '2023-08-11 07:08:29'),
-(7, 1, 'ff', 4, '2023-08-11 07:13:28', '2023-08-11 07:13:28'),
-(8, 1, NULL, 4, '2023-08-11 07:31:47', '2023-08-11 07:31:47');
+(1, 60, 'cũng được', 2, '2023-08-22 04:45:14', '2023-08-22 04:45:14');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `coupons`
+--
+
+CREATE TABLE `coupons` (
+  `id` bigint(10) NOT NULL,
+  `coupon_name` varchar(50) DEFAULT NULL,
+  `time` int(50) UNSIGNED DEFAULT NULL,
+  `number` int(11) DEFAULT NULL,
+  `code` varchar(100) DEFAULT NULL,
+  `is_active` tinyint(4) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `coupons`
+--
+
+INSERT INTO `coupons` (`id`, `coupon_name`, `time`, `number`, `code`, `is_active`, `created_at`, `updated_at`) VALUES
+(371769514, 'tinh', 8, 5, 'abc', 1, '2023-08-17 07:25:21', '2023-08-18 06:02:35'),
+(371769515, 'fake', 0, 0, '17082302293829code', 0, '2023-08-17 07:29:38', '2023-08-17 07:29:38'),
+(371769516, 'fake', 0, 0, '17082302295679code', 0, '2023-08-17 07:29:56', '2023-08-17 07:29:56'),
+(371769517, 'fake', 0, 0, '17082302364879code', 0, '2023-08-17 07:36:48', '2023-08-17 07:36:48'),
+(371769518, 'fake', 0, 0, '17082302372613code', 0, '2023-08-17 07:37:26', '2023-08-17 07:37:26'),
+(371769519, 'fake', 0, 0, '17082303371542code', 0, '2023-08-17 08:37:15', '2023-08-17 08:37:15'),
+(371769520, 'fake', 0, 0, '17082303420458code', 0, '2023-08-17 08:42:04', '2023-08-17 08:42:04'),
+(371769521, 'fake', 0, 0, '17082304411742code', 0, '2023-08-17 09:41:17', '2023-08-17 09:41:17'),
+(371769522, 'fake', 0, 0, '18082310091297code', 0, '2023-08-18 03:09:12', '2023-08-18 03:09:12'),
+(371769523, 'fake', 0, 0, '18082310220127code', 0, '2023-08-18 03:22:01', '2023-08-18 03:22:01'),
+(371769524, 'fake', 0, 0, '18082310231177code', 0, '2023-08-18 03:23:11', '2023-08-18 03:23:11'),
+(371769525, 'fake', 0, 0, '18082310261138code', 0, '2023-08-18 03:26:11', '2023-08-18 03:26:11'),
+(371769526, 'fake', 0, 0, '18082310265315code', 0, '2023-08-18 03:26:53', '2023-08-18 03:26:53'),
+(371769527, 'fake', 0, 0, '18082310424660code', 0, '2023-08-18 03:42:46', '2023-08-18 03:42:46'),
+(371769528, 'fake', 0, 0, '18082310432197code', 0, '2023-08-18 03:43:21', '2023-08-18 03:43:21'),
+(371769529, 'fake', 0, 0, '18082310454697code', 0, '2023-08-18 03:45:46', '2023-08-18 03:45:46'),
+(371769530, 'fake', 0, 0, '18082311190064code', 0, '2023-08-18 04:19:00', '2023-08-18 04:19:00'),
+(371769531, 'fake', 0, 0, '18082311470944code', 0, '2023-08-18 04:47:09', '2023-08-18 04:47:09'),
+(371769532, 'fake', 0, 0, '18082311474915code', 0, '2023-08-18 04:47:49', '2023-08-18 04:47:49'),
+(371769533, 'fake', 0, 0, '18082302062072code', 0, '2023-08-18 07:06:20', '2023-08-18 07:06:20'),
+(371769534, 'fake', 0, 0, '18082302065144code', 0, '2023-08-18 07:06:51', '2023-08-18 07:06:51'),
+(371769535, 'fake', 0, 0, '18082302194312code', 0, '2023-08-18 07:19:43', '2023-08-18 07:19:43'),
+(371769536, 'fake', 0, 0, '18082303174129code', 0, '2023-08-18 08:17:41', '2023-08-18 08:17:41'),
+(371769537, 'fake', 0, 0, '18082303215531code', 0, '2023-08-18 08:21:55', '2023-08-18 08:21:55'),
+(371769538, 'fake', 0, 0, '18082303230991code', 0, '2023-08-18 08:23:09', '2023-08-18 08:23:09'),
+(371769539, 'fake', 0, 0, '18082303402346code', 0, '2023-08-18 08:40:23', '2023-08-18 08:40:23'),
+(371769540, 'fake', 0, 0, '18082303415677code', 0, '2023-08-18 08:41:56', '2023-08-18 08:41:56'),
+(371769541, 'fake', 0, 0, '22082301284185code', 0, '2023-08-22 06:28:41', '2023-08-22 06:28:41');
 
 -- --------------------------------------------------------
 
@@ -72,7 +117,7 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `infors` (
-  `id` int(11) NOT NULL,
+  `id` int(10) NOT NULL,
   `info_contact` varchar(255) DEFAULT NULL,
   `info_map` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -99,6 +144,14 @@ CREATE TABLE `jobs` (
   `available_at` int(10) UNSIGNED NOT NULL,
   `created_at` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `jobs`
+--
+
+INSERT INTO `jobs` (`id`, `queue`, `payload`, `attempts`, `reserved_at`, `available_at`, `created_at`) VALUES
+(162, 'default', '{\"uuid\":\"9e6adb00-c93a-45fb-9d5e-6848ccbe6e99\",\"displayName\":\"App\\\\Jobs\\\\SendEmailConfirm\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendEmailConfirm\",\"command\":\"O:25:\\\"App\\\\Jobs\\\\SendEmailConfirm\\\":6:{s:32:\\\"\\u0000App\\\\Jobs\\\\SendEmailConfirm\\u0000email\\\";s:20:\\\"tinhnn.jvb@gmail.com\\\";s:29:\\\"\\u0000App\\\\Jobs\\\\SendEmailConfirm\\u0000id\\\";i:1;s:34:\\\"\\u0000App\\\\Jobs\\\\SendEmailConfirm\\u0000request\\\";a:6:{s:4:\\\"name\\\";s:11:\\\"Tinh Nguyen\\\";s:7:\\\"address\\\";s:6:\\\"Ha Noi\\\";s:5:\\\"email\\\";s:20:\\\"tinhnn.jvb@gmail.com\\\";s:5:\\\"phone\\\";s:10:\\\"0981240297\\\";s:4:\\\"note\\\";s:3:\\\"dđ\\\";s:9:\\\"coupon_id\\\";i:371769541;}s:32:\\\"\\u0000App\\\\Jobs\\\\SendEmailConfirm\\u0000items\\\";a:2:{i:1;a:3:{s:3:\\\"qty\\\";i:1;s:5:\\\"price\\\";i:120000;s:4:\\\"item\\\";O:19:\\\"App\\\\Models\\\\Products\\\":30:{s:13:\\\"\\u0000*\\u0000connection\\\";s:5:\\\"mysql\\\";s:8:\\\"\\u0000*\\u0000table\\\";s:8:\\\"products\\\";s:13:\\\"\\u0000*\\u0000primaryKey\\\";s:2:\\\"id\\\";s:10:\\\"\\u0000*\\u0000keyType\\\";s:3:\\\"int\\\";s:12:\\\"incrementing\\\";b:1;s:7:\\\"\\u0000*\\u0000with\\\";a:0:{}s:12:\\\"\\u0000*\\u0000withCount\\\";a:0:{}s:19:\\\"preventsLazyLoading\\\";b:0;s:10:\\\"\\u0000*\\u0000perPage\\\";i:15;s:6:\\\"exists\\\";b:1;s:18:\\\"wasRecentlyCreated\\\";b:0;s:28:\\\"\\u0000*\\u0000escapeWhenCastingToString\\\";b:0;s:13:\\\"\\u0000*\\u0000attributes\\\";a:12:{s:2:\\\"id\\\";i:1;s:4:\\\"name\\\";s:24:\\\"Bánh Crepe Sầu riêng\\\";s:7:\\\"type_id\\\";i:5;s:11:\\\"description\\\";s:12:\\\"mô tả 234\\\";s:16:\\\"product_quantity\\\";i:50;s:13:\\\"quantity_sold\\\";i:0;s:10:\\\"unit_price\\\";i:150000;s:15:\\\"promotion_price\\\";i:120000;s:5:\\\"image\\\";s:34:\\\"1430967449-pancake-sau-rieng-6.jpg\\\";s:9:\\\"is_active\\\";i:1;s:10:\\\"created_at\\\";s:19:\\\"2016-10-26 03:00:16\\\";s:10:\\\"updated_at\\\";s:19:\\\"2023-08-18 08:22:13\\\";}s:11:\\\"\\u0000*\\u0000original\\\";a:12:{s:2:\\\"id\\\";i:1;s:4:\\\"name\\\";s:24:\\\"Bánh Crepe Sầu riêng\\\";s:7:\\\"type_id\\\";i:5;s:11:\\\"description\\\";s:12:\\\"mô tả 234\\\";s:16:\\\"product_quantity\\\";i:50;s:13:\\\"quantity_sold\\\";i:0;s:10:\\\"unit_price\\\";i:150000;s:15:\\\"promotion_price\\\";i:120000;s:5:\\\"image\\\";s:34:\\\"1430967449-pancake-sau-rieng-6.jpg\\\";s:9:\\\"is_active\\\";i:1;s:10:\\\"created_at\\\";s:19:\\\"2016-10-26 03:00:16\\\";s:10:\\\"updated_at\\\";s:19:\\\"2023-08-18 08:22:13\\\";}s:10:\\\"\\u0000*\\u0000changes\\\";a:0:{}s:8:\\\"\\u0000*\\u0000casts\\\";a:0:{}s:17:\\\"\\u0000*\\u0000classCastCache\\\";a:0:{}s:21:\\\"\\u0000*\\u0000attributeCastCache\\\";a:0:{}s:13:\\\"\\u0000*\\u0000dateFormat\\\";N;s:10:\\\"\\u0000*\\u0000appends\\\";a:0:{}s:19:\\\"\\u0000*\\u0000dispatchesEvents\\\";a:0:{}s:14:\\\"\\u0000*\\u0000observables\\\";a:0:{}s:12:\\\"\\u0000*\\u0000relations\\\";a:0:{}s:10:\\\"\\u0000*\\u0000touches\\\";a:0:{}s:10:\\\"timestamps\\\";b:1;s:13:\\\"usesUniqueIds\\\";b:0;s:9:\\\"\\u0000*\\u0000hidden\\\";a:0:{}s:10:\\\"\\u0000*\\u0000visible\\\";a:0:{}s:11:\\\"\\u0000*\\u0000fillable\\\";a:9:{i:0;s:4:\\\"name\\\";i:1;s:7:\\\"type_id\\\";i:2;s:11:\\\"description\\\";i:3;s:10:\\\"unit_price\\\";i:4;s:15:\\\"promotion_price\\\";i:5;s:16:\\\"product_quantity\\\";i:6;s:13:\\\"quantity_sold\\\";i:7;s:5:\\\"image\\\";i:8;s:9:\\\"is_active\\\";}s:10:\\\"\\u0000*\\u0000guarded\\\";a:1:{i:0;s:1:\\\"*\\\";}}}i:2;a:3:{s:3:\\\"qty\\\";i:1;s:5:\\\"price\\\";i:160000;s:4:\\\"item\\\";O:19:\\\"App\\\\Models\\\\Products\\\":30:{s:13:\\\"\\u0000*\\u0000connection\\\";s:5:\\\"mysql\\\";s:8:\\\"\\u0000*\\u0000table\\\";s:8:\\\"products\\\";s:13:\\\"\\u0000*\\u0000primaryKey\\\";s:2:\\\"id\\\";s:10:\\\"\\u0000*\\u0000keyType\\\";s:3:\\\"int\\\";s:12:\\\"incrementing\\\";b:1;s:7:\\\"\\u0000*\\u0000with\\\";a:0:{}s:12:\\\"\\u0000*\\u0000withCount\\\";a:0:{}s:19:\\\"preventsLazyLoading\\\";b:0;s:10:\\\"\\u0000*\\u0000perPage\\\";i:15;s:6:\\\"exists\\\";b:1;s:18:\\\"wasRecentlyCreated\\\";b:0;s:28:\\\"\\u0000*\\u0000escapeWhenCastingToString\\\";b:0;s:13:\\\"\\u0000*\\u0000attributes\\\";a:12:{s:2:\\\"id\\\";i:2;s:4:\\\"name\\\";s:21:\\\"Bánh Crepe Chocolate\\\";s:7:\\\"type_id\\\";i:6;s:11:\\\"description\\\";s:0:\\\"\\\";s:16:\\\"product_quantity\\\";i:58;s:13:\\\"quantity_sold\\\";i:0;s:10:\\\"unit_price\\\";i:180000;s:15:\\\"promotion_price\\\";i:160000;s:5:\\\"image\\\";s:19:\\\"crepe-chocolate.jpg\\\";s:9:\\\"is_active\\\";i:1;s:10:\\\"created_at\\\";s:19:\\\"2016-10-26 03:00:16\\\";s:10:\\\"updated_at\\\";s:19:\\\"2023-08-18 04:38:29\\\";}s:11:\\\"\\u0000*\\u0000original\\\";a:12:{s:2:\\\"id\\\";i:2;s:4:\\\"name\\\";s:21:\\\"Bánh Crepe Chocolate\\\";s:7:\\\"type_id\\\";i:6;s:11:\\\"description\\\";s:0:\\\"\\\";s:16:\\\"product_quantity\\\";i:58;s:13:\\\"quantity_sold\\\";i:0;s:10:\\\"unit_price\\\";i:180000;s:15:\\\"promotion_price\\\";i:160000;s:5:\\\"image\\\";s:19:\\\"crepe-chocolate.jpg\\\";s:9:\\\"is_active\\\";i:1;s:10:\\\"created_at\\\";s:19:\\\"2016-10-26 03:00:16\\\";s:10:\\\"updated_at\\\";s:19:\\\"2023-08-18 04:38:29\\\";}s:10:\\\"\\u0000*\\u0000changes\\\";a:0:{}s:8:\\\"\\u0000*\\u0000casts\\\";a:0:{}s:17:\\\"\\u0000*\\u0000classCastCache\\\";a:0:{}s:21:\\\"\\u0000*\\u0000attributeCastCache\\\";a:0:{}s:13:\\\"\\u0000*\\u0000dateFormat\\\";N;s:10:\\\"\\u0000*\\u0000appends\\\";a:0:{}s:19:\\\"\\u0000*\\u0000dispatchesEvents\\\";a:0:{}s:14:\\\"\\u0000*\\u0000observables\\\";a:0:{}s:12:\\\"\\u0000*\\u0000relations\\\";a:0:{}s:10:\\\"\\u0000*\\u0000touches\\\";a:0:{}s:10:\\\"timestamps\\\";b:1;s:13:\\\"usesUniqueIds\\\";b:0;s:9:\\\"\\u0000*\\u0000hidden\\\";a:0:{}s:10:\\\"\\u0000*\\u0000visible\\\";a:0:{}s:11:\\\"\\u0000*\\u0000fillable\\\";a:9:{i:0;s:4:\\\"name\\\";i:1;s:7:\\\"type_id\\\";i:2;s:11:\\\"description\\\";i:3;s:10:\\\"unit_price\\\";i:4;s:15:\\\"promotion_price\\\";i:5;s:16:\\\"product_quantity\\\";i:6;s:13:\\\"quantity_sold\\\";i:7;s:5:\\\"image\\\";i:8;s:9:\\\"is_active\\\";}s:10:\\\"\\u0000*\\u0000guarded\\\";a:1:{i:0;s:1:\\\"*\\\";}}}}s:37:\\\"\\u0000App\\\\Jobs\\\\SendEmailConfirm\\u0000totalPrice\\\";i:280000;s:35:\\\"\\u0000App\\\\Jobs\\\\SendEmailConfirm\\u0000totalQty\\\";i:2;}\"}}', 0, NULL, 1692685721, 1692685721),
+(163, 'default', '{\"uuid\":\"9e00f2cb-b964-4f2b-85f4-ec57f4966df4\",\"displayName\":\"App\\\\Jobs\\\\SendEmailDelivering\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendEmailDelivering\",\"command\":\"O:28:\\\"App\\\\Jobs\\\\SendEmailDelivering\\\":1:{s:35:\\\"\\u0000App\\\\Jobs\\\\SendEmailDelivering\\u0000email\\\";s:20:\\\"tinhnn.jvb@gmail.com\\\";}\"}}', 0, NULL, 1692685732, 1692685732);
 
 -- --------------------------------------------------------
 
@@ -130,7 +183,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `notifications` (
-  `id` int(10) NOT NULL,
+  `id` bigint(10) NOT NULL,
   `user_id` bigint(10) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -141,9 +194,7 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 2, '2023-08-10 13:05:45', '2023-08-10 06:05:45'),
-(2, 2, '2023-08-10 13:07:10', '2023-08-10 06:07:10'),
-(3, 2, '2023-08-10 13:08:26', '2023-08-10 06:08:26');
+(1, 2, '2023-08-22 13:28:41', '2023-08-22 06:28:41');
 
 -- --------------------------------------------------------
 
@@ -156,30 +207,13 @@ CREATE TABLE `orders` (
   `name` varchar(100) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `order_status_id` int(10) NOT NULL DEFAULT 1,
-  `phone` varchar(100) DEFAULT NULL,
+  `order_status_id` bigint(10) NOT NULL DEFAULT 1,
+  `phone` varchar(255) DEFAULT NULL,
   `note` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  `coupon_id` bigint(10) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Đang đổ dữ liệu cho bảng `orders`
---
-
-INSERT INTO `orders` (`id`, `name`, `address`, `email`, `order_status_id`, `phone`, `note`, `created_at`, `updated_at`) VALUES
-(79, 'Tinh Nguyen', 'Ha Noi', 'princetinkie97@gmail.com', 1, '0981240297', 'note1', '2023-08-02 01:31:39', '2023-08-02 01:31:39'),
-(80, 'Hoang Sơn', 'Hồ Chí Minh', 'tinhnn.jvb@gmail.com', 2, '0981240297', 'note2', '2023-08-02 01:33:56', '2023-08-02 01:33:43'),
-(81, 'Rooney', 'Đà Nẵng', 'tinhnn.jvb@gmail.com', 3, '0981240299', 'note3', '2023-08-02 01:35:28', '2023-08-02 01:35:17'),
-(82, 'Lampard', 'Huế', 'tinhnn.jvb@gmail.com', 2, '0981240297', 'note33', '2023-08-02 01:36:40', '2023-08-02 01:36:21'),
-(83, 'Tinh Nguyen', 'Ha Noi', 'tinhnn.jvb@gmail.com', 1, '0981240297', 'fff', '2023-08-07 06:34:46', '2023-08-07 06:34:46'),
-(84, 'Tinh Nguyen', 'Ha Noi', 'tinhnn.jvb@gmail.com', 3, '0981240297', 'dfdf', '2023-08-07 07:23:20', '2023-08-07 06:37:03'),
-(85, 'Tinh Nguyen', 'Ha Noi', 'tinhnn.jvb@gmail.com', 3, '0981240297', 'rgrg', '2023-08-07 07:20:33', '2023-08-07 06:57:06'),
-(86, 'Tinh Nguyen', 'Ha Noi', 'tinhnn.jvb@gmail.com', 2, '0981240297', 'sds', '2023-08-07 07:19:28', '2023-08-07 07:01:27'),
-(87, 'Tinh Nguyen', 'Ha Noi', 'tinhnn.jvb@gmail.com', 2, '0981240297', 'dfd', '2023-08-07 07:07:42', '2023-08-07 07:02:52'),
-(88, 'Tinh Nguyen9x', 'Ha Noi', 'tinhnn.jvb@gmail.com', 2, '0981240297', 'lll', '2023-08-10 06:13:51', '2023-08-10 06:05:45'),
-(89, 'Tinh Nguyen', 'Ha Noi', 'tinhnn.jvb@gmail.com', 1, '0981240297', 'ô', '2023-08-10 06:07:10', '2023-08-10 06:07:10'),
-(90, 'Tinh Nguyen', 'Ha Noi', 'tinhnn.jvb@gmail.com', 1, '0981240297', 'zzzz', '2023-08-10 06:08:26', '2023-08-10 06:08:26');
 
 -- --------------------------------------------------------
 
@@ -188,31 +222,14 @@ INSERT INTO `orders` (`id`, `name`, `address`, `email`, `order_status_id`, `phon
 --
 
 CREATE TABLE `order_details` (
-  `id` int(10) NOT NULL,
+  `id` bigint(10) NOT NULL,
   `user_id` bigint(10) DEFAULT NULL,
-  `product_id` int(10) DEFAULT NULL,
-  `order_id` bigint(10) NOT NULL,
+  `product_id` bigint(10) DEFAULT NULL,
+  `order_id` bigint(10) DEFAULT NULL,
   `quantity` int(10) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Đang đổ dữ liệu cho bảng `order_details`
---
-
-INSERT INTO `order_details` (`id`, `user_id`, `product_id`, `order_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(103, 2, 60, 79, 1, '2023-08-02 01:31:39', '2023-08-02 01:31:39'),
-(104, 2, 1, 79, 2, '2023-08-02 01:31:39', '2023-08-02 01:31:39'),
-(111, 2, 1, 83, 1, '2023-08-07 06:34:46', '2023-08-07 06:34:46'),
-(112, 2, 42, 84, 2, '2023-08-07 06:37:04', '2023-08-07 06:37:04'),
-(113, 2, 1, 85, 4, '2023-08-07 06:57:06', '2023-08-07 06:57:06'),
-(114, 2, 2, 86, 2, '2023-08-07 07:01:27', '2023-08-07 07:01:27'),
-(115, 2, 1, 86, 1, '2023-08-07 07:01:27', '2023-08-07 07:01:27'),
-(116, 2, 2, 87, 3, '2023-08-07 07:02:52', '2023-08-07 07:02:52'),
-(117, 2, 60, 88, 1, '2023-08-10 06:05:45', '2023-08-10 06:05:45'),
-(118, 2, 2, 89, 1, '2023-08-10 06:07:10', '2023-08-10 06:07:10'),
-(119, 2, 2, 90, 1, '2023-08-10 06:08:26', '2023-08-10 06:08:26');
 
 -- --------------------------------------------------------
 
@@ -221,7 +238,7 @@ INSERT INTO `order_details` (`id`, `user_id`, `product_id`, `order_id`, `quantit
 --
 
 CREATE TABLE `order_statuses` (
-  `id` int(10) NOT NULL,
+  `id` bigint(10) NOT NULL,
   `status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -272,81 +289,83 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 CREATE TABLE `products` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` bigint(10) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
-  `id_type` int(10) DEFAULT NULL,
+  `type_id` bigint(10) DEFAULT NULL,
   `description` text DEFAULT NULL,
+  `product_quantity` bigint(11) NOT NULL DEFAULT 0,
+  `quantity_sold` bigint(11) NOT NULL DEFAULT 0,
   `unit_price` bigint(20) DEFAULT NULL,
   `promotion_price` bigint(20) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `unit` varchar(255) DEFAULT NULL,
+  `is_active` tinyint(4) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `id_type`, `description`, `unit_price`, `promotion_price`, `image`, `unit`, `created_at`, `updated_at`) VALUES
-(1, 'Bánh Crepe Sầu riêng', 5, 'mô tả 234', 150000, 120000, '1430967449-pancake-sau-rieng-6.jpg', 'hộp', '2016-10-26 03:00:16', '2023-07-25 08:06:35'),
-(2, 'Bánh Crepe Chocolate', 6, '', 180000, 160000, 'crepe-chocolate.jpg', 'hộp', '2016-10-26 03:00:16', '2016-10-24 22:11:00'),
-(3, 'Bánh Crepe Sầu riêng - Chuối', 5, 'mô tả 2', 150000, 120000, 'crepe-chuoi.jpg', 'hộp', '2016-10-26 03:00:16', '2023-07-20 09:22:16'),
-(4, 'Bánh Crepe Đào', 5, 'mô tả 234', 160000, 160000, 'crepe-dao.jpg', 'hộp', '2016-10-26 03:00:16', '2023-07-20 09:22:21'),
-(5, 'Bánh Crepe Dâu', 5, 'Bánh ngon', 160000, 160000, 'crepedau.jpg', 'hộp', '2016-10-26 03:00:16', '2023-07-20 09:22:31'),
-(6, 'Bánh Crepe Pháp', 5, 'bánh tuyệt vời', 200000, 180000, 'crepe-phap.jpg', 'hộp', '2016-10-26 03:00:16', '2023-07-20 09:22:40'),
-(7, 'Bánh Crepe Táo', 5, 'bánh táo', 160000, 160000, 'crepe-tao.jpg', 'hộp', '2016-10-26 03:00:16', '2023-07-20 09:22:53'),
-(8, 'Bánh Crepe Trà xanh', 5, 'Bánh trà xanh ngon', 160000, 150000, 'crepe-traxanh.jpg', 'hộp', '2016-10-26 03:00:16', '2023-07-20 09:23:05'),
-(9, 'Bánh Crepe Sầu riêng và Dứa', 5, '', 160000, 150000, 'saurieng-dua.jpg', 'hộp', '2016-10-26 03:00:16', '2016-10-24 22:11:00'),
-(11, 'Bánh Gato Trái cây Việt Quất', 3, '', 250000, 250000, '544bc48782741.png', 'cái', '2016-10-12 02:00:00', '2016-10-27 02:24:00'),
-(12, 'Bánh sinh nhật rau câu trái cây', 3, '', 200000, 180000, '210215-banh-sinh-nhat-rau-cau-body- (6).jpg', 'cái', '2016-10-12 02:00:00', '2016-10-27 02:24:00'),
-(13, 'Bánh kem Chocolate Dâu', 3, '', 300000, 280000, 'banh kem sinh nhat.jpg', 'cái', '2016-10-12 02:00:00', '2016-10-27 02:24:00'),
-(14, 'Bánh kem Dâu III', 3, '', 300000, 280000, 'Banh-kem (6).jpg', 'cái', '2016-10-12 02:00:00', '2016-10-27 02:24:00'),
-(15, 'Bánh kem Dâu I', 3, '', 350000, 320000, 'banhkem-dau.jpg', 'cái', '2016-10-12 02:00:00', '2016-10-27 02:24:00'),
-(16, 'Bánh trái cây II', 3, '', 150000, 120000, 'banhtraicay.jpg', 'hộp', '2016-10-12 02:00:00', '2016-10-27 02:24:00'),
-(17, 'Apple Cake', 3, '', 250000, 240000, 'Fruit-Cake_7979.jpg', 'cai', '2016-10-12 02:00:00', '2016-10-27 02:24:00'),
-(18, 'Bánh ngọt nhân cream táo', 2, '', 180000, 180000, '20131108144733.jpg', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(19, 'Bánh Chocolate Trái cây', 2, '', 150000, 150000, 'Fruit-Cake_7976.jpg', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(20, 'Bánh Chocolate Trái cây II', 2, '', 150000, 150000, 'Fruit-Cake_7981.jpg', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(21, 'Peach Cake', 2, '', 160000, 150000, 'Peach-Cake_3294.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(22, 'Bánh bông lan trứng muối I', 1, 'bánh ngọt lắm', 160000, 150000, '1689845081-product.png', 'hộp', '2016-10-13 02:20:00', '2023-07-20 09:24:49'),
-(24, 'Bánh French', 1, '', 180000, 180000, 'banh-man-thu-vi-nhat-1.jpg', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(25, 'Bánh mì Australia', 1, '', 80000, 70000, 'dung-khoai-tay-lam-banh-gato-man-cuc-ngon.jpg', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(26, 'Bánh mặn thập cẩm', 1, '', 50000, 50000, 'Fruit-Cake.png', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(27, 'Bánh Muffins trứng', 1, '', 100000, 80000, 'maxresdefault.jpg', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(28, 'Bánh Scone Peach Cake', 1, '', 120000, 120000, 'Peach-Cake_3300.jpg', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(29, 'Bánh mì Loaf I', 1, '', 100000, 100000, 'sli12.jpg', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(30, 'Bánh kem Chocolate Dâu I', 4, '', 380000, 350000, 'sli12.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(31, 'Bánh kem Trái cây I', 4, '', 380000, 350000, 'Fruit-Cake.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(32, 'Bánh kem Trái cây II', 4, '', 380000, 350000, 'Fruit-Cake_7971.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(33, 'Bánh kem Doraemon', 4, '', 280000, 250000, 'p1392962167_banh74.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(34, 'Bánh kem Caramen Pudding', 4, '', 280000, 280000, 'Caramen-pudding636099031482099583.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(35, 'Bánh kem Chocolate Fruit', 4, '', 320000, 300000, 'chocolate-fruit636098975917921990.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(36, 'Bánh kem Coffee Chocolate GH6', 4, '', 320000, 300000, 'COFFE-CHOCOLATE636098977566220885.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(37, 'Bánh kem Mango Mouse', 4, '', 320000, 300000, 'mango-mousse-cake.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(38, 'Bánh kem Matcha Mouse', 4, '', 350000, 330000, 'MATCHA-MOUSSE.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(39, 'Bánh kem Flower Fruit', 4, '', 350000, 330000, 'flower-fruits636102461981788938.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(40, 'Bánh kem Strawberry Delight', 4, '', 350000, 330000, 'strawberry-delight636102445035635173.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(41, 'Bánh kem Raspberry Delight', 4, '', 350000, 330000, 'raspberry.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(42, 'Beefy Pizza', 6, 'Thịt bò xay, ngô, sốt BBQ, phô mai mozzarella', 150000, 130000, '40819_food_pizza.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(43, 'Hawaii Pizza', 6, 'Sốt cà chua, ham , dứa, pho mai mozzarella', 120000, 120000, 'hawaiian paradise_large-900x900.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(44, 'Smoke Chicken Pizza', 6, 'Gà hun khói,nấm, sốt cà chua, pho mai mozzarella.', 120000, 120000, 'chicken black pepper_large-900x900.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(45, 'Sausage Pizza', 6, 'Xúc xích klobasa, Nấm, Ngô, sốtcà chua, pho mai Mozzarella.', 120000, 120000, 'pizza-miami.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(46, 'Ocean Pizza', 6, 'Tôm , mực, xào cay,ớt xanh, hành tây, cà chua, phomai mozzarella.', 120000, 120000, 'seafood curry_large-900x900.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(47, 'All Meaty Pizza', 6, 'Ham, bacon, chorizo, pho mai mozzarella.', 140000, 140000, 'all1).jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(48, 'Tuna Pizza', 6, 'Cá Ngừ, sốt Mayonnaise,sốt càchua, hành tây, pho mai Mozzarella', 140000, 140000, '54eaf93713081_-_07-germany-tuna.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(49, 'Bánh su kem nhân dừa', 7, '', 120000, 100000, 'maxresdefault.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(50, 'Bánh su kem sữa tươi', 7, '', 120000, 100000, 'sukem.jpg', 'cái', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(51, 'Bánh su kem sữa tươi chiên giòn', 7, '', 150000, 150000, '1434429117-banh-su-kem-chien-20.jpg', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(52, 'Bánh su kem dâu sữa tươi', 7, '', 150000, 150000, 'sukemdau.jpg', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(53, 'Bánh su kem bơ sữa tươi', 7, '', 150000, 150000, 'He-Thong-Banh-Su-Singapore-Chewy-Junior.jpg', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(54, 'Bánh su kem nhân trái cây sữa tươi', 7, '', 150000, 150000, 'foody-banh-su-que-635930347896369908.jpg', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(55, 'Bánh su kem cà phê', 7, '', 150000, 150000, 'banh-su-kem-ca-phe-1.jpg', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(56, 'Bánh su kem phô mai', 7, '', 150000, 150000, '50020041-combo-20-banh-su-que-pho-mai-9.jpg', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(57, 'Bánh su kem sữa tươi chocolate', 7, '', 150000, 150000, 'combo-20-banh-su-que-kem-sua-tuoi-phu-socola.jpg', 'hộp', '2016-10-13 02:20:00', '2016-10-19 03:20:00'),
-(60, 'Bánh Táo - Mỹ', 2, 'Bánh táo Mỹ', 200000, 200000, '1234.jpg', '', '2016-10-26 17:00:00', '2023-07-25 08:06:24'),
-(61, 'Bánh Cupcake - Anh Quốc', 6, 'Những chiếc cupcake có cấu tạo gồm phần vỏ bánh xốp mịn và phần kem trang trí bên trên rất bắt mắt với nhiều hình dạng và màu sắc khác nhau. Cupcake còn được cho là chiếc bánh mang lại niềm vui và tiếng cười như chính hình dáng đáng yêu của chúng.', 150000, 120000, 'cupcake.jpg', 'cái', NULL, NULL),
-(62, 'Bánh Sachertorte', 6, 'Sachertorte là một loại bánh xốp được tạo ra bởi loại&nbsp;chocholate&nbsp;tuyệt hảo nhất của nước Áo. Sachertorte có vị ngọt nhẹ, gồm nhiều lớp bánh được làm từ ruột bánh mì và bánh sữa chocholate, xen lẫn giữa các lớp bánh là mứt mơ. Món bánh chocholate này nổi tiếng tới mức thành phố Vienna của Áo đã ấn định&nbsp;tổ chức một ngày Sachertorte quốc gia, vào 5/12 hằng năm', 250000, 220000, '111.jpg', 'cái', NULL, NULL);
+INSERT INTO `products` (`id`, `name`, `type_id`, `description`, `product_quantity`, `quantity_sold`, `unit_price`, `promotion_price`, `image`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 'Bánh Crepe Sầu riêng', 5, 'mô tả 234', 49, 1, 150000, 120000, '1430967449-pancake-sau-rieng-6.jpg', 1, '2016-10-25 20:00:16', '2023-08-22 06:28:52'),
+(2, 'Bánh Crepe Chocolate', 6, '', 57, 1, 180000, 160000, 'crepe-chocolate.jpg', 1, '2016-10-25 20:00:16', '2023-08-22 06:28:52'),
+(3, 'Bánh Crepe Sầu riêng - Chuối', 5, 'mô tả 2', 55, 0, 150000, 120000, 'crepe-chuoi.jpg', 1, '2016-10-25 20:00:16', '2023-08-17 01:42:52'),
+(4, 'Bánh Crepe Đào', 5, 'mô tả 234', 8, 0, 160000, 160000, 'crepe-dao.jpg', 1, '2016-10-25 20:00:16', '2023-07-20 02:22:21'),
+(5, 'Bánh Crepe Dâu', 5, 'Bánh ngon', 20, 0, 160000, 160000, 'crepedau.jpg', 1, '2016-10-25 20:00:16', '2023-07-20 02:22:31'),
+(6, 'Bánh Crepe Pháp', 5, 'bánh tuyệt vời', 0, 0, 200000, 180000, 'crepe-phap.jpg', 1, '2016-10-25 20:00:16', '2023-07-20 02:22:40'),
+(7, 'Bánh Crepe Táo', 5, 'bánh táo', 100, 0, 160000, 160000, 'crepe-tao.jpg', 1, '2016-10-25 20:00:16', '2023-07-20 02:22:53'),
+(8, 'Bánh Crepe Trà xanh', 5, 'Bánh trà xanh ngon', 80, 0, 160000, 150000, 'crepe-traxanh.jpg', 1, '2016-10-25 20:00:16', '2023-07-20 02:23:05'),
+(9, 'Bánh Crepe Sầu riêng và Dứa', 5, '', 70, 0, 160000, 150000, 'saurieng-dua.jpg', 1, '2016-10-25 20:00:16', '2016-10-24 15:11:00'),
+(11, 'Bánh Gato Trái cây Việt Quất', 3, '', 88, 0, 250000, 250000, '544bc48782741.png', 1, '2016-10-11 19:00:00', '2016-10-26 19:24:00'),
+(12, 'Bánh sinh nhật rau câu trái cây', 3, '', 22, 0, 200000, 180000, '210215-banh-sinh-nhat-rau-cau-body- (6).jpg', 1, '2016-10-11 19:00:00', '2016-10-26 19:24:00'),
+(13, 'Bánh kem Chocolate Dâu', 3, '', 14, 0, 300000, 280000, 'banh kem sinh nhat.jpg', 1, '2016-10-11 19:00:00', '2016-10-26 19:24:00'),
+(14, 'Bánh kem Dâu III', 3, '', 53, 0, 300000, 280000, 'Banh-kem (6).jpg', 1, '2016-10-11 19:00:00', '2016-10-26 19:24:00'),
+(15, 'Bánh kem Dâu I', 3, '', 55, 0, 350000, 320000, 'banhkem-dau.jpg', 1, '2016-10-11 19:00:00', '2016-10-26 19:24:00'),
+(16, 'Bánh trái cây II', 3, '', 75, 0, 150000, 120000, 'banhtraicay.jpg', 1, '2016-10-11 19:00:00', '2016-10-26 19:24:00'),
+(17, 'Apple Cake', 3, '', 80, 0, 250000, 240000, 'Fruit-Cake_7979.jpg', 1, '2016-10-11 19:00:00', '2016-10-26 19:24:00'),
+(18, 'Bánh ngọt nhân cream táo', 2, '', 23, 0, 180000, 180000, '20131108144733.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(19, 'Bánh Chocolate Trái cây', 2, '', 44, 0, 150000, 150000, 'Fruit-Cake_7976.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(20, 'Bánh Chocolate Trái cây II', 2, '', 66, 0, 150000, 150000, 'Fruit-Cake_7981.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(21, 'Peach Cake', 2, '', 74, 0, 160000, 150000, 'Peach-Cake_3294.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(22, 'Bánh bông lan trứng muối I', 1, 'bánh ngọt lắm', 200, 0, 160000, 150000, '1689845081-product.png', 1, '2016-10-12 19:20:00', '2023-07-20 02:24:49'),
+(24, 'Bánh French', 1, '', 88, 0, 180000, 180000, 'banh-man-thu-vi-nhat-1.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(25, 'Bánh mì Australia', 1, '', 47, 0, 80000, 70000, 'dung-khoai-tay-lam-banh-gato-man-cuc-ngon.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(26, 'Bánh mặn thập cẩm', 1, '', 74, 0, 50000, 50000, 'Fruit-Cake.png', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(27, 'Bánh Muffins trứng', 1, '', 20, 0, 100000, 80000, 'maxresdefault.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(28, 'Bánh Scone Peach Cake', 1, '', 12, 0, 120000, 120000, 'Peach-Cake_3300.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(29, 'Bánh mì Loaf I', 1, '', 0, 0, 100000, 100000, 'sli12.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(30, 'Bánh kem Chocolate Dâu I', 4, '', 77, 0, 380000, 350000, 'sli12.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(31, 'Bánh kem Trái cây I', 4, '', 99, 0, 380000, 350000, 'Fruit-Cake.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(32, 'Bánh kem Trái cây II', 4, '', 41, 0, 380000, 350000, 'Fruit-Cake_7971.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(33, 'Bánh kem Doraemon', 4, '', 71, 0, 280000, 250000, 'p1392962167_banh74.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(34, 'Bánh kem Caramen Pudding', 4, '', 17, 0, 280000, 280000, 'Caramen-pudding636099031482099583.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(35, 'Bánh kem Chocolate Fruit', 4, '', 32, 0, 320000, 300000, 'chocolate-fruit636098975917921990.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(36, 'Bánh kem Coffee Chocolate GH6', 4, '', 23, 0, 320000, 300000, 'COFFE-CHOCOLATE636098977566220885.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(37, 'Bánh kem Mango Mouse', 4, '', 100, 0, 320000, 300000, 'mango-mousse-cake.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(38, 'Bánh kem Matcha Mouse', 4, '', 120, 0, 350000, 330000, 'MATCHA-MOUSSE.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(39, 'Bánh kem Flower Fruit', 4, '', 130, 0, 350000, 330000, 'flower-fruits636102461981788938.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(40, 'Bánh kem Strawberry Delight', 4, '', 160, 0, 350000, 330000, 'strawberry-delight636102445035635173.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(41, 'Bánh kem Raspberry Delight', 4, '', 74, 0, 350000, 330000, 'raspberry.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(42, 'Beefy Pizza', 6, 'Thịt bò xay, ngô, sốt BBQ, phô mai mozzarella', 0, 0, 150000, 130000, '40819_food_pizza.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(43, 'Hawaii Pizza', 6, 'Sốt cà chua, ham , dứa, pho mai mozzarella', 58, 0, 120000, 120000, 'hawaiian paradise_large-900x900.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(44, 'Smoke Chicken Pizza', 6, 'Gà hun khói,nấm, sốt cà chua, pho mai mozzarella.', 34, 0, 120000, 120000, 'chicken black pepper_large-900x900.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(45, 'Sausage Pizza', 6, 'Xúc xích klobasa, Nấm, Ngô, sốtcà chua, pho mai Mozzarella.', 68, 0, 120000, 120000, 'pizza-miami.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(46, 'Ocean Pizza', 6, 'Tôm , mực, xào cay,ớt xanh, hành tây, cà chua, phomai mozzarella.', 86, 0, 120000, 120000, 'seafood curry_large-900x900.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(47, 'All Meaty Pizza', 6, 'Ham, bacon, chorizo, pho mai mozzarella.', 7, 0, 140000, 140000, 'all1).jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(48, 'Tuna Pizza', 6, 'Cá Ngừ, sốt Mayonnaise,sốt càchua, hành tây, pho mai Mozzarella', 70, 0, 140000, 140000, '54eaf93713081_-_07-germany-tuna.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(49, 'Bánh su kem nhân dừa', 7, '', 54, 0, 120000, 100000, 'maxresdefault.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(50, 'Bánh su kem sữa tươi', 7, '', 55, 0, 120000, 100000, 'sukem.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(51, 'Bánh su kem sữa tươi chiên giòn', 7, '', 78, 0, 150000, 150000, '1434429117-banh-su-kem-chien-20.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(52, 'Bánh su kem dâu sữa tươi', 7, '', 47, 0, 150000, 150000, 'sukemdau.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(53, 'Bánh su kem bơ sữa tươi', 7, '', 3, 0, 150000, 150000, 'He-Thong-Banh-Su-Singapore-Chewy-Junior.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(54, 'Bánh su kem nhân trái cây sữa tươi', 7, '', 43, 0, 150000, 150000, 'foody-banh-su-que-635930347896369908.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(55, 'Bánh su kem cà phê', 7, '', 45, 0, 150000, 150000, 'banh-su-kem-ca-phe-1.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(56, 'Bánh su kem phô mai', 7, '', 25, 0, 150000, 150000, '50020041-combo-20-banh-su-que-pho-mai-9.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(57, 'Bánh su kem sữa tươi chocolate', 7, '', 17, 0, 150000, 150000, 'combo-20-banh-su-que-kem-sua-tuoi-phu-socola.jpg', 1, '2016-10-12 19:20:00', '2016-10-18 20:20:00'),
+(60, 'Bánh Táo - Mỹ1', 2, 'thơm ngon', 11, 8, 200000, 200000, '1234.jpg', 1, '2016-10-26 10:00:00', '2023-08-21 19:05:48'),
+(61, 'Bánh Cupcake - Anh Quốc', 6, 'Những chiếc cupcake có cấu tạo gồm phần vỏ bánh xốp mịn và phần kem trang trí bên trên rất bắt mắt với nhiều hình dạng và màu sắc khác nhau. Cupcake còn được cho là chiếc bánh mang lại niềm vui và tiếng cười như chính hình dáng đáng yêu của chúng.', 71, 0, 150000, 120000, 'cupcake.jpg', 1, NULL, NULL),
+(62, 'Bánh Sachertorte', 6, 'Sachertorte là một loại bánh xốp được tạo ra bởi loại&nbsp;chocholate&nbsp;tuyệt hảo nhất của nước Áo. Sachertorte có vị ngọt nhẹ, gồm nhiều lớp bánh được làm từ ruột bánh mì và bánh sữa chocholate, xen lẫn giữa các lớp bánh là mứt mơ. Món bánh chocholate này nổi tiếng tới mức thành phố Vienna của Áo đã ấn định&nbsp;tổ chức một ngày Sachertorte quốc gia, vào 5/12 hằng năm', 70, 0, 250000, 220000, '111.jpg', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -355,7 +374,7 @@ INSERT INTO `products` (`id`, `name`, `id_type`, `description`, `unit_price`, `p
 --
 
 CREATE TABLE `slides` (
-  `id` int(11) NOT NULL,
+  `id` bigint(10) NOT NULL,
   `link` varchar(100) NOT NULL,
   `image` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -373,11 +392,26 @@ INSERT INTO `slides` (`id`, `link`, `image`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `statisticals`
+--
+
+CREATE TABLE `statisticals` (
+  `id` bigint(10) NOT NULL,
+  `month_year` varchar(20) NOT NULL,
+  `count_product` bigint(20) NOT NULL DEFAULT 0,
+  `count_revenue` bigint(20) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `type_products`
 --
 
 CREATE TABLE `type_products` (
-  `id` int(10) NOT NULL,
+  `id` bigint(10) NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` text NOT NULL,
   `image` varchar(255) NOT NULL,
@@ -425,8 +459,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `email`, `email_verified_at`, `password`, `address`, `phone`, `is_active`, `is_admin`, `token`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Tinh Nguyen9x', 'princetinkie97@gmail.com', NULL, '$2y$10$ohgWPS.dPgu5eRL0TBJ.kO7KJGebA3/wDk7dvNx.VRj5/x/kdy46O', 'Ha Noi', '0981240297', 1, 1, NULL, 'NV6gOA9VTXJqYlAK1r8Rj39uvDMm1nZDY3fxv5CTQZ2tLYX26rlQlPPPekY7', '2023-07-20 09:20:33', '2023-08-01 07:10:29'),
-(2, 'Tinh Nguyen', 'tinhnn.jvb@gmail.com', NULL, '$2y$10$Ayl7lpMy68/XAHT88I6s5OElc5N/Z3ID1xcsUibzzOstDKYETxdXW', 'Ha Noi', '0981240297', 1, 1, NULL, 'eYtwEP42A6j3w1bXVhurDcgkwxd7wAROeohWmzbBFWSjWPd3kPosfty4zNVH', '2023-07-28 01:49:19', '2023-08-07 09:35:28'),
+(1, 'Tinh Nguyen9x', 'princetinkie97@gmail.com', NULL, '$2y$10$ohgWPS.dPgu5eRL0TBJ.kO7KJGebA3/wDk7dvNx.VRj5/x/kdy46O', 'Ha Noi', '0981240297', 1, 1, '1719784275', 'NV6gOA9VTXJqYlAK1r8Rj39uvDMm1nZDY3fxv5CTQZ2tLYX26rlQlPPPekY7', '2023-07-20 09:20:33', '2023-08-21 01:18:39'),
+(2, 'Tinh Nguyen', 'tinhnn.jvb@gmail.com', NULL, '$2y$10$Ok0Jj9VhZzCeMQmuSsOoieeepIU/otjpT/oZzQDmQ1SvtJ2LZAViO', 'Ha Noi', '0981240297', 1, 1, NULL, '6jPMc6WYZVApnawiLe3oWY3mYuSwis8vJaOXhzmCCUEs3XiJAqrItrs6Isfa', '2023-07-28 01:49:19', '2023-08-21 01:55:48'),
 (4, 'Peter', 'princetinkie96@gmail.com', NULL, '$2y$10$Aq9y5IwM5lu.Dq5MJR5VkeeSwZQcys8LKPc/o44D86jpmpCSA6D9a', 'Ha Noi', '0981240297', 1, 1, NULL, NULL, '2023-07-28 03:06:16', '2023-07-28 03:06:16'),
 (6, 'Lương Sơn', 'toidaidot@gmail.com', NULL, '$2y$10$b1ZBb5RVMUqWczsQBL9rneGaEZfx/6wYKqEqsrvZLBoSgcl2/KPcy', 'Hồ Chí Minh', '0805161666', 1, 0, NULL, NULL, '2023-08-01 09:04:33', '2023-08-01 09:04:33'),
 (7, 'Thánh Gióng', 'toidaidot2@gmail.com', NULL, '$2y$10$TlYCHWO7R1L.2tmb6CMZOO2e4oTg3ux9khYeAB5sn1aJNm.TQSxre', 'Đà Nẵng', '0702125595', 1, 0, NULL, NULL, '2023-08-01 09:05:19', '2023-08-01 09:05:19');
@@ -440,8 +474,15 @@ INSERT INTO `users` (`id`, `full_name`, `email`, `email_verified_at`, `password`
 --
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `comments_ibfk_1` (`product_id`),
+  ADD KEY `product_id` (`product_id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Chỉ mục cho bảng `coupons`
+--
+ALTER TABLE `coupons`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`);
 
 --
 -- Chỉ mục cho bảng `failed_jobs`
@@ -481,6 +522,7 @@ ALTER TABLE `notifications`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
+  ADD KEY `coupon_id` (`coupon_id`),
   ADD KEY `order_status_id` (`order_status_id`);
 
 --
@@ -488,8 +530,8 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `order_details`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `order_id` (`order_id`);
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Chỉ mục cho bảng `order_statuses`
@@ -516,7 +558,13 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_type` (`id_type`);
+  ADD KEY `type_id` (`type_id`);
+
+--
+-- Chỉ mục cho bảng `statisticals`
+--
+ALTER TABLE `statisticals`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `type_products`
@@ -539,25 +587,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT cho bảng `coupons`
+--
+ALTER TABLE `coupons`
+  MODIFY `id` bigint(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=371769542;
 
 --
 -- AUTO_INCREMENT cho bảng `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `infors`
 --
 ALTER TABLE `infors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
 
 --
 -- AUTO_INCREMENT cho bảng `migrations`
@@ -569,25 +623,25 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT cho bảng `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `id` bigint(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `id` bigint(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `order_statuses`
 --
 ALTER TABLE `order_statuses`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `personal_access_tokens`
@@ -599,13 +653,19 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` bigint(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+
+--
+-- AUTO_INCREMENT cho bảng `statisticals`
+--
+ALTER TABLE `statisticals`
+  MODIFY `id` bigint(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `type_products`
 --
 ALTER TABLE `type_products`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
@@ -634,20 +694,21 @@ ALTER TABLE `notifications`
 -- Các ràng buộc cho bảng `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`order_status_id`) REFERENCES `order_statuses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`coupon_id`) REFERENCES `coupons` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`order_status_id`) REFERENCES `order_statuses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `order_details`
 --
 ALTER TABLE `order_details`
-  ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `products`
 --
 ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`id_type`) REFERENCES `type_products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `type_products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
