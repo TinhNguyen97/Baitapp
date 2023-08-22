@@ -24,11 +24,12 @@
 </head>
 
 <body>
-    @include('home.header')
-    @yield('content')
-    @include('home.footer')
-    <!-- include js files -->
-
+    <div class="d-fl">
+        @include('home.header')
+        @yield('content')
+        @include('home.footer')
+        <!-- include js files -->
+    </div>
     <script src="{{ asset('assets/dest/js/jquery.js') }}"></script>
     <script src="{{ asset('assets/dest/vendors/jqueryui/jquery-ui-1.10.4.custom.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -71,7 +72,7 @@
 
 </html>
 <style>
-    body {
+    .d-fl {
         flex-direction: column;
         display: flex;
         justify-content: space-between;
