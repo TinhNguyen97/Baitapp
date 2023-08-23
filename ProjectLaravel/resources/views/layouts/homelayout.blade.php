@@ -29,7 +29,6 @@
         @include('home.header')
         @yield('content')
         @include('home.footer')
-        <!-- include js files -->
     </div>
     <script src="{{ asset('assets/dest/js/jquery.js') }}"></script>
     <script src="{{ asset('assets/dest/vendors/jqueryui/jquery-ui-1.10.4.custom.min.js') }}"></script>
@@ -70,6 +69,7 @@
     </script>
 </body>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="{{ asset('js/notification.js') }}"></script>
 
 </html>
 <style>

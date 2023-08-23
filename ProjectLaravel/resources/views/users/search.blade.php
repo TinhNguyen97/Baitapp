@@ -209,6 +209,5 @@
             return "{{ route('users.handledelete', 0) }}".replace(/\d$/, id);
         }
     </script>
-    <script src="{{ asset('js/notification.js') }}"></script>
     <script src="{{ asset('js/user.js') }}"></script>
 @endsection

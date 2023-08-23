@@ -187,11 +187,5 @@
             })
         </script>
     @endif
-    <script>
-        function alertSuccess(message) {
-            swal(message, "", "success", {
-                button: "OK!",
-            })
-        }
-    </script>
+
 @endsection

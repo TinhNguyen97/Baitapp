@@ -100,5 +100,4 @@
     </section>
     </div>
 
-    <script src="{{ asset('js/notification.js') }}"></script>
 @endsection

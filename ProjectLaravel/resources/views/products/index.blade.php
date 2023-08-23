@@ -1,6 +1,5 @@
 @extends('layouts.adminlayout')
 @section('content')
-    <link rel="stylesheet" href="{{ asset('css/product.css') }}">
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
@@ -75,7 +74,8 @@
                                                 <td class="d-none d-xl-table-cell" style="text-align: center">
                                                     {{ $item->tp_name }}</td>
                                                 <td style="text-align: center"><img width="100px" height="100px"
-                                                        src="{{ asset('uploads' . '\\' . $item->image) }}"></td>
+                                                        class="image" src="{{ asset('uploads' . '\\' . $item->image) }}">
+                                                </td>
                                                 <td class="d-none d-xl-table-cell" style="text-align: center">
                                                     {{ formatMoney($item->unit_price) }}</td>
                                                 <td class="d-none d-xl-table-cell" style="text-align: center">
@@ -100,7 +100,7 @@
                                                     {{ $item->updated_at }}</td>
                                                 <td style="text-align: center"><button class="btn btn-primary"
                                                         data-target="#edit-category" data-toggle="modal" type="button"
-                                                        onclick="showDetail(
+                                                        onclick="showDetail.call(this,
                                                             '{{ $item->name }}',
                                                            {{ $item->id }} ,
                                                            '{{ $item->tp_name }}',
@@ -356,6 +356,5 @@
             return "{{ route('products.put', 0) }}".replace(/\d$/, id);
         }
     </script>
-    <script src="{{ asset('js/notification.js') }}"></script>
     <script src="{{ asset('js/product.js') }}"></script>
 @endsection

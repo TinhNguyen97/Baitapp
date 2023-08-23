@@ -96,6 +96,9 @@ function deleteDish(id) {
 function showDetail(name, id, image, description) {
     $("#form-edit").attr("action", routeUpdate(id)).valid();
     $("#editName").val(name);
-    $("#editImage").attr("src", "uploads\\" + image);
     $("#editDescr").val(description);
+    $("#editImage").attr(
+        "src",
+        $(this).parents("tr").find(".image").attr("src")
+    );
 }

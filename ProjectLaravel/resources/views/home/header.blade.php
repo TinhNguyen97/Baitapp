@@ -146,11 +146,3 @@
         </div> <!-- .container -->
     </div>
 </div>
-<style>
-    .text-wellcome {
-        width: 14rem !important;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-</style>

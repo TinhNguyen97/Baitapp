@@ -1,6 +1,5 @@
 @extends('layouts.adminlayout')
 @section('content')
-    <link rel="stylesheet" href="{{ asset('css/type.css') }}">
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
@@ -63,7 +62,8 @@
                                                 </th>
                                                 <td style="text-align: center">{{ $item->name }}</td>
                                                 <td style="text-align: center"><img width="100px" height="100px"
-                                                        src="{{ asset('uploads' . '\\' . $item->image) }}"></td>
+                                                        class="image" src="{{ asset('uploads' . '\\' . $item->image) }}">
+                                                </td>
                                                 <td class="d-none d-xl-table-cell" style="text-align: center">
                                                     {{ $item->description }}</td>
                                                 <td class="d-none d-xl-table-cell" style="text-align: center">
@@ -72,7 +72,7 @@
                                                     {{ $item->updated_at }}</td>
                                                 <td style="text-align: center"><button class="btn btn-primary"
                                                         data-target="#edit-category" data-toggle="modal" type="button"
-                                                        onclick="showDetail(
+                                                        onclick="showDetail.call(this,
                                                             '{{ $item->name }}',
                                                            {{ $item->id }} ,
                                                            '{{ $item->image }}',
@@ -258,6 +258,5 @@
             return "{{ route('types.put', 0) }}".replace(/\d$/, id);
         }
     </script>
-    <script src="{{ asset('js/notification.js') }}"></script>
     <script src="{{ asset('js/type.js') }}"></script>
 @endsection

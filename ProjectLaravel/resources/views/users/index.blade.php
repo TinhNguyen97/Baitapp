@@ -210,6 +210,5 @@
             $('#delete-user').parents('form').attr('action', routeDelete(id))
         }
     </script>
-    <script src="{{ asset('js/notification.js') }}"></script>
     <script src="{{ asset('js/user.js') }}"></script>
 @endsection

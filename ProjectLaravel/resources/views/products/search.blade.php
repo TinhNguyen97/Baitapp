@@ -1,6 +1,5 @@
 @extends('layouts.adminlayout')
 @section('content')
-    <link rel="stylesheet" href="{{ asset('css/product.css') }}">
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
@@ -353,6 +352,5 @@
             return "{{ route('products.putSearch', 0) }}".replace(/\d$/, id);
         }
     </script>
-    <script src="{{ asset('js/notification.js') }}"></script>
     <script src="{{ asset('js/product.js') }}"></script>
 @endsection

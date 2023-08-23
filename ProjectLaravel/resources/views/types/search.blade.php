@@ -1,6 +1,5 @@
 @extends('layouts.adminlayout')
 @section('content')
-    <link rel="stylesheet" href="{{ asset('css/type.css') }}">
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
@@ -263,6 +262,5 @@
         }
     </script>
 
-    <script src="{{ asset('js/notification.js') }}"></script>
     <script src="{{ asset('js/type.js') }}"></script>
 @endsection

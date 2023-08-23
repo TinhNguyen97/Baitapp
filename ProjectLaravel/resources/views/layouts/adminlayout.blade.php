@@ -31,6 +31,7 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('/assets/plugins/summernote/summernote-bs4.min.css') }}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('css/adminlayout.css') }}">
 
 </head>
 
@@ -87,5 +88,6 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('/assets/dist/js/pages/dashboard.js') }}"></script>
 <script src="{{ asset('js/admin.js') }}"></script>
+<script src="{{ asset('js/notification.js') }}"></script>
 
 </html>

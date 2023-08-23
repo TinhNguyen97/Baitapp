@@ -1,7 +1,5 @@
 @extends('layouts.homelayout')
 @section('content')
-    <link rel="stylesheet" href="{{ asset('css/inputpassword.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/dflex.css') }}">
     <div class="container">
         <div id="content">
 
@@ -33,8 +31,8 @@
                     </div>
                 </div>
                 <div class="col-sm-3"></div>
+            </form>
         </div>
-        </form>
+
     </div> <!-- #content -->
-    </div> <!-- .container -->
 @endsection

@@ -161,17 +161,5 @@
             </div>
         </div>
     </div>
-    <style>
-        .btn-action {
-            display: flex;
-            gap: 6px;
-            justify-content: center;
-            margin-top: 12%;
-        }
 
-        .text-note {
-            display: flex;
-            flex-direction: column;
-        }
-    </style>
 @endsection

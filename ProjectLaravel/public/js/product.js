@@ -110,13 +110,17 @@ function showDetail(
     type_id,
     is_active
 ) {
+    console.log($(this));
     $("#form-edit").attr("action", routeUpdate(id)).valid();
     $("#editName").val(name);
     $("#editType").val(type_id);
-    $("#editImage").attr("src", "uploads\\" + image);
     $("#editPrice").val(unit_price);
     $("#editPromotionPrice").val(promotion_price);
     $("#editQuantity").val(quantity);
     $("#editDescr").val(description);
     $("#is_active").val(is_active);
+    $("#editImage").attr(
+        "src",
+        $(this).parents("tr").find(".image").attr("src")
+    );
 }

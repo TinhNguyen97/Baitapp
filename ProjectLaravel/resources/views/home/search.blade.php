@@ -79,16 +79,6 @@
     <div class="pagination">
         {{ $allProductSearch->appends($request->all())->links() }}
     </div>
-    <style>
-        .pagination {
-            display: flex;
-            justify-content: center;
-        }
-
-        .ribbon {
-            z-index: 1;
-        }
-    </style>
     @if (session()->has('addsuccess') && session()->get('addsuccess'))
         <script>
             $(function() {
@@ -110,11 +100,5 @@
             })
         </script>
     @endif
-    <script>
-        function alertSuccess(message) {
-            swal(message, "", "success", {
-                button: "OK!",
-            })
-        }
-    </script>
+
 @endsection

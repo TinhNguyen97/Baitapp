@@ -12,19 +12,8 @@
             <h3>Quay về trang chủ</h3>
         </a></div>
     <style>
-        .flex-success {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 50px 0px;
-        }
-
         h1 {
             display: inline;
-        }
-
-        .redirect-home {
-            text-align: center;
         }
     </style>
 @endsection

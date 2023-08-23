@@ -1,6 +1,5 @@
 @extends('layouts.adminlayout')
 @section('content')
-    <link rel="stylesheet" href="{{ asset('css/coupon.css') }}">
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">

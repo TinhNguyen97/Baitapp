@@ -1,17 +1,14 @@
-label.error {
-    color: red;
-    font-size: 14px;
-}
-
 .pagination {
     display: flex;
     justify-content: center;
 }
-
 .search {
     margin-left: 0.2vw;
 }
-
+label.error {
+    color: red;
+    font-size: 14px;
+}
 select {
     height: 36px;
     border: 1px solid #ced4da;
