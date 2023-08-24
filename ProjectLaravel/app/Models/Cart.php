@@ -14,7 +14,7 @@ class Cart extends Model
     public $items = null;
     public $totalQty = 0;
     public $totalPrice = 0;
-    public function __construct($oldCart)
+    public function __construct(object $oldCart = null)
     {
         if ($oldCart) {
             $this->items = $oldCart->items;

@@ -5,47 +5,64 @@ namespace App\Http\Controllers;
 use App\Jobs\SendEmailConfirm;
 use App\Jobs\SendEmailCoverPass;
 use App\Models\Cart;
-use App\Models\Comment;
-use App\Models\Coupon;
-use App\Models\Infors;
-use App\Models\Notification;
-use App\Models\Order;
-use App\Models\OrderDetail;
 use App\Models\Products;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\Slides;
-use App\Models\TypeProduct;
 use App\Models\User;
+use App\Services\Comment\CommentServiceInterface;
+use App\Services\Coupon\CouponServiceInterface;
+use App\Services\Info\InfoServiceInterface;
+use App\Services\Notification\NotificationServiceInterface;
+use App\Services\Order\OrderServiceInterface;
+use App\Services\OrderDetail\OrderDetailServiceInterface;
+use App\Services\Product\ProductServiceInterface;
+use App\Services\Slide\SlideServiceInterface;
+use App\Services\TypeProduct\TypeProductServiceInterface;
+use App\Services\User\UserServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Validation\Rules\Can;
-use PhpParser\Node\Expr\FuncCall;
-use stdClass;
 
 class HomeController extends Controller
 {
+    private $productService;
+    private $slideService;
+    private $typeProductService;
+    private $userService;
+    private $infoService;
+    private $couponService;
+    private $orderService;
+    private $orderDetailService;
+    private $notificationService;
+    private $commentService;
+    public function __construct(
+        ProductServiceInterface $productService,
+        SlideServiceInterface $slideService,
+        TypeProductServiceInterface $typeProductService,
+        UserServiceInterface $userService,
+        InfoServiceInterface $infoService,
+        CouponServiceInterface $couponService,
+        OrderServiceInterface $orderService,
+        OrderDetailServiceInterface $orderDetailService,
+        NotificationServiceInterface $notificationService,
+        CommentServiceInterface $commentService
+
+    ) {
+        $this->productService = $productService;
+        $this->slideService = $slideService;
+        $this->typeProductService = $typeProductService;
+        $this->userService = $userService;
+        $this->infoService = $infoService;
+        $this->couponService = $couponService;
+        $this->orderService = $orderService;
+        $this->orderDetailService = $orderDetailService;
+        $this->notificationService = $notificationService;
+        $this->commentService = $commentService;
+    }
     public function index()
-
     {
-
-        $slides = Slides::all();
-        $newProducts = Products::orderByRaw('created_at DESC')->where('is_active', 1)->limit(4)->get();
-        $topSaleProducts = DB::table('products')
-            ->join('order_details', 'products.id', '=', 'order_details.product_id')
-            ->join('orders', 'order_details.order_id', '=', 'orders.id')
-            ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
-            ->where('orders.order_status_id', 2)
-            ->where('is_active', 1)
-            ->groupBy('products.name')
-            ->orderByRaw('count(products.name) DESC')
-            ->orderByRaw('products.name')
-            ->limit(8)
-            ->get('products.*');
-        // dd($topSaleProducts);
+        $slides = $this->slideService->all();
+        $newProducts = $this->productService->getNewProducts();
+        $topSaleProducts = $this->productService->topSaleProducts();
         return view('home.index', [
             'slides' => $slides,
             'newProducts' => $newProducts,
@@ -54,27 +71,13 @@ class HomeController extends Controller
     }
     public function search(Request $request)
     {
-        $allProductSearch = DB::table('products')
-            ->where('is_active', 1)
-            ->where(function ($query) use ($request) {
-                $query->where('products.name', 'like', '%' . $request->key . '%');
-                $query->orWhere('products.unit_price', $request->key);
-                $query->orWhere('products.promotion_price',  $request->key);
-            })
-            ->latest()
-            ->paginate(8);
-        $allProducts = Products::where('is_active', 1)
-            ->where(function ($query) use ($request) {
-                $query->where('products.name', 'like', '%' . $request->key . '%');
-                $query->orWhere('products.unit_price', $request->key);
-                $query->orWhere('products.promotion_price',  $request->key);
-            })
-            ->latest()->get();
+        $allProductSearch = $this->productService->getAllProductSearch($request);
+        $allProductWithKeys = $this->productService->getAllProductWithKeys($request);
         return view(
             'home.search',
             [
                 'allProductSearch' => $allProductSearch,
-                'allProducts' => $allProducts,
+                'allProducts' => $allProductWithKeys,
                 'request' => $request,
                 'key' => $request->key
             ]
@@ -82,15 +85,15 @@ class HomeController extends Controller
     }
     public function typeSearch(Request $request, $idType)
     {
-        $type = TypeProduct::find($idType)->name;
-        $allProductSearch = Products::where('is_active', 1)->where('type_id', $idType)->paginate(8);
-        $allProducts = Products::where('is_active', 1)->where('type_id', $idType)->get();
+        $type = $this->typeProductService->find($idType)->name;
+        $allProductSearchByType = $this->productService->getAllProductSearchByType($idType);
+        $allProductByType = $this->productService->getAllProductByType($idType);
         return view(
             'home.producttype',
             [
                 'type' => $type,
-                'allProductSearch' => $allProductSearch,
-                'allProducts' => $allProducts,
+                'allProductSearch' => $allProductSearchByType,
+                'allProducts' => $allProductByType,
                 'request' => $request
             ]
         );
@@ -128,7 +131,7 @@ class HomeController extends Controller
             ]
         );
 
-        User::create($request->all());
+        $this->userService->create($request->all());
         return back()->with('success', 'Tạo tài khoản thành công!');
     }
     public function checkLogin(Request $request)
@@ -153,12 +156,7 @@ class HomeController extends Controller
             if (!Auth::user()->is_active) {
                 return back()->with('ban', 'Tài khoản của bạn đã bị khóa!')->withInput();
             }
-            // if (Auth::user()->is_admin) {
-            //     return redirect('products');
-            // }
-
-            // keyword intended
-            if (str_contains(Session::get('url'), 'get-pass')) {
+            if (str_contains(Session::get('url'), 'get-pass') || str_contains(Session::get('url'), 'register')) {
                 return $this->index();
             }
             return redirect(Session::get('url'));;
@@ -193,23 +191,16 @@ class HomeController extends Controller
             'address' => $request->address
 
         ];
-        User::where('id', Auth::id())->update($dataInsert);
-        $user = User::find(Auth::id());
+        $this->userService->update($dataInsert, Auth::id());
+        $user = $this->userService->find(Auth::id());
         return redirect(route('homes.profile', $user->id))->with('success', 'Cập nhật thành công!');
     }
-    public function obfuscate_email($email)
-    {
-        $em   = explode("@", $email);
-        $name = implode('@', array_slice($em, 0, count($em) - 1));
-        $len  = floor(strlen($name) / 2);
 
-        return substr($name, 0, $len) . str_repeat('*', $len) . "@" . end($em);
-    }
 
     public function handleChangePass(Request $request)
     {
         $id = Auth::id();
-        $user = User::find($id);
+        $user = $this->userService->find($id);
         abort_unless($user, 404);
         $request->validate(
             [
@@ -235,7 +226,7 @@ class HomeController extends Controller
 
             $data = ['password' => $request->new_pass];
 
-            $user->update($data);
+            $this->userService->update($data, $id);
             return back()->with('success', 'Đổi mật khẩu thành công!');
         } else {
             return back()->with('error', 'Mật khẩu hiện tại không đúng!');
@@ -247,7 +238,9 @@ class HomeController extends Controller
     }
     public function contact()
     {
-        $info = DB::table('infors')->where('id', 3)->get();;
+        $info = $this->infoService->find(3);
+        // $info = DB::table('infors')->where('id', 3)->get();
+        // dd($info);
         return view('home.contact', ['info' => $info]);
     }
     public function addToCart(Request $request, $id)
@@ -351,26 +344,26 @@ class HomeController extends Controller
                 'code' => $randomCode,
                 'is_active' => 0
             ];
-            $couponId = Coupon::create($fakeCoupon);
+            $couponId = $this->couponService->create($fakeCoupon);
             $request['coupon_id'] =  $couponId->id;
         };
-        $order = Order::create($request->all());
+        $order = $this->orderService->create($request->all());
         $id = $order->id;
         if (Session::has('cart')) {
             $carts = Session::get('cart')->items;
             $idProducts = array_keys($carts);
             foreach ($idProducts as $item) {
                 $idProduct = $item;
-                $product = OrderDetail::where('product_id', $idProduct)->first();
+                $product = $this->orderDetailService->findByProductId($idProduct);
                 $qty = $carts[$item]['qty'];
                 if ($product && $product->product_id == $idProduct && $product->order_id == $id) {
                     $qtyDb = $product->quantity;
 
-                    OrderDetail::where('product_id', $idProduct)->update([
+                    $this->orderDetailService->updateByProductId($idProduct, [
                         'quantity' => $qtyDb + $qty,
                     ]);
                 } else {
-                    OrderDetail::create([
+                    $this->orderDetailService->create([
                         'user_id' => Auth::id(),
                         'product_id' => $idProduct,
                         'order_id' => $id,
@@ -378,9 +371,6 @@ class HomeController extends Controller
                     ]);
                 }
             };
-
-            // OrderCoupon::create(['coupon_id' => $couponId, 'order_id' => $id]);
-            // $order->orderCoupons()->create(['coupon_id' => $couponId]);
 
             $items = Session::get('cart')->items;
             $totalQty = Session::get('cart')->totalQty;
@@ -390,32 +380,19 @@ class HomeController extends Controller
             Session::forget('cart');
             Session::forget('coupon');
         }
-        Notification::create(['user_id' => Auth::id()]);
+        $this->notificationService->create(['user_id' => Auth::id()]);
 
         return view('home.success');
     }
     public function history()
     {
-        // DB::enableQueryLog();
         $id = Auth::id();
-        $list = DB::table('order_details')
-            ->join('orders', 'order_details.order_id', '=', 'orders.id')
-            ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
-            ->join('products', 'order_details.product_id', '=', 'products.id')
-            ->join('coupons', 'orders.coupon_id', 'coupons.id')
-            ->where('order_details.user_id', $id)
-            ->where('order_statuses.id', 2)
-            ->selectRaw('*, order_details.quantity AS sq')
-            ->orderBy('products.name')
-            ->get();
-        // dd(DB::getQueryLog());
-        // dd($list);
+        $list = $this->orderDetailService->getListByUserId($id);
+
         return view('home.history', ['list' => $list]);
     }
     public function forgetPass()
     {
-
-
         return view('home.forgetpass');
     }
     public function checkForgetPass(Request $request)
@@ -427,13 +404,13 @@ class HomeController extends Controller
             'email.exists' => 'Email này không tồn tại trong hệ thống.'
         ]);
         $token = rand();
-
-        $user = User::where('email', $request->email)->first();
-
+        $email = $request->email;
+        $user = $this->userService->findByEmail($email);
         $user->update(['token' => $token]);
         $appUrl = $_SERVER['APP_URL'];
         $httpHost = $_SERVER['HTTP_HOST'];
         SendEmailCoverPass::dispatch($user->email, $user->id, $user->full_name, $user->token, $appUrl, $httpHost);
+
         return back()->with('check', 'Vui lòng check email để lấy lại mật khẩu');
     }
     public function getPass(User $user, $token)
@@ -462,7 +439,7 @@ class HomeController extends Controller
     public function comment(Request $request, $id)
     {
         $data = ['content' => $request->content, 'product_id' => $id, 'user_id' => Auth::id()];
-        Comment::create($data);
+        $this->commentService->create($data);
         return back();
     }
 }
