@@ -20,8 +20,16 @@ class OrderDetailService extends BaseService implements OrderDetailServiceInterf
   {
     return $this->repository->updateByProductId($idProduct, $data);
   }
-  public function getListByUserId($userId)
+  public function getListByUserId($userId, $status)
   {
-    return $this->repository->getListByUserId($userId);
+    return $this->repository->getListByUserId($userId, $status);
+  }
+  public function findCustomJoinByOrderId($orderId)
+  {
+    return $this->repository->findCustomJoinByOrderId($orderId);
+  }
+  public function findAllByOrderId($orderId)
+  {
+    return $this->repository->findAllByOrderId($orderId);
   }
 }

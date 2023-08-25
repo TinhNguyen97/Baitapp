@@ -10,11 +10,7 @@ if (link.includes("orders")) {
     $("#nav-link-order").addClass("active");
     $("#link-order").addClass("css-active");
 }
-if (
-    link.includes("history") ||
-    link.includes("historydetail") ||
-    link.includes("searchhistory")
-) {
+if (link.includes("history") || link.includes("searchhistory")) {
     $("#link-history").addClass("css-active");
     $("#link-order").removeClass("css-active");
     $("link-cancel").removeClass("css-active");

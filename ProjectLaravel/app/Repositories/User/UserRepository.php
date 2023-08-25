@@ -21,4 +21,17 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     $user = $this->model->where('email', $email)->first();
     return $user;
   }
+  public function getAllPaginate($page)
+  {
+    $users = $this->model->paginate($page);
+    return $users;
+  }
+  public function searchByNameOrEmail($key)
+  {
+    $users = $this->model
+      ->where('full_name', 'like', '%' . $key . '%')
+      ->orWhere('email', 'like', '%' . $key . '%')
+      ->paginate();
+    return $users;
+  }
 }

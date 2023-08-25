@@ -24,6 +24,8 @@ use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\Slide\SlideService;
 use App\Services\Slide\SlideServiceInterface;
+use App\Services\Statistical\StatisticalService;
+use App\Services\Statistical\StatisticalServiceInterface;
 use App\Services\TypeProduct\TypeProductService;
 use App\Services\TypeProduct\TypeProductServiceInterface;
 use App\Services\User\UserService;
@@ -85,6 +87,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             CommentServiceInterface::class,
             CommentService::class
+        );
+        $this->app->singleton(
+            StatisticalServiceInterface::class,
+            StatisticalService::class
         );
     }
 

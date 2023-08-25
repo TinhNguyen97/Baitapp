@@ -6,20 +6,30 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Products;
+use App\Models\TypeProduct;
+use App\Services\Comment\CommentServiceInterface;
+use App\Services\Product\ProductService;
+use App\Services\Product\ProductServiceInterface;
+use App\Services\TypeProduct\TypeProductServiceInterface;
 
 class ProductController extends Controller
 {
+    private $productService;
+    private $typeProductService;
+    private $commentService;
+    public function __construct(
+        ProductServiceInterface $productService,
+        TypeProductServiceInterface $typeProductService,
+        CommentServiceInterface $commentService
+    ) {
+        $this->productService = $productService;
+        $this->typeProductService = $typeProductService;
+        $this->commentService = $commentService;
+    }
     public function index()
     {
-        // echo public_path('uploads' . '\\' . '123');
-        // die;
-        $allProducts = DB::table('products')
-            ->join('type_products', 'products.type_id', '=', 'type_products.id')
-            ->select('products.*', 'type_products.name as tp_name', 'type_products.id as type_id')
-            ->latest()
-            ->paginate(5);
-        $allTypes = DB::table('type_products')->get();
-        // dd($allProducts);
+        $allProducts = $this->productService->getAllProductAndType();
+        $allTypes = $this->typeProductService->all();
         return view('products.index', ['allProducts' => $allProducts, 'allTypes' => $allTypes]);
     }
     public function add(Request $request)
@@ -51,7 +61,7 @@ class ProductController extends Controller
         );
 
 
-        Products::create(array_merge($request->all(), [
+        $this->productService->create(array_merge($request->all(), [
             'image' => $file_name
         ]));
 
@@ -60,19 +70,18 @@ class ProductController extends Controller
     public function delete($id)
     {
 
-        $product = Products::find($id);
+        $product = $this->productService->find($id);
         abort_if(!$product, 404);
-        $image = Products::select('image')->where('id', $id)->get();
-        $fileImage = $image[0]['image'];
-        if (file_exists('uploads' . '\\' . $fileImage)) {
-            unlink('uploads' . '\\' . $fileImage);
+        $image = $product->image;
+        if (file_exists('uploads' . '\\' . $image)) {
+            unlink('uploads' . '\\' . $image);
         }
-        Products::destroy($id);
+        $this->productService->delete($id);
         return back()->with(['isDeleteSuccess' => true]);
     }
     public function put(Request $request, $id)
     {
-        $product = Products::find($id);
+        $product = $this->productService->find($id);
 
         abort_if(!$product, 404);
         $request->validate(
@@ -109,11 +118,11 @@ class ProductController extends Controller
                 'image' => $file_name,
                 'is_active' => $request->is_active
             ];
-            Products::where('id', $id)->update($data);
+            $this->productService->update($data, $id);
             return back()->with(['isUpdateSuccess' => true]);
         } else {
             // dd($request->all());
-            Products::where('id', $id)->update([
+            $this->productService->update([
                 'name' => $request->editName,
                 'type_id' => $request->editType,
                 'description' => $request->editDescr,
@@ -121,24 +130,15 @@ class ProductController extends Controller
                 'promotion_price' => $request->editPromotionPrice,
                 'product_quantity' => $request->editQuantity,
                 'is_active' => $request->is_active
-            ]);
+            ], $id);
             return back()->with(['isUpdateSuccess' => true]);
         }
     }
     public function search(Request $request)
     {
-        $allProducts = Products::where('name', 'like', '%' . $request->key . '%')
-            ->orWhere('unit_price', $request->key)
-            ->orWhere('promotion_price', $request->key)->latest()->get();
-        $allProductSearch = DB::table('products')
-            ->join('type_products', 'products.type_id', '=', 'type_products.id')
-            ->select('products.*', 'type_products.name as tp_name', 'type_products.id as type_id')
-            ->where('products.name', 'like', '%' . $request->key . '%')
-            ->orWhere('products.unit_price',   $request->key)
-            ->orWhere('products.promotion_price',  $request->key)
-            ->latest()
-            ->paginate(5);
-        $allTypes = DB::table('type_products')->get();
+        $allProducts = $this->productService->searchByNameOrPrice($request);
+        $allProductSearch = $this->productService->getAllSearch($request);
+        $allTypes = $this->typeProductService->all();
         return view('products.search', [
             'allProductSearch' => $allProductSearch,
             'request' => $request,
@@ -149,7 +149,6 @@ class ProductController extends Controller
     }
     public function addSearch(Request $request)
     {
-        // dd($request->all());
         $file_name = null;
         if ($request->has('image')) {
             $file = $request->image;
@@ -177,7 +176,7 @@ class ProductController extends Controller
         );
 
 
-        Products::create(array_merge($request->all(), [
+        $this->productService->create(array_merge($request->all(), [
             'image' => $file_name
         ]));
 
@@ -186,20 +185,19 @@ class ProductController extends Controller
     public function deleteSearch($id)
     {
 
-        $product = Products::find($id);
+        $product = $this->productService->find($id);
         abort_if(!$product, 404);
-        $image = Products::select('image')->where('id', $id)->get();
-        $fileImage = $image[0]['image'];
-        if (file_exists('uploads' . '\\' . $fileImage)) {
-            unlink('uploads' . '\\' . $fileImage);
+        $image = $product->image;
+        if (file_exists('uploads' . '\\' . $image)) {
+            unlink('uploads' . '\\' . $image);
         }
-        Products::destroy($id);
+        $this->productService->delete($id);
         return back()->with(['isDeleteSuccess' => true]);
     }
     public function putSearch(Request $request, $id)
     {
         // dd($request->all());
-        $product = Products::find($id);
+        $product = $this->productService->find($id);
 
         abort_if(!$product, 404);
         if ($request->has('editImage')) {
@@ -219,11 +217,11 @@ class ProductController extends Controller
                 'image' => $file_name,
                 'is_active' => $request->is_active
             ];
-            Products::where('id', $id)->update($data);
+            $this->productService->update($data, $id);
             return back()->with(['isUpdateSuccess' => true]);
         } else {
             // dd($request->all());
-            Products::where('id', $id)->update([
+            $this->productService->update([
                 'name' => $request->editName,
                 'type_id' => $request->editType,
                 'description' => $request->editDescr,
@@ -231,19 +229,16 @@ class ProductController extends Controller
                 'promotion_price' => $request->editPromotionPrice,
                 'product_quantity' => $request->editQuantity,
                 'is_active' => $request->is_active
-            ]);
+            ], $id);
             return back()->with(['isUpdateSuccess' => true]);
         }
     }
     public function details($id)
     {
-        $product = Products::find($id);
-        $allProducts = Products::where('type_id', $product->type_id)->get();
-        $relativeProducts = Products::where('type_id', $product->type_id)->paginate(3);
-        $comments = Comment::where('product_id', $id)
-            ->join('users', 'comments.user_id', '=', 'users.id')
-            ->get();
-        // dd($comments);
+        $product = $this->productService->find($id);
+        $allProducts = $this->productService->getAllByTypeId($product->type_id);
+        $relativeProducts = $this->productService->getAllRelativeProducts($product->type_id)->paginate(3);
+        $comments = $this->commentService->getAllByProductId($id);
         return view('products.detail', [
             'product' => $product,
             'relativeProducts' => $relativeProducts,

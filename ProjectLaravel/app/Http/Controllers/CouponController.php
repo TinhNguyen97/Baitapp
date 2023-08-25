@@ -3,36 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
+use App\Services\Coupon\CouponServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class CouponController extends Controller
 {
+    private $couponSerivce;
+    public function __construct(CouponServiceInterface $couponSerivce)
+    {
+        $this->couponSerivce = $couponSerivce;
+    }
     public function index()
     {
-        // echo public_path('uploads' . '\\' . '123');
-        // die;
-        $allCoupons = DB::table('coupons')->where('is_active', 1)->latest()
-            ->paginate(5);
-        // dd($allCoupons);
+        $allCoupons = $this->couponSerivce->findAllByStatus(1);
         return view('coupons.index', ['allCoupons' => $allCoupons]);
     }
     public function search(Request $request)
     {
-        $coupons = Coupon::where('is_active', 1)
-            ->where(function ($query) use ($request) {
-                $query->where('coupon_name', 'like', '%' . $request->key . '%');
-                $query->orwhere('code', 'like', '%' . $request->key . '%');
-            })->get();
-        $allCouponSearch = DB::table('coupons')
-            ->where('is_active', 1)
-            ->where(function ($query) use ($request) {
-                $query->where('coupon_name', 'like', '%' . $request->key . '%');
-                $query->orwhere('code', 'like', '%' . $request->key . '%');
-            })
-            ->latest()
-            ->paginate(5);
+        $coupons = $this->couponSerivce->findAllSearch($request, 1);
+        $allCouponSearch = $this->couponSerivce->findAllSearchPaginate($request, 1);
         return view('coupons.search', [
             'allCouponSearch' => $allCouponSearch,
             'request' => $request,
@@ -42,10 +33,6 @@ class CouponController extends Controller
     }
     public function put(Request $request, $code)
     {
-        // dd($request->editCode);
-        // $coupons = Coupon::find($id);
-
-        // abort_if(!$coupons, 404);
         $request->validate(
             [
                 'editName' => 'required',
@@ -61,13 +48,20 @@ class CouponController extends Controller
             ]
         );
 
-        // dd($request->all());
-        Coupon::where('code', $code)->update([
+        $data = [
             'coupon_name' => $request->editName,
             'code' => $request->editCode,
             'time' => $request->editTime,
             'number' => $request->editNumber
-        ]);
+        ];
+        $cou = null;
+        if ($request->editCode != $code) {
+            $cou = $this->couponSerivce->findByCode($code);
+        }
+        if ($cou) {
+            return back()->with(['samecode' => true]);
+        }
+        $this->couponSerivce->updateByCode($code, $data);
         return back()->with(['isUpdateSuccess' => true]);
     }
     public function add(Request $request)
@@ -87,23 +81,23 @@ class CouponController extends Controller
                 'number.required' => 'Không được để trống.',
             ]
         );
-        $cou = DB::table('coupons')->where('code', $request->code)->get();
-        if (count($cou)) {
+        $code = $request->code;
+        $cou = $this->couponSerivce->findByCode($code);
+        if ($cou) {
             return back()->with(['samecode' => true]);
         }
-        $coupon = Coupon::create($request->all());
+        $coupon = $this->couponSerivce->create($request->all());
 
-        if ($request->number == 0) {
-            DB::table('coupons')->where('coupons.id', $request->id)->update(['id' => 0]);
-            // dd(1);
-        }
+        // if ($request->number == 0) {
+        //     DB::table('coupons')->where('coupons.id', $request->id)->update(['id' => 0]);
+        // }
 
         return back()->with(['isCreateSuccess' => true]);
     }
     public function delete($code)
     {
 
-        DB::table('coupons')->where('code', $code)->delete();
+        $this->couponSerivce->deleteByCode($code);
         return back()->with(['isDeleteSuccess' => true]);
     }
     public function addSearch(Request $request)
@@ -122,12 +116,12 @@ class CouponController extends Controller
                 'number.required' => 'Không được để trống.',
             ]
         );
-
-        $cou = DB::table('coupons')->where('code', $request->code)->get();
+        $code = $request->code;
+        $cou = $this->couponSerivce->findByCode($code);
         if (count($cou)) {
             return back()->with(['samecode' => true]);
         }
-        Coupon::create($request->all());
+        $this->couponSerivce->create($request->all());
 
         return back()->with(['isCreateSuccess' => true]);
     }
@@ -135,7 +129,7 @@ class CouponController extends Controller
     {
         // Session::forget('coupon');
         $code = $request->code;
-        $coupon = Coupon::where('code', $code)->first();
+        $coupon  = $this->couponSerivce->findByCode($code);
 
         if ($coupon) {
             $coupon->update(['time' => $coupon->time - 1]);

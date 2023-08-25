@@ -3,14 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\TypeProduct;
+use App\Services\TypeProduct\TypeProductServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TypeProductController extends Controller
 {
+    private $typeProductService;
+    public function __construct(TypeProductServiceInterface $typeProductService)
+    {
+        $this->typeProductService = $typeProductService;
+    }
     public function index()
     {
-        $allTypes = DB::table('type_products')->latest()->paginate(5);
+        $allTypes = $this->typeProductService->getAllPaginate();
         // dd($allTypes);
         return view('types.index', ['allTypes' => $allTypes]);
     }
@@ -36,7 +42,7 @@ class TypeProductController extends Controller
         );
 
 
-        TypeProduct::create(array_merge($request->all(), [
+        $this->typeProductService->create(array_merge($request->all(), [
             'image' => $file_name
         ]));
 
@@ -44,7 +50,7 @@ class TypeProductController extends Controller
     }
     public function put(Request $request, $id)
     {
-        $type = TypeProduct::find($id);
+        $type = $this->typeProductService->find($id);
 
         abort_if(!$type, 404);
         $request->validate(
@@ -68,38 +74,33 @@ class TypeProductController extends Controller
                 'description' => $request->editDescr,
                 'image' => $file_name
             ];
-            TypeProduct::where('id', $id)->update($data);
+            $this->typeProductService->update($data, $id);
             return back()->with(['isUpdateSuccess' => true]);
         } else {
             // dd($request->all());
-            TypeProduct::where('id', $id)->update([
+            $this->typeProductService->update([
                 'name' => $request->editName,
                 'description' => $request->editDescr
-            ]);
+            ], $id);
             return back()->with(['isUpdateSuccess' => true]);
         }
     }
     public function delete($id)
     {
 
-        $product = TypeProduct::find($id);
+        $product = $this->typeProductService->find($id);
         abort_if(!$product, 404);
-        $image = TypeProduct::select('image')->where('id', $id)->get();
-        $fileImage = $image[0]['image'];
-        if (file_exists('uploads' . '\\' . $fileImage)) {
-            unlink('uploads' . '\\' . $fileImage);
+        $image = $product->image;
+        if (file_exists('uploads' . '\\' . $image)) {
+            unlink('uploads' . '\\' . $image);
         }
-        TypeProduct::destroy($id);
+        $this->typeProductService->delete($id);
         return back()->with(['isDeleteSuccess' => true]);
     }
     public function search(Request $request)
     {
-        $allTypes = TypeProduct::where('name', 'like', '%' . $request->key . '%')->latest()->get();
-        // dd(count($allTypes));
-        $allTypeSearch = DB::table('type_products')
-            ->where('type_products.name', 'like', '%' . $request->key . '%')
-            ->latest()
-            ->paginate(5);
+        $allTypes = $this->typeProductService->allSearch($request);
+        $allTypeSearch = $this->typeProductService->getAllByName($request->key);
         return view('types.search', [
             'allTypeSearch' => $allTypeSearch,
             'request' => $request,
@@ -110,20 +111,19 @@ class TypeProductController extends Controller
     public function deleteSearch($id)
     {
 
-        $typeProduct = TypeProduct::find($id);
+        $typeProduct = $this->typeProductService->find($id);
         abort_if(!$typeProduct, 404);
-        $image = TypeProduct::select('image')->where('id', $id)->get();
-        $fileImage = $image[0]['image'];
-        if (file_exists('uploads' . '\\' . $fileImage)) {
-            unlink('uploads' . '\\' . $fileImage);
+        $image = $this->typeProductService->find($id)->image;
+        if (file_exists('uploads' . '\\' . $image)) {
+            unlink('uploads' . '\\' . $image);
         }
-        TypeProduct::destroy($id);
+        $this->typeProductService->delete($id);
         return back()->with(['isDeleteSuccess' => true]);
     }
     public function putSearch(Request $request, $id)
     {
         // dd($request->all());
-        $typeProduct = TypeProduct::find($id);
+        $typeProduct = $this->typeProductService->find($id);
 
         abort_if(!$typeProduct, 404);
         if ($request->has('editImage')) {
@@ -138,14 +138,14 @@ class TypeProductController extends Controller
                 'description' => $request->editDescr,
                 'image' => $file_name
             ];
-            TypeProduct::where('id', $id)->update($data);
+            $this->typeProductService->update($data, $id);
             return back()->with(['isUpdateSuccess' => true]);
         } else {
             // dd($request->all());
-            TypeProduct::where('id', $id)->update([
+            $this->typeProductService->update([
                 'name' => $request->editName,
                 'description' => $request->editDescr
-            ]);
+            ], $id);
             return back()->with(['isUpdateSuccess' => true]);
         }
     }
@@ -171,7 +171,7 @@ class TypeProductController extends Controller
         );
 
 
-        TypeProduct::create(array_merge($request->all(), [
+        $this->typeProductService->create(array_merge($request->all(), [
             'image' => $file_name
         ]));
 

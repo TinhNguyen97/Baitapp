@@ -13,21 +13,19 @@
 
                 </div>
             </section>
-            @foreach ($infor as $key => $item)
-                <form action="{{ route('infors.update', $item->id) }}" method="post">
-                    <div class="form-group">
-                        <p><label>Thông tin liên hệ</label></p>
-                        <textarea name="contact" class="editor" cols="30" rows="7" style="width:100%" placeholder="Thông tin liên hệ">{!! $item->info_contact !!}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <p><label>Bản đồ</label></p>
-                        <textarea name="map" cols="30" rows="7" style="width:100%" placeholder="Bản đồ">{{ $item->info_map }}</textarea>
-                    </div>
-                    <div style="text-align: center">
-                        <button class="btn btn-primary">Cập nhật thông tin</button>
-                    </div>
-                </form>
-            @endforeach
+            <form action="{{ route('infors.update', $infor->id) }}" method="post">
+                <div class="form-group">
+                    <p><label>Thông tin liên hệ</label></p>
+                    <textarea name="contact" class="editor" cols="30" rows="7" style="width:100%" placeholder="Thông tin liên hệ">{!! $infor->info_contact !!}</textarea>
+                </div>
+                <div class="form-group">
+                    <p><label>Bản đồ</label></p>
+                    <textarea name="map" cols="30" rows="7" style="width:100%" placeholder="Bản đồ">{{ $infor->info_map }}</textarea>
+                </div>
+                <div style="text-align: center">
+                    <button class="btn btn-primary">Cập nhật thông tin</button>
+                </div>
+            </form>
         </section>
         @if (session()->has('addsuccess') && session()->get('addsuccess'))
             <script>

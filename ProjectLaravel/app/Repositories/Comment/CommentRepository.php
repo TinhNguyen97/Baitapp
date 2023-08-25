@@ -12,4 +12,11 @@ class CommentRepository extends BaseRepository implements CommentRepositoryInter
   {
     $this->model = $comment;
   }
+  public function getAllByProductId($productId)
+  {
+    $comments = $this->model->where('product_id', $productId)
+      ->join('users', 'comments.user_id', '=', 'users.id')
+      ->get();
+    return $comments;
+  }
 }

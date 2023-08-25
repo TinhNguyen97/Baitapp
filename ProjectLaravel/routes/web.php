@@ -98,12 +98,10 @@ Route::prefix('/orders')->middleware('admin')->name('orders.')->group(function (
     Route::get('/', [OrderController::class, 'index'])->name('index');
     Route::get('/orderdetails/{id}', [OrderController::class, 'orderDetails'])->name('orderdetails');
     Route::get('/search', [OrderController::class, 'search'])->name('search');
-    Route::get('/searchdetail', [OrderController::class, 'searchDetail'])->name('searchdetail');
     Route::get('/handleapprove/{id}', [OrderController::class, 'handleApprove'])->name('handleapprove');
     Route::get('/history', [OrderController::class, 'history'])->name('history');
     Route::get('/ordercancel', [OrderController::class, 'orderCancel'])->name('ordercancel');
     Route::get('/handlecancel{id}', [OrderController::class, 'handleCancel'])->name('handlecancel');
-    Route::get('/historydetail/{id}', [OrderController::class, 'historyDetail'])->name('historydetail');
     Route::get('/searchordercancel', [OrderController::class, 'searchOrderCancel'])->name('searchordercancel');
     Route::get('/searchhistory', [OrderController::class, 'searchHistory'])->name('searchhistory');
 });

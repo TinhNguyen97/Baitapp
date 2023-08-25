@@ -12,4 +12,8 @@ class CommentService extends BaseService implements CommentServiceInterface
   {
     $this->repository = $commentRepository;
   }
+  public function getAllByProductId($productId)
+  {
+    return $this->repository->getAllByProductId($productId);
+  }
 }

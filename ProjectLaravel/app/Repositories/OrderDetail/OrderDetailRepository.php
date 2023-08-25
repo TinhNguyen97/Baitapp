@@ -20,7 +20,7 @@ class OrderDetailRepository extends BaseRepository implements OrderDetailReposit
   {
     $this->model->where('product_id', $idProduct)->update($data);
   }
-  public function getListByUserId($userId)
+  public function getListByUserId($userId, $status)
   {
     $list = $this->model
       ->join('orders', 'order_details.order_id', '=', 'orders.id')
@@ -28,10 +28,25 @@ class OrderDetailRepository extends BaseRepository implements OrderDetailReposit
       ->join('products', 'order_details.product_id', '=', 'products.id')
       ->join('coupons', 'orders.coupon_id', 'coupons.id')
       ->where('order_details.user_id', $userId)
-      ->where('order_statuses.id', 2)
+      ->where('order_statuses.id', $status)
       ->selectRaw('*, order_details.quantity AS sq')
       ->orderBy('products.name')
       ->get();
     return $list;
+  }
+  public function findCustomJoinByOrderId($orderId)
+  {
+    $details = $this->model
+      ->join('orders', 'order_details.order_id', '=', 'orders.id')
+      ->join('coupons', 'orders.coupon_id', '=', 'coupons.id')
+      ->join('products', 'order_details.product_id', '=', 'products.id')
+      ->where('order_details.order_id', $orderId);
+
+    return $details;
+  }
+  public function findAllByOrderId($orderId)
+  {
+    $orderDetails = $this->model->where('order_id', $orderId)->get();
+    return $orderDetails;
   }
 }

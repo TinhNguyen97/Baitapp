@@ -8,7 +8,10 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Products;
 use App\Models\Statistical;
-// use Illuminate\Contracts\Database\Eloquent\Builder;
+use App\Services\Order\OrderServiceInterface;
+use App\Services\OrderDetail\OrderDetailServiceInterface;
+use App\Services\Product\ProductServiceInterface;
+use App\Services\Statistical\StatisticalServiceInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,69 +20,50 @@ use PhpParser\Node\Expr\FuncCall;
 
 class OrderController extends Controller
 {
+    private $orderService;
+    private $orderDetailService;
+    private $productService;
+    private $statisticalService;
+    public function __construct(
+        OrderServiceInterface $orderService,
+        OrderDetailServiceInterface $orderDetailService,
+        ProductServiceInterface $productService,
+        StatisticalServiceInterface $statisticalService
+    ) {
+        $this->orderService = $orderService;
+        $this->orderDetailService = $orderDetailService;
+        $this->productService = $productService;
+        $this->statisticalService = $statisticalService;
+    }
     public function index()
     {
-        $orders = DB::table('orders')
-            ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
-            ->where('orders.order_status_id', 1)
-            ->select('orders.*', 'order_statuses.id AS osi', 'order_statuses.status AS status')
-            ->latest()
-            ->paginate(5);
-        // dd($orders->total());
-        // dd($orders);
+        $orders = $this->orderService->findAllOrderByStatus(1);
         return view('orders.index', ['orders' => $orders]);
     }
-    public function orderDetails($order_id)
+    public function orderDetails($orderId)
     {
 
-        $details = DB::table('order_details')
-            ->join('orders', 'order_details.order_id', '=', 'orders.id')
-            ->join('coupons', 'orders.coupon_id', '=', 'coupons.id')
-            ->join('products', 'order_details.product_id', '=', 'products.id')
-            ->where('order_details.order_id', $order_id)
-            ->paginate(5);
-        // dd($details);
+        $details = $this->orderDetailService->findCustomJoinByOrderId($orderId)->paginate(5);
         return view('orders.orderdetail', ['details' => $details]);
     }
     public function search(Request $request)
     {
         // DB::enableQueryLog();
-        $allOrders = DB::table('orders')
-            ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
-            ->select('orders.*', 'order_statuses.id AS osi', 'order_statuses.status AS status')
-            ->where('orders.order_status_id', '=', 1)
-            ->where(function ($query) use ($request) {
-                $query->where('email', 'like', '%' . $request->key . '%');
-                $query->orWhere('phone', 'like', '%' . $request->key . '%');
-            })
-            ->latest()
-            ->paginate(5);
-        // dd($allOrders);
+        $allOrders = $this->orderService->search($request);
         // dd(DB::getQueryLog());
         return view('orders.search', [
             'allOrders' => $allOrders,
             'request' => $request,
         ]);
     }
-    public function searchDetail(Request $request)
-    {
-        $allOrders = DB::table('orders')
-            ->where('email', 'like', '%' . $request->key . '%')
-            ->orWhere('phone', 'like', '%' . $request->key . '%')
-            ->latest()
-            ->paginate(5);
-        return view('orders.search', [
-            'allOrders' => $allOrders,
-            'request' => $request,
-        ]);
-    }
+
     public function handleApprove($id)
     {
-        $orderDetails = DB::table('order_details')->where('order_id', $id)->get();
+        $orderDetails = $this->orderDetailService->findAllByOrderId($id);
         $listProductNameError = '';
         foreach ($orderDetails as $key => $item) {
             $error = false;
-            $product = Products::find($item->product_id);
+            $product = $this->productService->find($item->product_id);
             if ($product->product_quantity < $item->quantity) {
                 $error = true;
                 $listProductNameError .= $product->name . ', ';
@@ -97,20 +81,15 @@ class OrderController extends Controller
         if ($error == true) {
             return back()->with(['overqty' => 'Số lượng hàng còn lại ít hơn số lượng hàng đặt', 'productname' => $listProductNameError]);
         }
-        DB::table('orders')->where('id', $id)->update(['order_status_id' => 2]);
-        $emailTo = Order::find($id)->email;
+        $this->orderService->update(['order_status_id' => 2], $id);
+        $emailTo = $this->orderService->find($id)->email;
         SendEmailDelivering::dispatch($emailTo);
 
 
         //handle table statistical
         $countProduct = 0;
         $countRevenue = 0;
-        $details = DB::table('order_details')
-            ->join('orders', 'order_details.order_id', '=', 'orders.id')
-            ->join('coupons', 'orders.coupon_id', '=', 'coupons.id')
-            ->join('products', 'order_details.product_id', '=', 'products.id')
-            ->where('order_details.order_id', $id)
-            ->get();
+        $details = $this->orderDetailService->findCustomJoinByOrderId($id)->get();
         foreach ($details as $key => $item) {
             $countProduct += $item->quantity;
             if ($item->promotion_price < $item->unit_price) {
@@ -121,9 +100,9 @@ class OrderController extends Controller
         }
         $monthYear = date('m/Y');
         // dd(date("Y-m-d H:i:s"));
-        $statistical = Statistical::where('month_year', 'like', '%' . $monthYear . '%')->first();
+        $statistical = $this->statisticalService->findByMonthYear($monthYear);
         if (!$statistical) {
-            Statistical::create([
+            $this->statisticalService->create([
                 'month_year' => $monthYear,
                 'count_product' => $countProduct,
                 'count_revenue' => $countRevenue,
@@ -140,49 +119,26 @@ class OrderController extends Controller
     }
     public function history()
     {
-        $orders = DB::table('orders')
-            ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
-            ->where('orders.order_status_id', 2)
-            ->select('orders.*', 'order_statuses.id AS osi', 'order_statuses.status AS status')
-            ->paginate(5);
+        $orders = $this->orderService->findAllOrderByStatus(2);
         return view('orders.history', ['orders' => $orders]);
     }
     public function handleCancel($id)
     {
-        DB::table('orders')->where('id', $id)->update(['order_status_id' => 3]);
-        $emailTo = Order::find($id)->email;
+        $this->orderService->update(['order_status_id' => 3], $id);
+        $emailTo = $this->orderService->find($id)->email;
         SendEmailCancel::dispatch($emailTo);
         return back()->with(['successCancel' => true]);
     }
     public function orderCancel()
     {
-        $orders = DB::table('orders')
-            ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
-            ->where('orders.order_status_id', 3)
-            ->select('orders.*', 'order_statuses.id AS osi', 'order_statuses.status AS status')
-            ->paginate(5);
+        $orders = $this->orderService->findAllOrderByStatus(3);
         return view('orders.cancel', ['orders' => $orders]);
     }
-    public function historyDetail($order_id)
-    {
-        $details = DB::table('order_details')
-            ->join('products', 'order_details.product_id', '=', 'products.id')
-            ->where('order_details.order_id', $order_id)
-            ->paginate(5);
-        return view('orders.historydetail', ['details' => $details]);
-    }
+
     public function searchOrderCancel(Request $request)
     {
 
-        $allOrders = DB::table('orders')
-            ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
-            ->where('orders.order_status_id', '=', 3)
-            ->where(function ($query) use ($request) {
-                $query->where('email', 'like', '%' . $request->key . '%');
-                $query->orWhere('phone', 'like', '%' . $request->key . '%');
-            })
-            ->latest()
-            ->paginate(5);
+        $allOrders = $this->orderService->searchWithKeyAndStatus($request, 3);
         return view('orders.searchordercancel', [
             'allOrders' => $allOrders,
             'request' => $request,
@@ -191,15 +147,7 @@ class OrderController extends Controller
     public function searchHistory(Request $request)
     {
         // dd(1);
-        $allOrders = DB::table('orders')
-            ->join('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
-            ->where('orders.order_status_id', '=', 2)
-            ->where(function ($query) use ($request) {
-                $query->where('email', 'like', '%' . $request->key . '%');
-                $query->orWhere('phone', 'like', '%' . $request->key . '%');
-            })
-            ->latest()
-            ->paginate(5);
+        $allOrders = $this->orderService->searchWithKeyAndStatus($request, 2);
         return view('orders.searchhistory', [
             'allOrders' => $allOrders,
             'request' => $request,

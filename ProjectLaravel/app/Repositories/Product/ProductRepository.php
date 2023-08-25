@@ -58,14 +58,53 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
       ->paginate(8);
     return $allProductWithKeys;
   }
-  public function getAllProductSearchByType($idType)
+  public function getAllProductSearchByType($idType, $status)
   {
-    $allProductSearchByType = $this->model->where('is_active', 1)->where('type_id', $idType)->paginate(8);
+    $allProductSearchByType = $this->model->where('is_active', $status)->where('type_id', $idType)->paginate(8);
     return $allProductSearchByType;
   }
-  public function getAllProductByType($idType)
+  public function getAllProductByType($idType, $status)
   {
-    $allProductByType = $this->model->where('is_active', 1)->where('type_id', $idType)->get();
+    $allProductByType = $this->model->where('is_active',  $status)->where('type_id', $idType)->get();
     return $allProductByType;
+  }
+  public function getAllProductAndType()
+  {
+    $allProducts = $this->model
+      ->join('type_products', 'products.type_id', '=', 'type_products.id')
+      ->select('products.*', 'type_products.name as tp_name', 'type_products.id as type_id')
+      ->latest()
+      ->paginate(5);
+    return $allProducts;
+  }
+  public function searchByNameOrPrice(Request $request)
+  {
+    $allProducts = $this->model->where('name', 'like', '%' . $request->key . '%')
+      ->orWhere('unit_price', $request->key)
+      ->orWhere('promotion_price', $request->key)->latest()->get();
+    return $allProducts;
+  }
+  public function getAllSearch(Request $request)
+  {
+    $allProductSearch = $this->model
+      ->join('type_products', 'products.type_id', '=', 'type_products.id')
+      ->select('products.*', 'type_products.name as tp_name', 'type_products.id as type_id')
+      ->where('products.name', 'like', '%' . $request->key . '%')
+      ->orWhere('products.unit_price',   $request->key)
+      ->orWhere('products.promotion_price',  $request->key)
+      ->latest()
+      ->paginate(5);
+    return $allProductSearch;
+  }
+  public function getAllByTypeId($typeId)
+  {
+    $allproducts = $this->model->where('type_id', $typeId)->get();
+    return $allproducts;
+  }
+  public function getAllRelativeProducts($typeId)
+  {
+    $allRelativeProducts = $this->model->where('type_id', $typeId);
+
+    return $allRelativeProducts;
   }
 }

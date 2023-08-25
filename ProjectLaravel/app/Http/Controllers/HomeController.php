@@ -86,8 +86,8 @@ class HomeController extends Controller
     public function typeSearch(Request $request, $idType)
     {
         $type = $this->typeProductService->find($idType)->name;
-        $allProductSearchByType = $this->productService->getAllProductSearchByType($idType);
-        $allProductByType = $this->productService->getAllProductByType($idType);
+        $allProductSearchByType = $this->productService->getAllProductSearchByType($idType, 1);
+        $allProductByType = $this->productService->getAllProductByType($idType, 1);
         return view(
             'home.producttype',
             [
@@ -387,7 +387,7 @@ class HomeController extends Controller
     public function history()
     {
         $id = Auth::id();
-        $list = $this->orderDetailService->getListByUserId($id);
+        $list = $this->orderDetailService->getListByUserId($id, 2);
 
         return view('home.history', ['list' => $list]);
     }

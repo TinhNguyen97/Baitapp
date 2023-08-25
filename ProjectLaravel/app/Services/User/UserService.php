@@ -20,4 +20,12 @@ class UserService extends BaseService implements UserServiceInterface
   {
     return $this->repository->findByEmail($email);
   }
+  public function getAllPaginate($page)
+  {
+    return $this->repository->getAllPaginate($page);
+  }
+  public function searchByNameOrEmail($key)
+  {
+    return $this->repository->searchByNameOrEmail($key);
+  }
 }

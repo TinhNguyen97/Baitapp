@@ -29,12 +29,32 @@ class ProductService extends BaseService implements ProductServiceInterface
   {
     return $this->repository->getAllProductWithKeys($request);
   }
-  public function getAllProductSearchByType($idType)
+  public function getAllProductSearchByType($idType, $status)
   {
-    return $this->repository->getAllProductSearchByType($idType);
+    return $this->repository->getAllProductSearchByType($idType, $status);
   }
-  public function getAllProductByType($idType)
+  public function getAllProductByType($idType, $status)
   {
-    return $this->repository->getAllProductByType($idType);
+    return $this->repository->getAllProductByType($idType, $status);
+  }
+  public function getAllProductAndType()
+  {
+    return $this->repository->getAllProductAndType();
+  }
+  public function searchByNameOrPrice(Request $request)
+  {
+    return $this->repository->searchByNameOrPrice($request);
+  }
+  public function getAllSearch(Request $request)
+  {
+    return $this->repository->getAllSearch($request);
+  }
+  public function getAllByTypeId($typeId)
+  {
+    return $this->repository->getAllByTypeId($typeId);
+  }
+  public function getAllRelativeProducts($typeId)
+  {
+    return $this->repository->getAllRelativeProducts($typeId);
   }
 }

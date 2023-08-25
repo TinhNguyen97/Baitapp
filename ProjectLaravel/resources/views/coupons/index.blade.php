@@ -247,7 +247,7 @@
     @if (session()->has('samecode') && session()->get('samecode'))
         <script>
             $(function() {
-                alertError('Không thể tạo mới do mã code đã bị trùng lặp')
+                alertError('Không thể tạo mới/cập nhật do mã code bị trùng lặp')
             })
         </script>
     @endif
