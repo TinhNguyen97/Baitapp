@@ -195,8 +195,7 @@
                             onclick="removeMessageCreateError()">
                             Đóng
                         </button>
-                        <button class="btn btn-primary" type="submit" class="close" name="save"
-                            onclick="validForm()">
+                        <button class="btn btn-primary" type="submit" class="close" name="save">
                             Tạo mới
                         </button>
                     </div>

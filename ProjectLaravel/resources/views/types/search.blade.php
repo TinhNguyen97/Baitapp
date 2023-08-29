@@ -142,8 +142,8 @@
                             <!-- <p id="imageCategory"></p> -->
                             <img src="" id="editImage" width="100px" height="100px" />
                             <input class="form-control" id="editImage" type="file" name="editImage"
-                                onchange="imagePreview(this, '#form-edit')" />
-                            <p id="error-file"></p>
+                                onchange="imagePreview(this, '#form-edit', '#error-file-edit')" />
+                            <p id="error-file-edit"></p>
                         </div>
                         <div class="form-group">
                             <label>Mô tả</label>
@@ -183,8 +183,8 @@
                         <div class="form-group">
                             <label for="image">Ảnh danh mục</label>
                             <input class="form-control" name="image" id="image" type="file" required
-                                onchange="imagePreview(this, '#create-form') " />
-                            <p id="error-file"></p>
+                                onchange="imagePreview(this, '#create-form','#error-file-create') " />
+                            <p id="error-file-create"></p>
                         </div>
 
                         <div class="form-group">
