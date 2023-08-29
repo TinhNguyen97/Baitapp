@@ -43,6 +43,7 @@
                                         <th style="text-align: center">Địa chỉ</th>
                                         <th class="d-none d-xl-table-cell" style="text-align: center">Email</th>
                                         <th class="d-none d-xl-table-cell" style="text-align: center">Số điện thoại</th>
+                                        <th class="d-none d-xl-table-cell" style="text-align: center">Quyền</th>
                                         <th class="d-none d-xl-table-cell" style="text-align: center">Ngày tạo</th>
                                         <th class="d-none d-xl-table-cell" style="text-align: center">Trạng thái</th>
                                         <th style="text-align: center">Cấp quyền admin</th>
@@ -65,6 +66,13 @@
                                                     {{ $item->email }}</td>
                                                 <td class="d-none d-xl-table-cell" style="text-align: center">
                                                     {{ $item->phone }}</td>
+                                                @if ($item->is_admin)
+                                                    <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                        Admin</td>
+                                                @else
+                                                    <td class="d-none d-xl-table-cell" style="text-align: center">
+                                                        User</td>
+                                                @endif
                                                 <td class="d-none d-xl-table-cell" style="text-align: center">
                                                     {{ $item->created_at }}</td>
                                                 @if ($item->is_active)
