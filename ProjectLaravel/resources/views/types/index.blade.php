@@ -138,7 +138,9 @@
                             <label for="image">Ảnh danh mục</label>
                             <!-- <p id="imageCategory"></p> -->
                             <img src="" id="editImage" width="100px" height="100px" />
-                            <input class="form-control" id="editImage" type="file" name="editImage" />
+                            <input class="form-control" id="editImage" type="file" name="editImage"
+                                onchange="imagePreview(this, '#form-edit', '#error-file-edit')" />
+                            <p id="error-file-edit"></p>
                         </div>
                         <div class="form-group">
                             <label>Mô tả</label>
@@ -163,7 +165,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Tạo mới danh mục</h4>
-                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <button aria-label="Close" onclick="removeMessageCreateError()" class="close"
+                            data-dismiss="modal" type="button">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -176,7 +179,9 @@
 
                         <div class="form-group">
                             <label for="image">Ảnh danh mục</label>
-                            <input class="form-control" name="image" id="image" type="file" required />
+                            <input class="form-control" name="image" id="image" type="file" required
+                                onchange="imagePreview(this, '#create-form', '#error-file-create') " />
+                            <p id="error-file-create"></p>
                         </div>
                         <div class="form-group">
                             <label for="price">Mô tả</label>

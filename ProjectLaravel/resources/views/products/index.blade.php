@@ -182,7 +182,9 @@
                             <label for="image">Ảnh sản phẩm</label>
                             <!-- <p id="imageCategory"></p> -->
                             <img src="" id="editImage" width="100px" height="100px" />
-                            <input class="form-control" id="editImage" type="file" name="editImage" />
+                            <input accept="image/*" class="form-control" id="editImage" type="file" name="editImage"
+                                onchange="imagePreview(this, '#form-edit', '#error-file-edit')" />
+                            <p id="error-file-edit"></p>
                         </div>
                         <div class="form-group">
                             <label>Đơn giá</label>
@@ -229,7 +231,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Tạo mới sản phẩm</h4>
-                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <button aria-label="Close" class="close" data-dismiss="modal"
+                            onclick="removeMessageCreateError()" type="button">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -252,7 +255,10 @@
                         </div>
                         <div class="form-group">
                             <label for="image">Ảnh sản phẩm</label>
-                            <input class="form-control" name="image" id="image" type="file" required />
+                            <input accept="image/*" class="form-control" name="image" id="image" type="file"
+                                required onchange="imagePreview(this, '#create-form', '#error-file-create')" />
+                            <p id="error-file-create"></p>
+
                         </div>
                         <div class="form-group">
                             <label for="price">Đơn giá</label>
@@ -288,8 +294,7 @@
                             onclick="removeMessageCreateError()">
                             Đóng
                         </button>
-                        <button class="btn btn-primary" type="submit" class="close" name="save"
-                            onclick="validForm()">
+                        <button class="btn btn-primary" type="submit" class="close" name="save">
                             Tạo mới
                         </button>
                     </div>
@@ -356,5 +361,6 @@
             return "{{ route('products.put', 0) }}".replace(/\d$/, id);
         }
     </script>
+
     <script src="{{ asset('js/product.js') }}"></script>
 @endsection

@@ -141,7 +141,9 @@
                             <label for="image">Ảnh danh mục</label>
                             <!-- <p id="imageCategory"></p> -->
                             <img src="" id="editImage" width="100px" height="100px" />
-                            <input class="form-control" id="editImage" type="file" name="editImage" />
+                            <input class="form-control" id="editImage" type="file" name="editImage"
+                                onchange="imagePreview(this, '#form-edit')" />
+                            <p id="error-file"></p>
                         </div>
                         <div class="form-group">
                             <label>Mô tả</label>
@@ -160,13 +162,14 @@
             <!-- /.modal-dialog -->
         </div>
     </form>
-    <form action="" method="post" enctype="multipart/form-data">
+    <form action="" method="post" enctype="multipart/form-data" id="create-form">
         <div class="modal fade" id="create-products">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Tạo mới danh mục</h4>
-                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button"
+                            onclick="removeMessageCreateError()">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -179,7 +182,9 @@
 
                         <div class="form-group">
                             <label for="image">Ảnh danh mục</label>
-                            <input class="form-control" name="image" id="image" type="file" required />
+                            <input class="form-control" name="image" id="image" type="file" required
+                                onchange="imagePreview(this, '#create-form') " />
+                            <p id="error-file"></p>
                         </div>
 
                         <div class="form-group">

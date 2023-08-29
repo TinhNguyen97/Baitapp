@@ -12,4 +12,18 @@ label.error {
 select {
     height: 36px;
     border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+#error-file-create,
+#error-file-edit {
+    color: red;
+    font-size: 14px;
+    font-weight: 700;
+}
+.input-group {
+    padding-left: 0px;
+}
+.form-control {
+    border-top-right-radius: 0.25rem !important;
+    border-bottom-right-radius: 0.25rem !important;
 }

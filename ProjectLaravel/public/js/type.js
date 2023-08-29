@@ -1,12 +1,12 @@
 function validForm() {}
 
 function removeMessageCreateError() {
-    document.getElementById("name-error").style.display = "none";
-    document.getElementById("image-error").style.display = "none";
-    document.getElementById("unit_price-error").style.display = "none";
-    document.getElementById("promotion_price-error").style.display = "none";
-    document.getElementById("description-error").style.display = "none";
-    document.getElementById("unit_price-error").style.display = "none";
+    $("#name-error").css("display", "none");
+    $("#image-error").css("display", "none");
+    $("#unit_price-error").css("display", "none");
+    $("#promotion_price-error").css("display", "none");
+    $("#description-error").css("display", "none");
+    $("#unit_price-error").css("display", "none");
 }
 
 $(document).ready(function () {
