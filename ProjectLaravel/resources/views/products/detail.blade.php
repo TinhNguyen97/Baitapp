@@ -134,6 +134,13 @@
             </div>
         </div> <!-- #content -->
     </div> <!-- .container -->
+    @if (session()->has('addsuccess') && session()->get('addsuccess'))
+        <script>
+            $(function() {
+                alertSuccess('Thêm vào giỏ hàng thành công.')
+            })
+        </script>
+    @endif
     <style>
         .sps {
             bottom: 266px;
