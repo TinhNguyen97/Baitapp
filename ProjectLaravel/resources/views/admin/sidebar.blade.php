@@ -77,7 +77,7 @@
                 <li class="nav-item">
                     <a href="/coupons" class="nav-link" id="nav-link-coupon">
                         <i class="fa-brands fa-discourse"></i>
-                        <p>Coupons</p>
+                        <p>Mã giảm giá</p>
                     </a>
                 </li>
                 <li class="nav-item">

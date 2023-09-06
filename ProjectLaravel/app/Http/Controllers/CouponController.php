@@ -138,6 +138,7 @@ class CouponController extends Controller
             }
             $coupon_session = Session::get('coupon');
             if ($coupon_session && $code ==  $coupon_session['code']) {
+                $coupon->update(['time' => $coupon->time + 1]);
                 return back()->with('duplicate', 'Mã giảm giá đã được áp dụng rồi.');
             }
             $cou = [
