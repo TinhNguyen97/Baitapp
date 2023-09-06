@@ -132,15 +132,14 @@ class CouponController extends Controller
         $coupon  = $this->couponSerivce->findByCode($code);
 
         if ($coupon) {
-            $coupon->update(['time' => $coupon->time - 1]);
             if ($coupon->time < 0) {
                 return back()->with('outtime', 'Mã giảm giá đã được sử dụng hết.');
             }
             $coupon_session = Session::get('coupon');
             if ($coupon_session && $code ==  $coupon_session['code']) {
-                $coupon->update(['time' => $coupon->time + 1]);
                 return back()->with('duplicate', 'Mã giảm giá đã được áp dụng rồi.');
             }
+            $coupon->update(['time' => $coupon->time - 1]);
             $cou = [
                 'id' => $coupon->id,
                 'code' => $coupon->code,
